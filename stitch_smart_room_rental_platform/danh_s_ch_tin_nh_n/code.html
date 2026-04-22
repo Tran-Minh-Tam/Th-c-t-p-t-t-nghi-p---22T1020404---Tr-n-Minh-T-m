@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sanctuary - Inbox</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-container": "#ab6436",
+            "on-tertiary-fixed": "#321200",
+            "tertiary-fixed": "#ffdbc8",
+            "surface-container-lowest": "#ffffff",
+            "on-background": "#181c1d",
+            "surface-dim": "#d7dbdb",
+            "surface-bright": "#f6fafa",
+            "secondary-fixed": "#c6e9eb",
+            "on-secondary-fixed-variant": "#2b4c4e",
+            "inverse-surface": "#2d3131",
+            "surface-container-highest": "#dfe3e3",
+            "error-container": "#ffdad6",
+            "on-surface-variant": "#3e4949",
+            "on-error-container": "#93000a",
+            "surface": "#f6fafa",
+            "primary": "#00686d",
+            "secondary-fixed-dim": "#aacdcf",
+            "secondary-container": "#c3e6e8",
+            "on-primary-fixed": "#002022",
+            "surface-tint": "#00696e",
+            "primary-container": "#0d8389",
+            "outline-variant": "#bdc9c9",
+            "on-error": "#ffffff",
+            "inverse-on-surface": "#eef1f1",
+            "surface-container-low": "#f0f4f4",
+            "on-primary-container": "#ffffff",
+            "primary-fixed-dim": "#77d5db",
+            "primary-fixed": "#94f2f8",
+            "on-tertiary-fixed-variant": "#71360b",
+            "tertiary": "#8d4c20",
+            "tertiary-fixed-dim": "#ffb68b",
+            "on-primary": "#ffffff",
+            "error": "#ba1a1a",
+            "inverse-primary": "#77d5db",
+            "surface-container-high": "#e5e9e9",
+            "on-secondary-container": "#47686a",
+            "on-tertiary-container": "#ffffff",
+            "secondary": "#436466",
+            "on-primary-fixed-variant": "#004f53",
+            "on-tertiary": "#ffffff",
+            "background": "#f6fafa",
+            "on-secondary-fixed": "#002022",
+            "on-surface": "#181c1d",
+            "surface-container": "#ebefee",
+            "on-secondary": "#ffffff",
+            "outline": "#6e797a",
+            "surface-variant": "#dfe3e3"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Manrope"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-40 bg-[#f6fafa] dark:bg-[#181c1d]">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#0D8389] hover:bg-[#f0f4f4] transition-colors p-2 rounded-full active:scale-95">menu</button>
+<span class="font-['Manrope'] font-extrabold tracking-widest text-xl uppercase text-[#0D8389]">Sanctuary</span>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high ring-2 ring-primary/10">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a professional male landlord in a clean lit office setting with a friendly smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAps1YsFL_UVaZjNBX8E1sGFwKo9JcyDtcKZIdYSByQ0jGm3t6HZjtOPPVGUESR7FDzZoy5uL_-9CDUutZC0q6wgxD8CNqwtqEn8yfiNWg5PgQp7O4c_DsKYdpyjpPv0jzQAE-qHmf2spoGM9cV99RYQC4w06ouyz42hhPPgqD0p18ojshpnfji68aPEJZRDiL0dz6jZuN9-btcUQU9oC6PzefzjgiXWNVPMCii2aFHdwamYcLq_FA_PLTVKpRRhQZ2lGwBa_0lZMY"/>
+</div>
+</div>
+<div class="bg-[#f0f4f4] dark:bg-[#1f2425] h-[1px] w-full"></div>
+</header>
+<main class="max-w-2xl mx-auto px-6 py-8">
+<!-- Header Section -->
+<div class="mb-8">
+<h1 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2 font-headline">Messages</h1>
+<p class="text-on-surface-variant text-body-md">Manage your active conversations with landlords and tenants.</p>
+</div>
+<!-- Search Bar -->
+<div class="relative mb-8 group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-high border-none rounded-xl focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all text-on-surface placeholder:text-outline font-body" placeholder="Search messages..." type="text"/>
+</div>
+<!-- Active Conversations List -->
+<div class="space-y-4">
+<!-- Conversation Item 1: Active/Unread -->
+<div class="flex items-center p-4 bg-surface-container-lowest rounded-xl hover:bg-surface-container transition-all cursor-pointer group shadow-[0_2px_12px_rgba(0,104,109,0.04)]">
+<div class="relative flex-shrink-0">
+<div class="w-16 h-16 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="stylish young woman with a warm expression in a minimalist modern cafe environment with soft sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbzUP4QNhhvkJ-adClHDdkU_KAdhBEBPzKUyy12OqGYE6VQSJ_ieSffnXdONzDzCtJI5x3wLHeYRo9Mf4M2Q54Q2nKGkRRdVAcxwKT8drCAZ9mvgSTQZV-VhpxoeB-GU2KVafBP-rhLYot_jfkd1pkC0JnppB9ak6y7kf_Rui3xx3e98SmE0SzvMdWQGgkC3WRW19wAKmNTfYsMuYNOfE_8fdGOkRuHEoO1ice4CY2IdS8BOGvrrQPIo0NQfBUAyg1adh2U_IzmOFd"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-primary border-2 border-surface-container-lowest rounded-full"></div>
+</div>
+<div class="ml-4 flex-grow min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="text-title-lg font-bold text-on-surface truncate font-headline">Elena Rodriguez</h3>
+<span class="text-[11px] font-bold text-primary uppercase tracking-wider ml-2">2m ago</span>
+</div>
+<p class="text-body-md text-on-surface font-semibold truncate mt-0.5">I've sent over the lease agreement for your review.</p>
+</div>
+<div class="ml-4">
+<div class="w-2.5 h-2.5 bg-primary rounded-full"></div>
+</div>
+</div>
+<!-- Conversation Item 2 -->
+<div class="flex items-center p-4 bg-surface-container-lowest rounded-xl hover:bg-surface-container transition-all cursor-pointer group shadow-[0_2px_12px_rgba(0,104,109,0.04)]">
+<div class="relative flex-shrink-0">
+<div class="w-16 h-16 rounded-full overflow-hidden grayscale-[40%]">
+<img class="w-full h-full object-cover" data-alt="man in professional attire looking directly at the camera with a confident expression in a bright studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3zD1oU78Z3jOxeA4jtZkopft-kWNUctz8sB1q2j1x9ira9sEuw4zVdFJlEXsVq-K8MocApH4cOn8ONayG5rJGAOo034HzojZ_CbFXKI8oXf4s3qK5w8jkaYnMvIOEL3a9vfR6CTVi5sL8gzphyhpTj2t8MvkPO3g-Z4YoXPbVpdxL_WHNeApuDDTCZiRr-CkqeUmBmEdkqhH14_4oeisQWOJEBFIesXZ3WohD7-mhPbMbNkTsmdi08Vi0OuQ5AZR4u05rLHuMvqGR"/>
+</div>
+</div>
+<div class="ml-4 flex-grow min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="text-title-lg font-bold text-on-surface truncate font-headline">Marcus Chen</h3>
+<span class="text-[11px] font-medium text-outline uppercase tracking-wider ml-2">1h ago</span>
+</div>
+<p class="text-body-md text-on-surface-variant truncate mt-0.5">The viewing for the penthouse is confirmed for Thursday at 2 PM.</p>
+</div>
+</div>
+<!-- Conversation Item 3 -->
+<div class="flex items-center p-4 bg-surface-container-lowest rounded-xl hover:bg-surface-container transition-all cursor-pointer group shadow-[0_2px_12px_rgba(0,104,109,0.04)]">
+<div class="relative flex-shrink-0">
+<div class="w-16 h-16 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="mature professional woman with glasses smiling in a modern architectural office hallway" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcOKMuMoZG9-oKwdRf1n_zpr8LVVnPZSRpwkM1z79hqb4V00OlmQaRJ3o4EpbCEg0ZML67iSikLyHFJESbOaONWKwp5rqD-XJPAEO5A2kXKtnXWMmw-qPyibvEEXEJjlSqWq2hEL3H37PkGMrkSQceYF2QcVX9CJljr1eN93lR9julglkjqWk2U_iaAusmvUAc8iG5XNGyzhmh7NrTgoRh1PrAB6xUjxKOESHV9RWXOsLSHVdsSznw14It2mRSoHfmqsw3icx79KsV"/>
+</div>
+</div>
+<div class="ml-4 flex-grow min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="text-title-lg font-bold text-on-surface truncate font-headline">Sarah Jenkins</h3>
+<span class="text-[11px] font-medium text-outline uppercase tracking-wider ml-2">Yesterday</span>
+</div>
+<p class="text-body-md text-on-surface-variant truncate mt-0.5">Thank you! We have received your application successfully.</p>
+</div>
+</div>
+<!-- Tonal Divider -->
+<div class="h-8"></div>
+<h2 class="text-sm font-bold text-outline uppercase tracking-[0.2em] mb-4 ml-2">Archived</h2>
+<!-- Conversation Item 4: Archived -->
+<div class="flex items-center p-4 bg-surface-container-low opacity-70 rounded-xl hover:opacity-100 transition-all cursor-pointer group">
+<div class="relative flex-shrink-0">
+<div class="w-16 h-16 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="man with beard wearing a linen shirt in a garden setting with soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkkYT638UiHBEpGoOaIDR75ZohNynrlKlgiQ7N4CcAbk48mQSht0evNllCMMzv-lFqCYsbZuI1oBBSKh4Ub7_dXAaWelAHQ8HI3_UIJrDkCZamnkIf1XvVC_hnJQ5MV7xFqhWa2zmD5umvjKSYBBK4X0xRTQhzGpxy4E70LZPCZEVaK78vGE4TdOEOf5pVS3T_ZnvImkXHMoeoWFGWPeKAS2ovBxNX4Aa9QJVpukstnVmyvM5BjJ3B3V_RtE79CPIQoiara6OCzf6G"/>
+</div>
+</div>
+<div class="ml-4 flex-grow min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="text-title-lg font-bold text-on-surface truncate font-headline">Julian Velez</h3>
+<span class="text-[11px] font-medium text-outline uppercase tracking-wider ml-2">Aug 12</span>
+</div>
+<p class="text-body-md text-on-surface-variant truncate mt-0.5">The deposit has been refunded to your original payment method.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-white/80 dark:bg-[#181c1d]/90 backdrop-blur-xl shadow-[0_-4px_24px_rgba(0,104,109,0.04)] rounded-t-[2rem]">
+<!-- Explore -->
+<a class="flex flex-col items-center justify-center text-slate-400 hover:text-[#0D8389] px-4 py-2 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span class="font-['Inter'] text-[10px] font-semibold tracking-wide uppercase">Explore</span>
+</a>
+<!-- Saved -->
+<a class="flex flex-col items-center justify-center text-slate-400 hover:text-[#0D8389] px-4 py-2 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">favorite</span>
+<span class="font-['Inter'] text-[10px] font-semibold tracking-wide uppercase">Saved</span>
+</a>
+<!-- Inbox (ACTIVE) -->
+<a class="flex flex-col items-center justify-center text-[#0D8389] bg-[#0D8389]/10 rounded-full px-4 py-2 scale-110 duration-200 ease-out" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="font-['Inter'] text-[10px] font-semibold tracking-wide uppercase">Inbox</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-slate-400 hover:text-[#0D8389] px-4 py-2 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-['Inter'] text-[10px] font-semibold tracking-wide uppercase">Profile</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "primary-fixed": "#94f2f8",
+                "primary-fixed-dim": "#77d5db",
+                "on-secondary-fixed": "#002022",
+                "surface-container-high": "#e5e9e9",
+                "on-secondary-fixed-variant": "#2b4c4e",
+                "on-tertiary-container": "#ffffff",
+                "tertiary": "#8d4c20",
+                "on-primary-container": "#ffffff",
+                "surface": "#f6fafa",
+                "tertiary-fixed-dim": "#ffb68b",
+                "on-secondary": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-fixed": "#321200",
+                "primary": "#00686d",
+                "inverse-on-surface": "#eef1f1",
+                "on-primary-fixed-variant": "#004f53",
+                "on-primary-fixed": "#002022",
+                "outline-variant": "#bdc9c9",
+                "tertiary-container": "#ab6436",
+                "surface-tint": "#00696e",
+                "on-primary": "#ffffff",
+                "on-tertiary-fixed-variant": "#71360b",
+                "on-tertiary": "#ffffff",
+                "secondary-container": "#c3e6e8",
+                "error": "#ba1a1a",
+                "outline": "#6e797a",
+                "surface-dim": "#d7dbdb",
+                "on-error-container": "#93000a",
+                "secondary": "#436466",
+                "on-surface-variant": "#3e4949",
+                "on-error": "#ffffff",
+                "on-surface": "#181c1d",
+                "inverse-surface": "#2d3131",
+                "surface-bright": "#f6fafa",
+                "surface-variant": "#dfe3e3",
+                "surface-container-low": "#f0f4f4",
+                "error-container": "#ffdad6",
+                "secondary-fixed-dim": "#aacdcf",
+                "secondary-fixed": "#c6e9eb",
+                "on-background": "#181c1d",
+                "surface-container": "#ebefee",
+                "inverse-primary": "#77d5db",
+                "background": "#f6fafa",
+                "primary-container": "#0d8389",
+                "surface-container-highest": "#dfe3e3",
+                "tertiary-fixed": "#ffdbc8",
+                "on-secondary-container": "#47686a"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "2xl": "1.5rem",
+                "full": "9999px"
+            },
+            "fontFamily": {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-[#f6fafa] dark:bg-slate-950 flex justify-between items-center w-full px-6 py-4 fixed top-0 z-40">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#00686d] dark:text-[#0d8389] hover:bg-[#f0f4f4] dark:hover:bg-slate-800 transition-colors p-2 rounded-full">menu</button>
+<h1 class="font-headline font-bold tracking-tight text-xl text-[#00686d] dark:text-[#0d8389]">The Sanctuary</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-gradient-to-r from-primary to-primary-container text-white px-5 py-2 rounded-full font-headline font-bold text-sm flex items-center gap-2 hover:opacity-90 transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined text-sm">add</span>
+                Đăng tin mới
+            </button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a middle-aged male landlord with a warm smile in a brightly lit modern office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcRC8NZeYEbSm6LnxVp2HpsmayQN1a8g6kyRLkmGQj1_o2mv3n8B1F0xKISyrhiu4VZZSNHgLBYjCcpNJ5qRVIjd9vYbJR6ybVEgOfFrxA2DxE4-qP8Av3n9xPjPSTP2qJB_rGPnKnfEVzA0XbVCn0PRV3YbglydiCmpeG0nblHZEBsngj5pIlAVBsNdEj1EP1bjA-y_VJ8HDhPkn8gsGTJ2Obki1GqFvqK_RVsT-Jilq0T5AMjItth_-GmXHH-BPDK0BOdE3u0us3"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-28 px-6 max-w-7xl mx-auto">
+<!-- Welcome Section & Stats Bento Grid -->
+<section class="mb-10">
+<h2 class="font-headline text-3xl font-extrabold text-on-surface tracking-tight mb-6">Xin chào, Nguyễn Minh</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Stat 1 -->
+<div class="md:col-span-2 bg-surface-container-lowest p-6 rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.02)] flex flex-col justify-between min-h-[160px]">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant font-label text-sm uppercase tracking-widest font-semibold">Active Rooms</span>
+<div class="p-2 bg-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container">door_open</span>
+</div>
+</div>
+<div>
+<div class="text-4xl font-headline font-extrabold text-primary">12</div>
+<p class="text-on-surface-variant text-sm mt-1">Properties currently listed</p>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="bg-surface-container-low p-6 rounded-2xl flex flex-col justify-between border border-outline-variant/10">
+<span class="text-on-surface-variant font-label text-sm uppercase tracking-widest font-semibold">Pending</span>
+<div>
+<div class="text-4xl font-headline font-extrabold text-tertiary">05</div>
+<p class="text-on-surface-variant text-sm mt-1">Booking requests</p>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="bg-primary text-on-primary p-6 rounded-2xl flex flex-col justify-between shadow-xl shadow-primary/10">
+<span class="text-primary-fixed font-label text-sm uppercase tracking-widest font-semibold">Revenue</span>
+<div>
+<div class="text-2xl font-headline font-bold">240M VNĐ</div>
+<p class="text-primary-fixed-dim text-sm mt-1">This month's estimate</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Dashboard Split Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+<!-- Room Management (2/3 width) -->
+<div class="lg:col-span-2">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline text-2xl font-bold text-on-surface">My Rooms</h3>
+<button class="text-primary font-semibold text-sm hover:underline">View All</button>
+</div>
+<div class="space-y-4">
+<!-- Room Card 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl flex gap-5 group transition-all hover:bg-white hover:shadow-xl hover:shadow-primary/5">
+<div class="w-32 h-32 rounded-xl overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="minimalist modern apartment interior with neutral tones soft natural lighting and elegant wood furniture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIZ24pvdmDYaaLBF5A6i0XmDLtoqZFuynJYwFMLpuT7Fa04pp4TxlfnROeulV_58_JBT1DY8KwAA4N86_7n1Mkn7iIAIfXTsI4CFQyXIem1ggxWZ0gomaWGMFbK-H2_bhzAR4zi1_otABITxiMSKVsDeG54IJuVOBgPP3sI1LCpUwfDfd-uO9pNlyO9UzWz6RLAtZDVG550IfD3HM1uGmBz1tPjEgWuy1ERoQHS-5iv04CwFuSZxW_hr8qUelPUDY50Rw2vd_7l45L"/>
+</div>
+<div class="flex-grow flex flex-col justify-between py-1">
+<div>
+<div class="flex justify-between items-start">
+<h4 class="font-headline font-bold text-lg text-on-surface">Deluxe Studio - Landmark 81</h4>
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase rounded-full">Available</span>
+</div>
+<p class="text-on-surface-variant text-sm mt-1">Binh Thanh, Ho Chi Minh City</p>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-headline font-extrabold text-primary text-lg">15.5M <span class="text-xs font-normal text-on-surface-variant">/mo</span></span>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors material-symbols-outlined text-outline">edit</button>
+<button class="p-2 hover:bg-error-container/20 rounded-full transition-colors material-symbols-outlined text-error">delete</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Room Card 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl flex gap-5 group transition-all hover:bg-white hover:shadow-xl hover:shadow-primary/5">
+<div class="w-32 h-32 rounded-xl overflow-hidden flex-shrink-0 opacity-80 grayscale-[30%]">
+<img class="w-full h-full object-cover" data-alt="spacious bright apartment with large windows overlooking a city skyline during a cloudy day" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0Xa6_jmwDUxX0b4k5EBMZUQgbB0Ib1LCdXeu0JNd5U2vLDhX0seuP7YZweHbk8rir2aLIcMw1PsY-CDPpOaHbiMxB4pGhIdI2U5FhitTrHNqUs-zr4sHR_lhE6rnOUcTAhnGEmTDS7eKdNCzqD2BeXhynPfYW26WJ4tRFt02SGeFUzXnCO0ff9dIp9qz3UMaKBvLMRQVwNsuwLtlseacdeNtPJNZZ6WjNbW0AOWixL2D0w2blQTO0J1mSORVQRDC_Rj7FDqxfbjge"/>
+</div>
+<div class="flex-grow flex flex-col justify-between py-1">
+<div>
+<div class="flex justify-between items-start">
+<h4 class="font-headline font-bold text-lg text-on-surface">Urban Loft - District 1</h4>
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase rounded-full">Rented</span>
+</div>
+<p class="text-on-surface-variant text-sm mt-1">Nguyen Hue Blvd, District 1</p>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-headline font-extrabold text-primary text-lg">22.0M <span class="text-xs font-normal text-on-surface-variant">/mo</span></span>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors material-symbols-outlined text-outline">edit</button>
+<button class="p-2 hover:bg-error-container/20 rounded-full transition-colors material-symbols-outlined text-error">delete</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Room Card 3 -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl flex gap-5 group transition-all hover:bg-white hover:shadow-xl hover:shadow-primary/5">
+<div class="w-32 h-32 rounded-xl overflow-hidden flex-shrink-0 opacity-50">
+<img class="w-full h-full object-cover" data-alt="unfurnished empty modern room with white walls and polished concrete floors in soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxtMN22ICy-R9SIk_Te1Ke56sm_FnXGFZi3vHkKfEa3Vc6Na4Z-aqx_oQ6XGR-6csyzMYD8bKeNI4SUlbTqf61kupcHRxCNAZo5RYWvglRV9AYk7tXpAgNgSpKiYss8fiDZhOjMeQo7h_kfQNjVFp2frqZGZ2ZXF2Npf92EnU2ZpSSC21yRpN8Xb90Qu2B1kDw2Fw0V_nzjD2x7GYxNaeuL6lyEKTInuJfEsZm3eFtvl5oJsolJsMwDV1XIWUgxXEUT1xenzoUO0d1"/>
+</div>
+<div class="flex-grow flex flex-col justify-between py-1">
+<div>
+<div class="flex justify-between items-start">
+<h4 class="font-headline font-bold text-lg text-on-surface">Cozy Attic - District 3</h4>
+<span class="px-3 py-1 bg-error-container text-on-error-container text-[10px] font-bold uppercase rounded-full">Hidden</span>
+</div>
+<p class="text-on-surface-variant text-sm mt-1">Le Quy Don, District 3</p>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-headline font-extrabold text-primary text-lg">8.5M <span class="text-xs font-normal text-on-surface-variant">/mo</span></span>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors material-symbols-outlined text-outline">edit</button>
+<button class="p-2 hover:bg-error-container/20 rounded-full transition-colors material-symbols-outlined text-error">delete</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Booking Requests (1/3 width) -->
+<div class="bg-surface-container-low p-6 rounded-2xl h-fit">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<h3 class="font-headline text-xl font-bold text-on-surface">Booking Requests</h3>
+</div>
+<div class="space-y-6">
+<!-- Request 1 -->
+<div class="relative pl-4 border-l-2 border-primary">
+<div class="flex items-center gap-3 mb-2">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="headshot of a smiling young woman with professional attire and a friendly demeanor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCStDLVp7uVTaEKvXi7cD1w1HV9YVrG5DKbTCiwFNq3PQg8ekwODcPze42Wb7ua8qkvWEYuiTehCWinMtLEticQiXG2iHZGVFOOWvTvq_fsePBFxSkdyM4K1frcYLd571eaUOP95FZt-eTXY5Wz_VErScpE1oXztFZDyYzVqgF1M4M8nWrjWKHfK7qaziJoo0w-zSoks6YR_9taaf-aZl8TJILbv7JM4p5U7rcRx4eQtyzWddqPNwC7QDp8FIayZGsLE2wAJtmJScbi"/>
+<div>
+<h5 class="text-sm font-bold">Linh Tran</h5>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">requested 2h ago</p>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant mb-3">Interested in <span class="font-semibold text-on-surface">Deluxe Studio - Landmark 81</span> starting Nov 1st.</p>
+<div class="flex gap-2">
+<button class="flex-1 py-2 bg-primary text-on-primary rounded-lg text-xs font-bold hover:bg-primary-container transition-colors">Accept</button>
+<button class="flex-1 py-2 border border-outline-variant text-on-surface-variant rounded-lg text-xs font-bold hover:bg-surface-container-high transition-colors">Reject</button>
+</div>
+</div>
+<!-- Request 2 -->
+<div class="relative pl-4 border-l-2 border-outline-variant">
+<div class="flex items-center gap-3 mb-2">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="portrait of a young man with a casual style and thoughtful expression in an urban setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsiaCOYASRepFbddeQyJPfP30Ofx5nXzX0oeooGKAAivdQXkLntUOmSy8j1EjcUipzdMafl4tvW4DFvQeOyGlkQt3-dkmVjUab-dxp37xfxhreQ_la_hLfxhCg7cR8xdT90Y62rSzYvKu_aGRoqtgSQdX4z1DlAE-FCkZWOqXPSabjR5l5ClX1WsA-sW_NyYQpQ4cDtS_zrPH11xh7mQ0nXuJKMtQLSMMLz5ZWsppVV4OVaJzyD4S7VBNfE7dvfuo5DE7H8w_TiyiQ"/>
+<div>
+<h5 class="text-sm font-bold">Minh Quan</h5>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">requested 5h ago</p>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant mb-3">Interested in <span class="font-semibold text-on-surface">Urban Loft - District 1</span> for viewing.</p>
+<div class="flex gap-2">
+<button class="flex-1 py-2 bg-primary text-on-primary rounded-lg text-xs font-bold hover:bg-primary-container transition-colors">Accept</button>
+<button class="flex-1 py-2 border border-outline-variant text-on-surface-variant rounded-lg text-xs font-bold hover:bg-surface-container-high transition-colors">Reject</button>
+</div>
+</div>
+<!-- Request 3 -->
+<div class="relative pl-4 border-l-2 border-outline-variant opacity-60">
+<div class="flex items-center gap-3 mb-2">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="portrait of a young creative professional with glasses and a friendly look" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIGx1ZqcP0CtnbzfDrJdSQQoiH4-eu3l-foqqQXk4rbpxKLcZX-K6IPVpRqwaiZNq5UMU_B6W6TUB3etftxd63cubSsyvDTrUzAvAXSP4aIw9vJU_dCbA9cDftjswTLLSEi6b7EwfEX6zDcfSAPQFT8ombL1afLd-rwLN1AphMisJCT_lfup1JgwSo9m_OlGXxxSf8eO10yF56i60bJg3d-lWt_Wx0mgcKXXhC4yJBiJQvIgSAJEfqRj1N_dF5uR3WYfsFeaosCezS"/>
+<div>
+<h5 class="text-sm font-bold">Thu Ha</h5>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Yesterday</p>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant">Viewed details 14 times.</p>
+</div>
+</div>
+<button class="w-full mt-8 py-3 bg-surface-container-highest text-on-surface-variant rounded-xl text-sm font-bold hover:bg-outline-variant/30 transition-colors">
+                    History
+                </button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0_-4px_24px_rgba(0,0,0,0.04)] rounded-t-[1.5rem]">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 hover:text-[#00686d] transition-all" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 hover:text-[#00686d] transition-all" href="#">
+<span class="material-symbols-outlined mb-1">favorite</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 hover:text-[#00686d] transition-all" href="#">
+<span class="material-symbols-outlined mb-1">chat_bubble</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Messages</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#0d8389] text-white rounded-full px-4 py-1.5 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Manage</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 hover:text-[#00686d] transition-all" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Profile</span>
+</a>
+</nav>
+</body></html>

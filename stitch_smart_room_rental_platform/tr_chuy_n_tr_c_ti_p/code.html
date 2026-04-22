@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sanctuary Chat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .headline { font-family: 'Manrope', sans-serif; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#ab6436",
+                    "on-tertiary-fixed": "#321200",
+                    "tertiary-fixed": "#ffdbc8",
+                    "surface-container-lowest": "#ffffff",
+                    "on-background": "#181c1d",
+                    "surface-dim": "#d7dbdb",
+                    "surface-bright": "#f6fafa",
+                    "secondary-fixed": "#c6e9eb",
+                    "on-secondary-fixed-variant": "#2b4c4e",
+                    "inverse-surface": "#2d3131",
+                    "surface-container-highest": "#dfe3e3",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#3e4949",
+                    "on-error-container": "#93000a",
+                    "surface": "#f6fafa",
+                    "primary": "#00686d",
+                    "secondary-fixed-dim": "#aacdcf",
+                    "secondary-container": "#c3e6e8",
+                    "on-primary-fixed": "#002022",
+                    "surface-tint": "#00696e",
+                    "primary-container": "#0d8389",
+                    "outline-variant": "#bdc9c9",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#eef1f1",
+                    "surface-container-low": "#f0f4f4",
+                    "on-primary-container": "#ffffff",
+                    "primary-fixed-dim": "#77d5db",
+                    "primary-fixed": "#94f2f8",
+                    "on-tertiary-fixed-variant": "#71360b",
+                    "tertiary": "#8d4c20",
+                    "tertiary-fixed-dim": "#ffb68b",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#77d5db",
+                    "surface-container-high": "#e5e9e9",
+                    "on-secondary-container": "#47686a",
+                    "on-tertiary-container": "#ffffff",
+                    "secondary": "#436466",
+                    "on-primary-fixed-variant": "#004f53",
+                    "on-tertiary": "#ffffff",
+                    "background": "#f6fafa",
+                    "on-secondary-fixed": "#002022",
+                    "on-surface": "#181c1d",
+                    "surface-container": "#ebefee",
+                    "on-secondary": "#ffffff",
+                    "outline": "#6e797a",
+                    "surface-variant": "#dfe3e3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-40 bg-[#f6fafa] dark:bg-[#181c1d]">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="text-[#0D8389] active:scale-95 transition-transform">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="User profile" class="w-10 h-10 rounded-full object-cover" data-alt="portrait of a professional mature man with kind eyes and short hair, soft natural indoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEYoy6Ufa-z1uN-Ow0yiOoab_CiYlIl5T67Hu3pFPTNq1SXwQuP1CGY9EPBdZEdrvMxqEfUtefBtTZx1YDhA5KdRd3gx8AmB_jtjdS5YWYnFc4Jr-AJtqN0lvsb3V2wa-F2JfFWBYW2xX4WkkrXvwfM52ldtE-fHZGZWnfD7xR6ykRpA2EH24ssqPv4o21SHXxYlAResSnkTMkI4akVlvhoWeAC-W-pgvyH1GzitPcp7ORS_4KaYDnng9NNwJnYdu0GY5rJcIpNkAl"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-primary border-2 border-surface rounded-full"></div>
+</div>
+<div>
+<p class="font-['Manrope'] font-extrabold tracking-tighter text-lg uppercase text-[#0D8389]">Julian Sterling</p>
+<p class="text-[10px] font-semibold text-primary uppercase tracking-widest">Online</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-[#f0f4f4] transition-colors"><span class="material-symbols-outlined text-[#0D8389]">call</span></button>
+<button class="p-2 rounded-full hover:bg-[#f0f4f4] transition-colors"><span class="material-symbols-outlined text-[#0D8389]">more_vert</span></button>
+</div>
+</div>
+<div class="bg-[#f0f4f4] dark:bg-[#1f2425] h-[1px] w-full"></div>
+</header>
+<!-- Chat Canvas -->
+<main class="flex-grow overflow-y-auto px-6 py-8 space-y-8 pb-32">
+<!-- Date Marker -->
+<div class="flex justify-center">
+<span class="text-[10px] font-bold uppercase tracking-[0.2em] text-outline px-4 py-1 bg-surface-container-low rounded-full">Today</span>
+</div>
+<!-- Received Message (Landlord) -->
+<div class="flex items-end gap-3 max-w-[85%] md:max-w-[60%]">
+<div class="flex flex-col gap-1">
+<div class="bg-surface-container-highest text-on-surface p-4 rounded-t-xl rounded-br-xl shadow-sm">
+<p class="text-sm leading-relaxed font-medium">Hello! I've just confirmed the maintenance request for the kitchen faucet. The plumber will arrive tomorrow at 10 AM. Does that work for you?</p>
+</div>
+<span class="text-[10px] font-semibold text-outline px-1 uppercase tracking-tighter">09:12 AM</span>
+</div>
+</div>
+<!-- Sent Message (Tenant) -->
+<div class="flex flex-col items-end gap-1 ml-auto max-w-[85%] md:max-w-[60%]">
+<div class="bg-gradient-to-br from-primary to-primary-container text-white p-4 rounded-t-xl rounded-bl-xl shadow-[0_4px_12px_rgba(0,104,109,0.15)]">
+<p class="text-sm leading-relaxed font-medium">That works perfectly. I'll be home to let them in. Thanks for the quick response, Julian!</p>
+</div>
+<div class="flex items-center gap-1 px-1">
+<span class="text-[10px] font-semibold text-outline uppercase tracking-tighter">09:15 AM</span>
+<span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+</div>
+<!-- System Message: Listing Reference -->
+<div class="bg-surface-container-low rounded-xl p-4 flex gap-4 items-center">
+<img alt="The Penthouse Sanctuary" class="w-16 h-16 rounded-lg object-cover" data-alt="Modern minimalist living room with large windows and lush greenery outside, soft architectural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW8mD1aE17kuAbz0WwEs5Z4FBBViV7nS2oYtFFvCZG6QkAVwdj1KWmx_gjn38JkvaASXaHjHjbR8Ol8hRI1otjc9SDo1SpyzCrvX6H9Onik6FMpA6a8RhbyHtj7DIdwmH7_sSyASIUOJeW6EyxbCkl5rGXG7w2Z-SK_UsLc41eANceQdBPq7bnDDMRDT988-NtMl5Dx4HWfkHqkszeURD92WqEXiH3luZZZ1_iClCHTRuQ5KB7ClYzRSReNDggKHulpaT4pkbh2qhr"/>
+<div class="flex-grow">
+<p class="text-[10px] font-bold text-tertiary uppercase tracking-widest mb-1">Active Lease</p>
+<h4 class="font-headline font-extrabold text-sm text-on-surface">The Penthouse Sanctuary</h4>
+<p class="text-xs text-outline font-medium">Unit 402 • Lease expires Oct 2024</p>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<!-- Received Message with Image Attachment -->
+<div class="flex items-end gap-3 max-w-[85%] md:max-w-[60%]">
+<div class="flex flex-col gap-1 w-full">
+<div class="bg-surface-container-highest p-1 rounded-t-xl rounded-br-xl shadow-sm">
+<img alt="Maintenance detail" class="w-full h-48 rounded-lg object-cover mb-1" data-alt="close up of a modern chrome kitchen faucet with a slight leak in a clean bright kitchen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-Y__nsfAikMVV-vY8yZ59mNdCizvZroZIkDMgp5NposAY-m899PqrtJQlDpMkM4y9jLPZzbMacvSG_I-Wno1C5kYBotuciBbtOAHwywqeErZ3vUymyUS6lnvk9pnRMMUKjgZWwuLTf8vhurySQPc70_zeN7mJnQJfmJbv6vyJ2FxJH008U8lhj8vpvlhmTew5MKNu77dMpBjS5xrBjnNfwD1K0WP64vxvqk9_4iM_dNeEAU_PCGXzaHKIT52v5S__BmJkwEq9UO5s"/>
+<div class="px-3 pb-3 pt-2">
+<p class="text-sm leading-relaxed font-medium text-on-surface">Great. This is the part I've ordered. Just wanted to make sure it matches your current hardware.</p>
+</div>
+</div>
+<span class="text-[10px] font-semibold text-outline px-1 uppercase tracking-tighter">09:45 AM</span>
+</div>
+</div>
+<!-- Sent Message (Audio/Mic Context) -->
+<div class="flex flex-col items-end gap-1 ml-auto max-w-[85%] md:max-w-[60%]">
+<div class="bg-gradient-to-br from-primary to-primary-container text-white p-3 rounded-full flex items-center gap-3 shadow-md min-w-[180px]">
+<button class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<div class="flex-grow h-1 bg-white/30 rounded-full overflow-hidden relative">
+<div class="absolute left-0 top-0 h-full w-1/3 bg-white"></div>
+</div>
+<span class="text-[10px] font-bold">0:12</span>
+</div>
+<div class="flex items-center gap-1 px-1">
+<span class="text-[10px] font-semibold text-outline uppercase tracking-tighter">09:50 AM</span>
+<span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+</div>
+</main>
+<!-- Message Input Dock -->
+<div class="fixed bottom-0 left-0 w-full bg-white/80 dark:bg-[#181c1d]/90 backdrop-blur-xl px-4 pt-4 pb-10 z-50">
+<div class="max-w-4xl mx-auto flex items-center gap-3">
+<button class="p-3 text-outline hover:text-primary transition-colors active:scale-90">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<div class="flex-grow relative">
+<input class="w-full bg-surface-container-high border-none rounded-full px-6 py-3 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-outline font-medium" placeholder="Type a message..." type="text"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+<button class="p-1 text-outline hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">image</span></button>
+</div>
+</div>
+<button class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-container text-white flex items-center justify-center shadow-lg active:scale-95 transition-transform">
+<!-- User specified mic icon -->
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+</div>
+</div>
+<!-- Contextual FAB (Hidden as per rule for Details/Transactional, but kept skeleton if needed) -->
+<!-- Suppression applied as per instruction for focused task screens -->
+<!-- Navigation Shell Placeholder (Suppressed for focused chat view) -->
+</body></html>

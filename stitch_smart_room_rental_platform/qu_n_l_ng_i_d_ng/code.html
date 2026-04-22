@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sanctuary Admin - User Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#181c1d",
+                        "primary-container": "#0d8389",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#ebefee",
+                        "on-primary-fixed-variant": "#004f53",
+                        "secondary-container": "#c3e6e8",
+                        "on-surface": "#181c1d",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#00696e",
+                        "surface-dim": "#d7dbdb",
+                        "on-secondary-fixed": "#002022",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#ffffff",
+                        "surface": "#f6fafa",
+                        "inverse-on-surface": "#eef1f1",
+                        "background": "#f6fafa",
+                        "primary-fixed-dim": "#77d5db",
+                        "primary-fixed": "#94f2f8",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "primary": "#00686d",
+                        "surface-container-high": "#e5e9e9",
+                        "on-tertiary-fixed": "#321200",
+                        "surface-variant": "#dfe3e3",
+                        "on-secondary-container": "#47686a",
+                        "surface-container-low": "#f0f4f4",
+                        "tertiary-fixed": "#ffdbc8",
+                        "inverse-primary": "#77d5db",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3131",
+                        "secondary-fixed-dim": "#aacdcf",
+                        "on-surface-variant": "#3e4949",
+                        "outline": "#6e797a",
+                        "outline-variant": "#bdc9c9",
+                        "on-primary-fixed": "#002022",
+                        "surface-bright": "#f6fafa",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#8d4c20",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#71360b",
+                        "tertiary-container": "#ab6436",
+                        "secondary-fixed": "#c6e9eb",
+                        "surface-container-highest": "#dfe3e3",
+                        "secondary": "#436466",
+                        "on-tertiary-container": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb68b",
+                        "on-secondary-fixed-variant": "#2b4c4e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f6fafa;
+            color: #181c1d;
+        }
+        h1, h2, h3, .headline {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f6fafa] dark:bg-[#181c1d] border-r border-[#bdc9c9]/15 flex flex-col gap-2 p-6 z-50">
+<div class="mb-8 px-2">
+<h1 class="font-['Manrope'] font-extrabold text-[#0D8389] text-2xl">Sanctuary</h1>
+<p class="text-xs font-medium text-on-surface-variant/70 uppercase tracking-widest mt-1">Management Suite</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#404949] dark:text-[#bdc9c9] hover:bg-[#f0f4f4] dark:hover:bg-[#222728] hover:translate-x-1 transition-all duration-200 rounded-lg font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-[#0D8389] text-white rounded-lg shadow-sm font-semibold text-sm active:scale-98 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                Tenants
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#404949] dark:text-[#bdc9c9] hover:bg-[#f0f4f4] dark:hover:bg-[#222728] hover:translate-x-1 transition-all duration-200 rounded-lg font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+                Properties
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#404949] dark:text-[#bdc9c9] hover:bg-[#f0f4f4] dark:hover:bg-[#222728] hover:translate-x-1 transition-all duration-200 rounded-lg font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+                Bookings
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#404949] dark:text-[#bdc9c9] hover:bg-[#f0f4f4] dark:hover:bg-[#222728] hover:translate-x-1 transition-all duration-200 rounded-lg font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+                Revenue
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#404949] dark:text-[#bdc9c9] hover:bg-[#f0f4f4] dark:hover:bg-[#222728] hover:translate-x-1 transition-all duration-200 rounded-lg font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="build">build</span>
+                Maintenance
+            </a>
+</nav>
+<div class="mt-auto pt-6">
+<button class="w-full bg-[#0D8389] text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                Add New Room
+            </button>
+</div>
+</aside>
+<main class="flex-1 ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-8 py-4 bg-[#f6fafa]/80 dark:bg-[#181c1d]/80 backdrop-blur-md sticky top-0 z-40">
+<div class="flex items-center gap-8">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-full text-sm w-80 focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search accounts, roles, or status..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-[#404949] hover:bg-[#f0f4f4] transition-colors rounded-full relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-tertiary rounded-full"></span>
+</button>
+<button class="p-2 text-[#404949] hover:bg-[#f0f4f4] transition-colors rounded-full">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary-container p-0.5">
+<img alt="Administrator Profile" class="w-full h-full rounded-full object-cover" data-alt="close-up portrait of a professional male administrator in a light blue studio setting with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOytaxxWj-9454aA7IA9-tBlnkYHzVN0He2ZFAy0pbOyaLaCAPgQA-jKnd_UAH-bBunbVThidNvSZqxnYFx6nsUFxmBR9tvuIADyBfPNr5uz1PCgxu9ZdQ8o_T24SJkNL2zf64KHjkBTQJpzab1OYqe6a9170-phUWwwKGasM65SpC2nrtutnzffRP6Wa3myDERTesyJ6ohK8h9q91vd_woq-yzQmyNtzUZOmgbYUTG1VwIXG6ybE-mtjN1Jw0eo68tMcYJZ6c70p6"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<section class="p-8 space-y-8 max-w-7xl mx-auto w-full">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="text-4xl font-black headline tracking-tight text-on-surface">User Directory</h2>
+<p class="text-on-surface-variant font-medium mt-2">Manage platform access, roles, and security status for all users.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-6 py-2.5 bg-surface-container-lowest text-on-surface font-semibold rounded-xl border border-outline-variant/30 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="filter_list">filter_list</span>
+                        Filters
+                    </button>
+<button class="flex items-center gap-2 px-6 py-2.5 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="person_add">person_add</span>
+                        New User
+                    </button>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-outline">Total Users</p>
+<h3 class="text-3xl font-black headline mt-1">2,842</h3>
+</div>
+<span class="p-2 bg-primary-container/10 text-primary-container rounded-lg">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-outline">Landlords</p>
+<h3 class="text-3xl font-black headline mt-1">154</h3>
+</div>
+<span class="p-2 bg-secondary-container/30 text-secondary rounded-lg">
+<span class="material-symbols-outlined" data-icon="real_estate_agent">real_estate_agent</span>
+</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-outline">Active Now</p>
+<h3 class="text-3xl font-black headline mt-1">892</h3>
+</div>
+<span class="p-2 bg-green-100 text-green-700 rounded-lg">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-outline">Account Issues</p>
+<h3 class="text-3xl font-black headline mt-1 text-error">12</h3>
+</div>
+<span class="p-2 bg-error-container text-on-error-container rounded-lg">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Table Section -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/15 overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10">Name</th>
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10">Role</th>
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10">Status</th>
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10">Last Login</th>
+<th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-outline border-b border-outline-variant/10 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- User 1 -->
+<tr class="hover:bg-surface transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-full overflow-hidden bg-primary-container/10">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="headshot of a smiling young woman with dark hair and glasses in a professional white office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5cSdTvzwflPd3J7__V_1ho2y-iz8raybTRIPWqY_MoMiBpSDF0z4h7vDnAiThxlp0XNl6mgU1VsA5KFig0Iq6m2O8g2TcFnAcMmu1l2fdo6pXIl8XlYz3_e45V_jBPRDsW2z29P01D4bCAoS2jXIS70d4HrDBQKGJnKeJLkohstDnMS6ISw8R2LxAc-NSJD2jBxEK81IzUChrOOGUyY5WvrkuGmUngcTQ6apKSHznHR2W4zUTZNdFT76yEWWgANI7UeGUko19XdVR"/>
+</div>
+<div>
+<div class="font-bold text-on-surface">Elena Rodriguez</div>
+<div class="text-xs text-on-surface-variant">elena.r@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-primary-container text-white text-[10px] font-black uppercase rounded-full tracking-tighter">Admin</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1.5 text-sm font-semibold text-green-600">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                        Active
+                                    </div>
+</td>
+<td class="px-6 py-5">
+<div class="text-sm text-on-surface font-medium">Just now</div>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-primary-container transition-colors" title="Edit">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-lg text-outline transition-colors" title="Lock Account">
+<span class="material-symbols-outlined" data-icon="lock_open">lock_open</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- User 2 -->
+<tr class="hover:bg-surface transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-full overflow-hidden bg-secondary-container/30">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="portrait of a confident middle-aged man with short beard and stylish glasses, natural lighting, soft blue background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByLfaFusUSgsjuSEcD5bV_SqXbrPHCVLWmRW1lqcA0vV3DxhmPOkHZT25uGdpriwNpvp_kB9zHZMKH-ZEDWG2fc6DDr8Lhu9l_9KsUBLynhlN0hEg2iurLhot6EtIQmCgKZcjcQXYPqkOg36j2ybTrpeNQpxt9sctdSERvCgGLxrp2aIXaeDl08csZ2Wsi7r2Dvxsr5eEkTnyzhp1HjfzE5lckznFrA3RzH0awcawi4aafibjXKNX6IoZTBiOLV5p4UXsUxQ1Aw0sd"/>
+</div>
+<div>
+<div class="font-bold text-on-surface">Marcus Sterling</div>
+<div class="text-xs text-on-surface-variant">m.sterling@properties.net</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-black uppercase rounded-full tracking-tighter">Landlord</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1.5 text-sm font-semibold text-green-600">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                        Active
+                                    </div>
+</td>
+<td class="px-6 py-5">
+<div class="text-sm text-on-surface font-medium">2 hours ago</div>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-primary-container transition-colors" title="Edit">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-lg text-outline transition-colors" title="Lock Account">
+<span class="material-symbols-outlined" data-icon="lock_open">lock_open</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- User 3 -->
+<tr class="hover:bg-surface transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-full overflow-hidden bg-tertiary-fixed">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="softly lit portrait of a professional woman in a creative workspace with warm afternoon light and green plants in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPNPlcWd9d0A6qvVgPPZWNNwxpn-wKRyK7GR9R3e0JT73PPZnmmgprsv_UlDfgp29Wdt6NjO8JBkkW7KwB0iBHvT5526xrBDtQpBJP0iR9_PONa9QRqeTkBas290Ps3q0gxKOCjBJi-0_ftlWOU08m-xCIAT2QUMt_vYFRBZOc3ShElWRFEBDIXIPB15BqTu88SxNu_uvmRKNNKHFpaaKxUdnA6B6rKfVUI9zYDVBLD92LLc_FmDTu3EBEXmdx0-xxnBf1-Yu3vfng"/>
+</div>
+<div>
+<div class="font-bold text-on-surface">Sarah Chen</div>
+<div class="text-xs text-on-surface-variant">schen.creative@gmail.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant text-[10px] font-black uppercase rounded-full tracking-tighter">User</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1.5 text-sm font-semibold text-error">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+                                        Locked
+                                    </div>
+</td>
+<td class="px-6 py-5">
+<div class="text-sm text-on-surface font-medium">May 12, 2024</div>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-primary-container transition-colors" title="Edit">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 bg-error text-white rounded-lg transition-all shadow-md shadow-error/20" title="Unlock Account">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- User 4 -->
+<tr class="hover:bg-surface transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-full overflow-hidden bg-primary-fixed">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="close-up of a young professional man with a friendly smile, outdoor urban setting with blurred architectural elements" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmL0UWCqdSeYPYUl2ejasecsIxhz2yTeFBtAYNr_Rmg2OTvaBPrZK6xM9t6uGWyPMA6x5Uiwm6F0nUHGlarmQxMz8UBbjs__k6KUs43vb9xzDXQ0KL89_e1LHSMFli3nigI65Ri8WcYoY55j5A-2ljCry3N1GvjjPlo2lxwnEQvbQNIeB2RbVhjoxX9Y8nEPBi3S1Pwfm5DQz52rxmE3z37mGpjJtTpMn7jdlUfmGqnKpG_TmHHYcI89mtgOdk0ZsPmA0p5SKpVPjh"/>
+</div>
+<div>
+<div class="font-bold text-on-surface">Jordan Smyth</div>
+<div class="text-xs text-on-surface-variant">j.smyth@design.co</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant text-[10px] font-black uppercase rounded-full tracking-tighter">User</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1.5 text-sm font-semibold text-green-600">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                        Active
+                                    </div>
+</td>
+<td class="px-6 py-5">
+<div class="text-sm text-on-surface font-medium">Yesterday</div>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-primary-container transition-colors" title="Edit">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-lg text-outline transition-colors" title="Lock Account">
+<span class="material-symbols-outlined" data-icon="lock_open">lock_open</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-8 py-5 bg-surface-container-low/30 flex items-center justify-between">
+<p class="text-xs font-bold text-outline uppercase tracking-widest">Showing 1 to 10 of 2,842 results</p>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg border border-outline-variant/30 hover:bg-surface-container-high disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="px-4 py-2 rounded-lg bg-primary text-white font-bold text-sm">1</button>
+<button class="px-4 py-2 rounded-lg hover:bg-surface-container-high text-on-surface font-bold text-sm transition-colors">2</button>
+<button class="px-4 py-2 rounded-lg hover:bg-surface-container-high text-on-surface font-bold text-sm transition-colors">3</button>
+<button class="p-2 rounded-lg border border-outline-variant/30 hover:bg-surface-container-high">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Asymmetric Bento-style Quick Actions -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-gradient-to-br from-primary to-primary-container p-8 rounded-2xl text-white shadow-xl shadow-primary/20 relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="text-2xl font-black headline">Platform Security Audit</h3>
+<p class="mt-2 opacity-90 max-w-md">Schedule a full system audit of user permissions and access logs to ensure data integrity.</p>
+<button class="mt-6 px-8 py-3 bg-white text-primary font-black rounded-xl hover:bg-on-primary transition-colors">
+                            Initialize Audit
+                        </button>
+</div>
+<!-- Decorative element -->
+<span class="material-symbols-outlined absolute -right-10 -bottom-10 text-[200px] opacity-10 rotate-12" data-icon="shield">shield</span>
+</div>
+<div class="bg-tertiary-container p-8 rounded-2xl text-white flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-4xl mb-4" data-icon="mail">mail</span>
+<h3 class="text-xl font-black headline">Broadcast Message</h3>
+<p class="mt-1 opacity-90 text-sm">Send a notification to all active Landlords.</p>
+</div>
+<button class="mt-8 py-3 w-full bg-tertiary text-white font-black rounded-xl hover:opacity-90 transition-opacity">
+                        Compose
+                    </button>
+</div>
+</div>
+</section>
+<!-- Subtle Footer Separation Block -->
+<div class="h-8 bg-surface-container-low mt-auto"></div>
+</main>
+</body></html>

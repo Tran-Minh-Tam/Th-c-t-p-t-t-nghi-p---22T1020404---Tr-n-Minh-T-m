@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Report Management | Sanctuary Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#181c1d",
+                        "primary-container": "#0d8389",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#ebefee",
+                        "on-primary-fixed-variant": "#004f53",
+                        "secondary-container": "#c3e6e8",
+                        "on-surface": "#181c1d",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#00696e",
+                        "surface-dim": "#d7dbdb",
+                        "on-secondary-fixed": "#002022",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#ffffff",
+                        "surface": "#f6fafa",
+                        "inverse-on-surface": "#eef1f1",
+                        "background": "#f6fafa",
+                        "primary-fixed-dim": "#77d5db",
+                        "primary-fixed": "#94f2f8",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "primary": "#00686d",
+                        "surface-container-high": "#e5e9e9",
+                        "on-tertiary-fixed": "#321200",
+                        "surface-variant": "#dfe3e3",
+                        "on-secondary-container": "#47686a",
+                        "surface-container-low": "#f0f4f4",
+                        "tertiary-fixed": "#ffdbc8",
+                        "inverse-primary": "#77d5db",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3131",
+                        "secondary-fixed-dim": "#aacdcf",
+                        "on-surface-variant": "#3e4949",
+                        "outline": "#6e797a",
+                        "outline-variant": "#bdc9c9",
+                        "on-primary-fixed": "#002022",
+                        "surface-bright": "#f6fafa",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#8d4c20",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#71360b",
+                        "tertiary-container": "#ab6436",
+                        "secondary-fixed": "#c6e9eb",
+                        "surface-container-highest": "#dfe3e3",
+                        "secondary": "#436466",
+                        "on-tertiary-container": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb68b",
+                        "on-secondary-fixed-variant": "#2b4c4e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f6fafa] dark:bg-[#181c1d] border-r border-[#bdc9c9]/15 flex flex-col gap-2 p-6 z-50">
+<div class="mb-8">
+<h1 class="font-['Manrope'] font-extrabold text-[#0D8389] text-2xl">Sanctuary</h1>
+<p class="text-xs text-on-surface-variant font-medium tracking-widest uppercase">Management Suite</p>
+</div>
+<nav class="flex flex-col gap-2 flex-grow">
+<a class="flex items-center gap-3 px-4 py-3 text-[#404949] dark:text-[#bdc9c9] hover:bg-[#f0f4f4] dark:hover:bg-[#222728] hover:translate-x-1 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#404949] dark:text-[#bdc9c9] hover:bg-[#f0f4f4] dark:hover:bg-[#222728] hover:translate-x-1 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-medium text-sm">Properties</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#404949] dark:text-[#bdc9c9] hover:bg-[#f0f4f4] dark:hover:bg-[#222728] hover:translate-x-1 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-medium text-sm">Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#404949] dark:text-[#bdc9c9] hover:bg-[#f0f4f4] dark:hover:bg-[#222728] hover:translate-x-1 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-medium text-sm">Tenants</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#404949] dark:text-[#bdc9c9] hover:bg-[#f0f4f4] dark:hover:bg-[#222728] hover:translate-x-1 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-medium text-sm">Revenue</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-[#0D8389] text-white rounded-lg shadow-sm font-semibold active:scale-98 transition-all" href="#">
+<span class="material-symbols-outlined">build</span>
+<span class="font-medium text-sm">Maintenance</span>
+</a>
+</nav>
+<button class="mt-auto bg-primary-container text-white py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+            Add New Room
+        </button>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-[#f6fafa]/80 dark:bg-[#181c1d]/80 backdrop-blur-md sticky top-0 z-40 px-8 py-4 flex justify-between items-center w-full">
+<div class="flex items-center gap-8 flex-1">
+<h2 class="font-['Manrope'] font-bold tracking-tight text-lg text-[#181c1d] dark:text-[#f6fafa]">Report Management</h2>
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary-container" placeholder="Search violations or users..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-[#f0f4f4] rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-[#f0f4f4] rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-[#bdc9c9]/30 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-sm font-bold leading-none">Admin Sarah</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Senior Moderator</p>
+</div>
+<img alt="Administrator Profile" class="w-10 h-10 rounded-full object-cover border-2 border-primary-container/20" data-alt="professional portrait of a confident woman in business casual attire with a soft office background and natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEFg8vmkC-k-klGsATo0L1p-CYnC5jRJp-BeMlPefhN7E3qH4AEQdL-JNMvhDslQ0C9npoU1Du7xTXtRrOURyi7LUkQdpNXVzWqibbqZPKrjREbWVUcLpMf-EIi6XYqxwDDnU0aS7r_ITVKC9_fn2m4Mx4rL_euJljHnC9mzeQhLEbsQyj33mDSIcBcaT6U8qjLCPrK3AS4CRZGPFsi_wcLAkXy6ukzOD-FQDYg80Ij_3YLP-_hd1X1DEb5VW1eWKq3VgRT9NKdQim"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-8 max-w-7xl mx-auto">
+<!-- Summary Stats (Editorial Style) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-lowest p-6 rounded-xl flex items-center justify-between group cursor-default">
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Active Alerts</p>
+<h3 class="text-4xl font-extrabold text-on-surface">24</h3>
+</div>
+<div class="bg-primary-container/10 p-4 rounded-full text-primary-container">
+<span class="material-symbols-outlined text-3xl">warning</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl flex items-center justify-between">
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Banned Users</p>
+<h3 class="text-4xl font-extrabold text-on-surface">142</h3>
+</div>
+<div class="bg-tertiary-container/10 p-4 rounded-full text-tertiary">
+<span class="material-symbols-outlined text-3xl">gavel</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl flex items-center justify-between">
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Resolved Today</p>
+<h3 class="text-4xl font-extrabold text-on-surface">08</h3>
+</div>
+<div class="bg-secondary-container p-4 rounded-full text-secondary">
+<span class="material-symbols-outlined text-3xl">task_alt</span>
+</div>
+</div>
+</section>
+<!-- Report Table Header -->
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="text-2xl font-extrabold tracking-tight">Violation Feed</h2>
+<p class="text-on-surface-variant text-sm">Reviewing reports submitted by the community in the last 24 hours.</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container-high px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        Filter by Reason
+                    </button>
+<button class="bg-surface-container-high px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-sm">download</span>
+                        Export Log
+                    </button>
+</div>
+</div>
+<!-- Table (Tonal Layering Layout) -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<div class="grid grid-cols-12 px-8 py-4 bg-surface-container text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
+<div class="col-span-3">Reporter</div>
+<div class="col-span-2">Reported Item</div>
+<div class="col-span-3">Reason</div>
+<div class="col-span-1">Date</div>
+<div class="col-span-1">Status</div>
+<div class="col-span-2 text-right">Actions</div>
+</div>
+<div class="flex flex-col">
+<!-- Report Item 1 -->
+<div class="grid grid-cols-12 px-8 py-6 items-center hover:bg-surface-container-lowest transition-all group border-b border-on-surface/5">
+<div class="col-span-3 flex items-center gap-3">
+<img alt="Reporter Avatar" class="w-10 h-10 rounded-full object-cover" data-alt="close-up portrait of a man with short hair and friendly expression against a minimal bright background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCz7zUG0vdrE9p_3K3_WopMNx1M39AUt-4bBv67X6jhycGTDJJTCKGZZ7bcG7oExzMZ_KTlSUIl6a7CdvZSKEO9pKQMP28XAtC4dg1w7WWWpINsJciq5n9c8XWx7uZhsAdE2sdVvHbiLYZbuVVjAkhuYYCFKaa8H2CZzPPbR5q_uuWzs0nxQo3QWjI9Zs4ElYqutqBWZYm8H-JNgSAevcedVUEBsy6g_FvdkcjolAaPacvxp5VV_Q9ofxBnMcMSkQzA3CtNy-AuPRcV"/>
+<div>
+<p class="font-bold text-sm">Alex Rivera</p>
+<p class="text-xs text-on-surface-variant">Verified Tenant</p>
+</div>
+</div>
+<div class="col-span-2">
+<a class="flex items-center gap-2 text-primary hover:underline font-semibold text-sm" href="#">
+<span class="material-symbols-outlined text-base">link</span>
+                                Room #402
+                            </a>
+</div>
+<div class="col-span-3">
+<p class="text-sm font-medium pr-4 line-clamp-1">False advertising - pool is currently under renovation for months.</p>
+</div>
+<div class="col-span-1">
+<p class="text-xs font-medium text-on-surface-variant">Oct 12, 2023</p>
+</div>
+<div class="col-span-1">
+<span class="bg-tertiary-container/10 text-tertiary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter">Urgent</span>
+</div>
+<div class="col-span-2 flex justify-end gap-2">
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center hover:bg-secondary-container transition-colors" title="Warn">
+<span class="material-symbols-outlined text-sm">campaign</span>
+</button>
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center hover:bg-error-container hover:text-error transition-colors" title="Delete Item">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-on-background text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all" title="Ban User">
+<span class="material-symbols-outlined text-sm">block</span>
+</button>
+</div>
+</div>
+<!-- Report Item 2 -->
+<div class="grid grid-cols-12 px-8 py-6 items-center hover:bg-surface-container-lowest transition-all group border-b border-on-surface/5">
+<div class="col-span-3 flex items-center gap-3">
+<img alt="Reporter Avatar" class="w-10 h-10 rounded-full object-cover" data-alt="middle-aged professional woman with glasses and neutral expression in a bright minimalist office space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmid6bHPcF9VvDCjIJDvhhpHHUk_mLB8-a4Sg3-OXok9aQl_a5OEnLoietHApsQTlOGb2xVDk9OuRAWq0nG4wXm-O36LH3ZipWlDIo6-Je0SAZxpS80ijU7JKFuWrUvxSNAsfPgqE86RlcrWwHccPtRC57E6-gR4TxFX8LJbdJJ3o-YGXWmbRpf1Z3Ss9zdR2mYilKYaOivVM0oES8C-ypYXyCfRKatOuj7FBUCW4ZvZRRrqj25IL0ouJwaFxYP53jmi6aqL64Dtpm"/>
+<div>
+<p class="font-bold text-sm">Sarah Jenkins</p>
+<p class="text-xs text-on-surface-variant">Host Manager</p>
+</div>
+</div>
+<div class="col-span-2">
+<a class="flex items-center gap-2 text-primary hover:underline font-semibold text-sm" href="#">
+<span class="material-symbols-outlined text-base">link</span>
+                                User: @jdoe99
+                            </a>
+</div>
+<div class="col-span-3">
+<p class="text-sm font-medium pr-4 line-clamp-1">Spamming inquiry messages to multiple listings.</p>
+</div>
+<div class="col-span-1">
+<p class="text-xs font-medium text-on-surface-variant">Oct 11, 2023</p>
+</div>
+<div class="col-span-1">
+<span class="bg-surface-variant text-on-surface-variant px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter">Reviewing</span>
+</div>
+<div class="col-span-2 flex justify-end gap-2">
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center hover:bg-secondary-container transition-colors" title="Warn">
+<span class="material-symbols-outlined text-sm">campaign</span>
+</button>
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center hover:bg-error-container hover:text-error transition-colors" title="Delete Item">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-on-background text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all" title="Ban User">
+<span class="material-symbols-outlined text-sm">block</span>
+</button>
+</div>
+</div>
+<!-- Report Item 3 -->
+<div class="grid grid-cols-12 px-8 py-6 items-center hover:bg-surface-container-lowest transition-all group border-b border-on-surface/5">
+<div class="col-span-3 flex items-center gap-3">
+<img alt="Reporter Avatar" class="w-10 h-10 rounded-full object-cover" data-alt="portrait of a young man with a slight beard in a casual denim shirt with soft natural side lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAArYXNtRnngmuAFbFteDFsGKhxbr_ZawNOkntQqw2hDgUHQP5xiJPY3yek7JNmsbpGxMKrAdSYaNewc5w7LbyHNORNDmYHnpg5SIxTuohsBIfA-vaDLROIX8A89lpBunlkBiXf4xle5hsx-NU95IODOQ2jngXKmOiM9yoEPQ0c0gg3UzWzniZHgf3y7XR-ZsvCRrP2INR3LqOe2eCr4y072IwodTi6tB-RTtODkk_udi5UiTYvRqivZ7tLOJcpNp7qniMnrtRbGgXI"/>
+<div>
+<p class="font-bold text-sm">Marcus Thorne</p>
+<p class="text-xs text-on-surface-variant">Verified Tenant</p>
+</div>
+</div>
+<div class="col-span-2">
+<a class="flex items-center gap-2 text-primary hover:underline font-semibold text-sm" href="#">
+<span class="material-symbols-outlined text-base">link</span>
+                                Studio Loft
+                            </a>
+</div>
+<div class="col-span-3">
+<p class="text-sm font-medium pr-4 line-clamp-1">Inappropriate images in gallery (NSFW content).</p>
+</div>
+<div class="col-span-1">
+<p class="text-xs font-medium text-on-surface-variant">Oct 11, 2023</p>
+</div>
+<div class="col-span-1">
+<span class="bg-error-container text-error px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter">Critical</span>
+</div>
+<div class="col-span-2 flex justify-end gap-2">
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center hover:bg-secondary-container transition-colors" title="Warn">
+<span class="material-symbols-outlined text-sm">campaign</span>
+</button>
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center hover:bg-error-container hover:text-error transition-colors" title="Delete Item">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-on-background text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all" title="Ban User">
+<span class="material-symbols-outlined text-sm">block</span>
+</button>
+</div>
+</div>
+<!-- Report Item 4 -->
+<div class="grid grid-cols-12 px-8 py-6 items-center hover:bg-surface-container-lowest transition-all group">
+<div class="col-span-3 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-secondary font-bold">JD</div>
+<div>
+<p class="font-bold text-sm">John Doe</p>
+<p class="text-xs text-on-surface-variant">Community Member</p>
+</div>
+</div>
+<div class="col-span-2">
+<a class="flex items-center gap-2 text-primary hover:underline font-semibold text-sm" href="#">
+<span class="material-symbols-outlined text-base">link</span>
+                                Penthouse A
+                            </a>
+</div>
+<div class="col-span-3">
+<p class="text-sm font-medium pr-4 line-clamp-1">Duplicate listing found on external site for lower price.</p>
+</div>
+<div class="col-span-1">
+<p class="text-xs font-medium text-on-surface-variant">Oct 10, 2023</p>
+</div>
+<div class="col-span-1">
+<span class="bg-secondary-container text-secondary px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tighter">Pending</span>
+</div>
+<div class="col-span-2 flex justify-end gap-2">
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center hover:bg-secondary-container transition-colors" title="Warn">
+<span class="material-symbols-outlined text-sm">campaign</span>
+</button>
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center hover:bg-error-container hover:text-error transition-colors" title="Delete Item">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-on-background text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all" title="Ban User">
+<span class="material-symbols-outlined text-sm">block</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Content / Bento Section -->
+<section class="mt-12 grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Activity Heatmap -->
+<div class="md:col-span-8 bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-extrabold text-lg">Weekly Violation Trends</h4>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs font-medium">Scams</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary"></span>
+<span class="text-xs font-medium">Spam</span>
+</div>
+</div>
+</div>
+<div class="h-48 flex items-end gap-3 px-4">
+<div class="flex-1 bg-surface-container-high rounded-t-lg group relative h-[40%] hover:bg-primary transition-colors">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">12</div>
+</div>
+<div class="flex-1 bg-surface-container-high rounded-t-lg group relative h-[65%] hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-container-high rounded-t-lg group relative h-[85%] hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-container-high rounded-t-lg group relative h-[50%] hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-primary rounded-t-lg group relative h-[95%]">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] py-1 px-2 rounded opacity-100">38</div>
+</div>
+<div class="flex-1 bg-surface-container-high rounded-t-lg group relative h-[60%] hover:bg-primary transition-colors"></div>
+<div class="flex-1 bg-surface-container-high rounded-t-lg group relative h-[45%] hover:bg-primary transition-colors"></div>
+</div>
+<div class="flex justify-between mt-4 px-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+<!-- Mod Performance -->
+<div class="md:col-span-4 bg-primary-container p-8 rounded-xl text-white">
+<h4 class="font-extrabold text-lg mb-4">Response Efficiency</h4>
+<p class="text-white/70 text-sm mb-8 leading-relaxed">You are resolving tickets 14% faster than last week. Keep maintaining the sanctuary.</p>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-xs font-bold mb-2">
+<span>Ticket Velocity</span>
+<span>88%</span>
+</div>
+<div class="w-full bg-white/20 h-1 rounded-full overflow-hidden">
+<div class="bg-white h-full w-[88%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold mb-2">
+<span>User Trust Score</span>
+<span>94%</span>
+</div>
+<div class="w-full bg-white/20 h-1 rounded-full overflow-hidden">
+<div class="bg-white h-full w-[94%]"></div>
+</div>
+</div>
+</div>
+<button class="w-full mt-10 bg-white text-primary py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined text-base">analytics</span>
+                        View Detailed Audit
+                    </button>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<footer class="p-8 mt-12 bg-surface-container-low">
+<div class="flex justify-between items-center max-w-7xl mx-auto opacity-40">
+<p class="text-xs font-medium">© 2023 Sanctuary Admin Portal. Confidential.</p>
+<div class="flex gap-6 text-xs font-bold uppercase tracking-widest">
+<a href="#">Privacy Policy</a>
+<a href="#">Audit Logs</a>
+<a href="#">System Status</a>
+</div>
+</div>
+</footer>
+</main>
+</body></html>

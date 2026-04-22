@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#002022",
+                    "inverse-on-surface": "#eef1f1",
+                    "surface-tint": "#00696e",
+                    "inverse-surface": "#2d3131",
+                    "outline": "#6e797a",
+                    "on-primary-fixed-variant": "#004f53",
+                    "tertiary-container": "#ab6436",
+                    "on-tertiary-fixed-variant": "#71360b",
+                    "error": "#ba1a1a",
+                    "background": "#f6fafa",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#dfe3e3",
+                    "on-surface": "#181c1d",
+                    "on-secondary-fixed-variant": "#2b4c4e",
+                    "primary-container": "#0d8389",
+                    "surface": "#f6fafa",
+                    "on-tertiary-container": "#ffffff",
+                    "on-background": "#181c1d",
+                    "surface-dim": "#d7dbdb",
+                    "surface-container-low": "#f0f4f4",
+                    "secondary": "#436466",
+                    "surface-container": "#ebefee",
+                    "on-surface-variant": "#3e4949",
+                    "secondary-container": "#c3e6e8",
+                    "surface-container-high": "#e5e9e9",
+                    "on-tertiary-fixed": "#321200",
+                    "primary": "#00686d",
+                    "outline-variant": "#bdc9c9",
+                    "tertiary": "#8d4c20",
+                    "surface-bright": "#f6fafa",
+                    "secondary-fixed": "#c6e9eb",
+                    "inverse-primary": "#77d5db",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#ffdbc8",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#dfe3e3",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#94f2f8",
+                    "on-secondary-container": "#47686a",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb68b",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#aacdcf",
+                    "on-primary-container": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#002022",
+                    "primary-fixed-dim": "#77d5db"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f6fafa] dark:bg-[#181c1d]">
+<div class="flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#0d8389]" data-icon="menu">menu</span>
+<h1 class="font-['Manrope'] font-bold tracking-tight text-lg text-[#0d8389]">Hệ thống Duyệt tin (Mobile)</h1>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high border-2 border-primary-container">
+<img alt="admin_avatar" class="w-full h-full object-cover" data-alt="close up professional headshot of a concierge administrator in a minimalist office setting with soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIsc2jn2EHwVkOANlAppRq1yAAMQ4G7Fg6wf2goEc59Vz3v8pQMiqrQoQwPupxJ7DTm26IOMG7T_RgLyecpXMs8nGTMib9DZ01afcT6a3f0uea2COIzWpSm1OZaHrfNtyBuJkDSjDzrRJCq4xL3bX6Y2CrfuKrIkYvuazOXfvTeQWAfVXe4QZg6fUVQtCTPoS7vPNqk57ygDlF52DIYAxQDtPmsMd76KhmFbDBt59ry23lkwHtEoPbvI4HQuKAfyQIIKGe4VHHZ1Wh"/>
+</div>
+</div>
+<div class="bg-[#f0f4f4] dark:bg-[#1f2425] h-[1px] w-full"></div>
+</header>
+<main class="pt-20 px-4 space-y-6">
+<!-- Dashboard Summary (Subtle Bento) -->
+<div class="grid grid-cols-2 gap-4">
+<div class="p-5 bg-surface-container-lowest rounded-xl flex flex-col justify-between h-32">
+<span class="material-symbols-outlined text-primary" data-icon="pending_actions">pending_actions</span>
+<div>
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Pending</p>
+<p class="text-2xl font-headline font-extrabold text-primary">24</p>
+</div>
+</div>
+<div class="p-5 bg-surface-container-low rounded-xl flex flex-col justify-between h-32">
+<span class="material-symbols-outlined text-tertiary" data-icon="verified_user">verified_user</span>
+<div>
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Today Approved</p>
+<p class="text-2xl font-headline font-extrabold text-tertiary">142</p>
+</div>
+</div>
+</div>
+<!-- Section Title -->
+<div class="flex items-center justify-between px-2">
+<h2 class="text-xl font-headline font-bold text-on-surface">Queue Content</h2>
+<div class="flex gap-2">
+<button class="p-2 bg-surface-container-high rounded-full">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Listing Cards -->
+<div class="space-y-6">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden">
+<div class="relative h-56 w-full">
+<img alt="Room thumbnail" class="w-full h-full object-cover" data-alt="Modern minimalist studio apartment with floor-to-ceiling windows, sunlight streaming onto a neutral grey rug, and designer scandinavian furniture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLvByfh096_tQnBVWe4LVhrWo20NppOU9-djwQnaXW7WgakcdJBIOst4XZMSTqGA-3CKNi-N877_mhShTNWc-YTTZr1TFWFBmchtitw_nw2875gzsF_1e3mQ8MVjYkZ6n2cZhJ2ckiXeVGoPpybE4WmYPUbhweU-O_co9OQeUiZM58I6LryVSjmopitIzNr4zdQI92RQ9WD2zoTE-fzL-YO4YUVzPYdiS5dl4NbSq5CTwuti9gPa_0R5YM2nnYZlgL4hRYxd47gicv"/>
+<div class="absolute top-4 right-4 px-3 py-1 bg-on-primary-fixed/80 backdrop-blur-md rounded-full">
+<p class="text-xs font-bold text-on-primary uppercase tracking-tighter">Premium Listing</p>
+</div>
+</div>
+<div class="p-5 space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-headline font-bold leading-tight">Serene Skyline Studio</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="person">person</span>
+<p class="text-sm font-body text-on-surface-variant">Landlord: Minh Tuấn</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-lg font-headline font-black text-primary">$1,200</p>
+<p class="text-[10px] font-label uppercase text-on-surface-variant">Per Month</p>
+</div>
+</div>
+<div class="flex gap-2 py-2">
+<div class="px-3 py-1 bg-secondary-container rounded-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="wifi">wifi</span>
+<span class="text-[10px] font-bold uppercase">Free Wifi</span>
+</div>
+<div class="px-3 py-1 bg-secondary-container rounded-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="ac_unit">ac_unit</span>
+<span class="text-[10px] font-bold uppercase">AC Incl.</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2">
+<button class="w-full py-3 bg-error-container text-on-error-container rounded-full font-headline font-bold flex items-center justify-center gap-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+                            Reject
+                        </button>
+<button class="w-full py-3 bg-gradient-to-r from-primary to-primary-container text-white rounded-full font-headline font-bold flex items-center justify-center gap-2 transition-transform active:scale-95 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined" data-icon="check">check</span>
+                            Approve
+                        </button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden">
+<div class="relative h-56 w-full">
+<img alt="Room thumbnail" class="w-full h-full object-cover" data-alt="Bohemian style loft with exposed brick walls, warm amber pendant lighting, and velvet green sofa in a cozy architectural layout" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLtQR8AvLep6Vi3Z2OubgJHCI2vRPUwHqL0FZ5CDKfjWfXLUJEa0vDkMr-AqgJo8y48v334VFK_qCuvkaIc8ebaepnpqX49c6CWS_wdSZpkzePOuf7CTEaPgg53F5UeSHLPgPkPbEymF_eweJztA0jdr40yv4kyUCaVTtzvb8ZvjGWjliOHF6xdvc4H0jC7C_WxVaqze8wruwbT7Gu2bk7CL8O5e3AmCbVhiYo_fXi10pD1Jujvzg1HPcQbZiXL_JsSKhXW6TfuV6S"/>
+</div>
+<div class="p-5 space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-headline font-bold leading-tight">Brickwall Artisan Loft</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="person">person</span>
+<p class="text-sm font-body text-on-surface-variant">Landlord: Elena Hoàng</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-lg font-headline font-black text-primary">$950</p>
+<p class="text-[10px] font-label uppercase text-on-surface-variant">Per Month</p>
+</div>
+</div>
+<div class="flex gap-2 py-2">
+<div class="px-3 py-1 bg-secondary-container rounded-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="kitchen">kitchen</span>
+<span class="text-[10px] font-bold uppercase">Full Kitchen</span>
+</div>
+<div class="px-3 py-1 bg-secondary-container rounded-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="local_parking">local_parking</span>
+<span class="text-[10px] font-bold uppercase">Parking</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2">
+<button class="w-full py-3 bg-error-container text-on-error-container rounded-full font-headline font-bold flex items-center justify-center gap-2 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+                            Reject
+                        </button>
+<button class="w-full py-3 bg-gradient-to-r from-primary to-primary-container text-white rounded-full font-headline font-bold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined" data-icon="check">check</span>
+                            Approve
+                        </button>
+</div>
+</div>
+</div>
+<!-- Card 3 (Minimalist variant) -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden opacity-90">
+<div class="relative h-56 w-full grayscale-[50%]">
+<img alt="Room thumbnail" class="w-full h-full object-cover" data-alt="Quiet luxury bedroom with beige linen bedding, soft morning haze lighting, and white marble bedside table with a single flower" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiLFJ0lEY7APtlcDntK1T7oTTuO1WXpXmY0SXoIuvrMrCtNzv83AH71e5-sIoUkTON9Hjq_v-IKdldrbjhW6iHpb-p2szgbpWfDYsqyT-CLdwrj8MDfrX77or-HxjtiZQKJxVMaqlQfuOJWTkbbEsRF4yxrUMvzgWzcVpE0rscGnPC40ve7r__jEWhmSiCrU6OruVXyyLSc5hlQmW4uD8hrsIgupmzZPl9CvDHkI5K_Ni-Yw-sEdUPXq5FD6fQeYpMTWB379WVylrg"/>
+</div>
+<div class="p-5 space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-headline font-bold leading-tight">Minimalist Zen Suite</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="person">person</span>
+<p class="text-sm font-body text-on-surface-variant">Landlord: Trần Anh</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-lg font-headline font-black text-primary">$800</p>
+<p class="text-[10px] font-label uppercase text-on-surface-variant">Per Month</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2">
+<button class="w-full py-3 bg-error-container text-on-error-container rounded-full font-headline font-bold flex items-center justify-center gap-2 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+                            Reject
+                        </button>
+<button class="w-full py-3 bg-gradient-to-r from-primary to-primary-container text-white rounded-full font-headline font-bold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined" data-icon="check">check</span>
+                            Approve
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[1.5rem] bg-[#0d8389]/80 backdrop-blur-xl dark:bg-[#0d8389]/90 shadow-[0_-4px_24px_rgba(0,104,109,0.1)]">
+<div class="flex justify-around items-center w-full px-4 pb-6 pt-3">
+<div class="flex flex-col items-center justify-center text-white/70 px-5 py-2 hover:text-white transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white/70 px-5 py-2 hover:text-white transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Users</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-white/20 text-white rounded-full px-5 py-2 active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Queue</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white/70 px-5 py-2 hover:text-white transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Reports</span>
+</div>
+</div>
+</nav>
+</body></html>

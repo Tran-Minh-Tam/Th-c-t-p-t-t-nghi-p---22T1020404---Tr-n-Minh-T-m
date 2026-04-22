@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sanctuary | Create Your Listing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#c3e6e8",
+                        "surface-container-low": "#f0f4f4",
+                        "surface-tint": "#00696e",
+                        "on-tertiary-fixed": "#321200",
+                        "tertiary-container": "#ab6436",
+                        "surface-variant": "#dfe3e3",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f6fafa",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2d3131",
+                        "surface": "#f6fafa",
+                        "background": "#f6fafa",
+                        "secondary-fixed": "#c6e9eb",
+                        "outline": "#6e797a",
+                        "on-secondary-container": "#47686a",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d7dbdb",
+                        "primary-container": "#0d8389",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#77d5db",
+                        "primary": "#00686d",
+                        "secondary-fixed-dim": "#aacdcf",
+                        "secondary": "#436466",
+                        "tertiary-fixed-dim": "#ffb68b",
+                        "on-primary-fixed": "#002022",
+                        "inverse-on-surface": "#eef1f1",
+                        "on-secondary-fixed-variant": "#2b4c4e",
+                        "inverse-primary": "#77d5db",
+                        "on-tertiary-container": "#ffffff",
+                        "on-surface-variant": "#3e4949",
+                        "on-background": "#181c1d",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#8d4c20",
+                        "outline-variant": "#bdc9c9",
+                        "surface-container": "#ebefee",
+                        "surface-container-high": "#e5e9e9",
+                        "primary-fixed": "#94f2f8",
+                        "on-secondary-fixed": "#002022",
+                        "on-primary-fixed-variant": "#004f53",
+                        "on-surface": "#181c1d",
+                        "surface-container-highest": "#dfe3e3",
+                        "on-tertiary-fixed-variant": "#71360b",
+                        "tertiary-fixed": "#ffdbc8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #bdc9c9; border-radius: 10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-[#f6fafa]/80 dark:bg-[#181c1d]/80 backdrop-blur-xl fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#0D8389]">menu</span>
+<span class="text-2xl font-extrabold tracking-tighter text-[#0D8389] uppercase font-headline">Sanctuary</span>
+</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-[#181c1d] dark:text-[#f6fafa] font-medium hover:text-[#0D8389] transition-all" href="#">Explore</a>
+<a class="text-[#0D8389] font-bold" href="#">Post</a>
+<a class="text-[#181c1d] dark:text-[#f6fafa] font-medium hover:text-[#0D8389] transition-all" href="#">History</a>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border-2 border-[#0D8389]">
+<img alt="User Profile" data-alt="Professional portrait of a middle-aged property owner with a friendly smile, natural daylight in a bright office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoF52IuCiThfmOOryCHWuVzzNC-6eBww80x8t5QOVtIl7oANm5fIbk6dYetRvWYlHyXrWgGHA-oBi3ikPWK7kSxYPgWTVOBB_aMNXf7c9UJaFZppSnHaCD38Xn8mLx6-zjFg1SfTcEplglLpKskmmhtZ2WRMCOuuL84yhXgGjtauQOOTGQoAWdwHqh0m9EyghLRuqlxEf2tzix7Gb4lbqL2FV004QH4Mpp7loGe4-LOTkaU4FsPD4W1E__dvibh2m5aAvOsJm3OpU8"/>
+</div>
+</header>
+<main class="pt-24 pb-32 px-4 max-w-5xl mx-auto">
+<!-- Editorial Header Section -->
+<section class="mb-12">
+<span class="text-tertiary font-headline font-bold text-sm tracking-widest uppercase mb-2 block">New Listing</span>
+<h1 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tight text-on-surface mb-4">Host Your Space</h1>
+<p class="text-on-surface-variant max-w-2xl text-lg">Share your sanctuary with the world. Follow our guided process to create an editorial-grade listing that attracts quality guests.</p>
+</section>
+<form class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: The Form Shell -->
+<div class="lg:col-span-7 space-y-12">
+<!-- Section 1: Identity -->
+<div class="space-y-6">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold">1</span>
+<h2 class="text-2xl font-headline font-bold">Core Identity</h2>
+</div>
+<div class="space-y-4">
+<div class="group">
+<label class="block text-sm font-label font-semibold mb-2 text-on-surface-variant">Listing Title</label>
+<input class="w-full bg-surface-container-high border-none rounded-xl px-4 py-4 text-on-surface focus:ring-1 focus:ring-primary transition-all placeholder:text-outline-variant" placeholder="e.g. Minimalist Urban Loft with Skyline View" type="text"/>
+</div>
+<div class="group">
+<label class="block text-sm font-label font-semibold mb-2 text-on-surface-variant">Description</label>
+<textarea class="w-full bg-surface-container-high border-none rounded-xl px-4 py-4 text-on-surface focus:ring-1 focus:ring-primary transition-all placeholder:text-outline-variant" placeholder="Tell the story of your space..." rows="5"></textarea>
+</div>
+</div>
+</div>
+<!-- Section 2: Visuals (Editorial Layout) -->
+<div class="space-y-6">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold">2</span>
+<h2 class="text-2xl font-headline font-bold">Visual Narrative</h2>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="col-span-2 aspect-video bg-surface-container-high rounded-xl border-2 border-dashed border-outline-variant flex flex-col items-center justify-center p-8 group hover:bg-surface-container-lowest transition-all cursor-pointer">
+<span class="material-symbols-outlined text-4xl text-primary mb-2">add_photo_alternate</span>
+<p class="font-headline font-bold">Upload Hero Image</p>
+<p class="text-sm text-on-surface-variant">Drag and drop high-res photography</p>
+</div>
+<div class="aspect-square bg-surface-container-high rounded-xl flex items-center justify-center border border-outline-variant/20">
+<span class="material-symbols-outlined text-outline">image</span>
+</div>
+<div class="aspect-square bg-surface-container-high rounded-xl flex items-center justify-center border border-outline-variant/20">
+<span class="material-symbols-outlined text-outline">image</span>
+</div>
+</div>
+</div>
+<!-- Section 3: Location & Logic -->
+<div class="space-y-6">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold">3</span>
+<h2 class="text-2xl font-headline font-bold">Location &amp; Pricing</h2>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-6 space-y-6">
+<div class="relative">
+<label class="block text-sm font-label font-semibold mb-2 text-on-surface-variant">Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">location_on</span>
+<input class="w-full bg-surface-container-lowest border-none rounded-xl pl-12 pr-4 py-4 text-on-surface shadow-sm focus:ring-1 focus:ring-primary" placeholder="Search for property address..." type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-label font-semibold mb-2 text-on-surface-variant">Nightly Rate</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-lowest border-none rounded-xl pl-8 pr-4 py-4 text-on-surface shadow-sm focus:ring-1 focus:ring-primary" placeholder="0.00" type="number"/>
+</div>
+</div>
+<div>
+<label class="block text-sm font-label font-semibold mb-2 text-on-surface-variant">Currency</label>
+<select class="w-full bg-surface-container-lowest border-none rounded-xl px-4 py-4 text-on-surface shadow-sm focus:ring-1 focus:ring-primary appearance-none">
+<option>USD ($)</option>
+<option>EUR (€)</option>
+<option>VND (đ)</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Amenities & Preview Sticky -->
+<div class="lg:col-span-5 space-y-8">
+<div class="lg:sticky lg:top-24 space-y-8">
+<!-- Amenities Bento -->
+<div class="bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+<h3 class="text-xl font-headline font-bold mb-6">Signature Amenities</h3>
+<div class="grid grid-cols-2 gap-3">
+<label class="flex items-center gap-3 p-4 bg-surface-container-low rounded-xl cursor-pointer hover:bg-secondary-container transition-colors group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg text-primary">wifi</span>
+<span class="text-sm font-medium">Fast WiFi</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-4 bg-surface-container-low rounded-xl cursor-pointer hover:bg-secondary-container transition-colors group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg text-primary">ac_unit</span>
+<span class="text-sm font-medium">Air Con</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-4 bg-surface-container-low rounded-xl cursor-pointer hover:bg-secondary-container transition-colors group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg text-primary">pool</span>
+<span class="text-sm font-medium">Pool Access</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-4 bg-surface-container-low rounded-xl cursor-pointer hover:bg-secondary-container transition-colors group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg text-primary">local_parking</span>
+<span class="text-sm font-medium">Parking</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-4 bg-surface-container-low rounded-xl cursor-pointer hover:bg-secondary-container transition-colors group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg text-primary">kitchen</span>
+<span class="text-sm font-medium">Kitchen</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-4 bg-surface-container-low rounded-xl cursor-pointer hover:bg-secondary-container transition-colors group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg text-primary">fitness_center</span>
+<span class="text-sm font-medium">Gym</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Map Preview (Asymmetric Design) -->
+<div class="bg-surface-container-highest rounded-3xl overflow-hidden relative group">
+<div class="absolute inset-0 bg-black/5 z-10"></div>
+<img alt="Map Preview" class="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Abstract stylized map view of a modern urban city grid with clean lines and soft blue and grey tones" data-location="Tokyo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWi6RRAl3IdAYJCe58ooli3WzzkFGRWUEybpzgJbX1ybzfOq1VnnmQ_8Qqs116EzRTJBwn8k9TKtcbzUhacNjpIFQT_Ah4Qj47pbibCFtIxU_bQu7KlqVf5cowdnEel5_lAlIELAd1zDNtMfgrjZmcUEaBhLIaxu7jRj9KhH0Gbyin1vxSn-w114me3WCY_MigjoogVKR_zlMzG6k0fidaYtH9I2hZ2lpu7-a9lsgXaPBaCduoCHy7gJyH4AylLFRdM03phfQeKnXn"/>
+<div class="absolute bottom-4 left-4 z-20 bg-surface/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-primary text-sm">location_searching</span>
+<span class="text-xs font-bold uppercase tracking-wider">Live Preview</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-4">
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary py-5 rounded-full font-headline font-bold text-lg shadow-lg active:scale-95 duration-200" type="submit">
+                            Publish Listing
+                        </button>
+<button class="w-full bg-transparent border border-outline-variant text-on-surface-variant py-4 rounded-full font-headline font-semibold hover:bg-surface-container-low transition-all" type="button">
+                            Save Draft
+                        </button>
+</div>
+</div>
+</div>
+</form>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#ffffff] dark:bg-[#181c1d] rounded-t-3xl shadow-[0_-4px_24px_rgba(0,0,0,0.04)] z-50 md:hidden">
+<div class="flex flex-col items-center justify-center text-[#181c1d]/60 dark:text-[#f6fafa]/60 px-4 py-2 hover:text-[#0D8389] transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">search</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest mt-1">Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#0D8389] bg-[#0D8389]/10 rounded-2xl px-4 py-2 active:scale-90 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest mt-1">Post</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#181c1d]/60 dark:text-[#f6fafa]/60 px-4 py-2 hover:text-[#0D8389] transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">history</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest mt-1">History</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#181c1d]/60 dark:text-[#f6fafa]/60 px-4 py-2 hover:text-[#0D8389] transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest mt-1">Admin</span>
+</div>
+</nav>
+</body></html>

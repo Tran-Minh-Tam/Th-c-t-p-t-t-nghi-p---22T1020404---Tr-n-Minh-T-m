@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#002022",
+                        "inverse-on-surface": "#eef1f1",
+                        "surface-tint": "#00696e",
+                        "inverse-surface": "#2d3131",
+                        "outline": "#6e797a",
+                        "on-primary-fixed-variant": "#004f53",
+                        "tertiary-container": "#ab6436",
+                        "on-tertiary-fixed-variant": "#71360b",
+                        "error": "#ba1a1a",
+                        "background": "#f6fafa",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#dfe3e3",
+                        "on-surface": "#181c1d",
+                        "on-secondary-fixed-variant": "#2b4c4e",
+                        "primary-container": "#0d8389",
+                        "surface": "#f6fafa",
+                        "on-tertiary-container": "#ffffff",
+                        "on-background": "#181c1d",
+                        "surface-dim": "#d7dbdb",
+                        "surface-container-low": "#f0f4f4",
+                        "secondary": "#436466",
+                        "surface-container": "#ebefee",
+                        "on-surface-variant": "#3e4949",
+                        "secondary-container": "#c3e6e8",
+                        "surface-container-high": "#e5e9e9",
+                        "on-tertiary-fixed": "#321200",
+                        "primary": "#00686d",
+                        "outline-variant": "#bdc9c9",
+                        "tertiary": "#8d4c20",
+                        "surface-bright": "#f6fafa",
+                        "secondary-fixed": "#c6e9eb",
+                        "inverse-primary": "#77d5db",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdbc8",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#dfe3e3",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#94f2f8",
+                        "on-secondary-container": "#47686a",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb68b",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#aacdcf",
+                        "on-primary-container": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#002022",
+                        "primary-fixed-dim": "#77d5db"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        h1, h2, h3 {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f6fafa] dark:bg-[#181c1d]">
+<div class="flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#0d8389] dark:text-[#0d8389] cursor-pointer active:scale-95 transition-transform" data-icon="menu">menu</span>
+<h1 class="font-['Manrope'] font-bold tracking-tight text-lg text-[#0d8389] dark:text-[#0d8389]">Sanctuary Admin</h1>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30 active:scale-95 transition-transform">
+<img class="w-full h-full object-cover" data-alt="professional headshot of a male administrative executive with a friendly expression in a clean studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC36o9PPKhwbEEf568pZoQNi64sLY3OEIrbUi2TF9x36V7PNJYzLwSeQ1WNRUvS7YtsvDuUusskxqxlxU0m4AfGdv72AcZouK8XJSwAciXIqnfavoqjTiTYRIqTV6Kdb04OVruLKYzP6Mj-WnVTvY-icBcmlDAzhN4-opsOMah80N3IkcJS20__5dl4jlmnddGwecoM4mKIVEzsEo9VqqsHFS34R1OtmZHx1s-_7zNVeljbDF2ubO_ZroVrRY5mZE7mdT9N63rjsv5L"/>
+</div>
+</div>
+<div class="bg-[#f0f4f4] dark:bg-[#1f2425] h-[1px] w-full"></div>
+</header>
+<!-- Main Content -->
+<main class="pt-20 pb-32 px-6">
+<!-- Header Section -->
+<section class="mb-8">
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2">Quản lý Người dùng</h2>
+<p class="text-on-surface-variant font-medium text-sm">Giám sát và điều phối cộng đồng Sanctuary.</p>
+</section>
+<!-- Search Bar Section -->
+<section class="mb-8">
+<div class="relative flex items-center group">
+<span class="material-symbols-outlined absolute left-4 text-outline" data-icon="search">search</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-high rounded-full border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all text-on-surface placeholder:text-outline/60" placeholder="Tìm kiếm theo tên hoặc email..." type="text"/>
+<div class="absolute right-3 flex items-center justify-center w-10 h-10 bg-primary-container text-on-primary rounded-full shadow-lg active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</div>
+</div>
+</section>
+<!-- User List (Bento-ish Editorial Style) -->
+<div class="space-y-4">
+<!-- User Card 1: Admin -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.02)] group active:scale-[0.98] transition-all">
+<div class="flex items-start justify-between">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-14 h-14 rounded-xl object-cover" data-alt="close-up portrait of a professional woman with a calm expression in a bright modern office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqRYHRMAt61VlFfBfAwGsU5KCeDgSPA5eO1cAOCRSyyOYRdccker6wyHraku7AnQHb4TEspZzUL6ZEOuT9XGyFdn1gdSE7z8t8CjqraZ8gmtbMcx2eQRjoWX30euFhIqy1NSocQnyR--H9mKSPRq-J-G0P0O9BCc1HEk0NTWoBC1QjhhGcGknxWd1TE5PO5snjR59lNW1iuVsXou0q-0A2g3AnrMI4LoDeNpSG9_UmK1OY3wse6ae_qhhi1azKIVKh1SAbQYN5heuM"/>
+<div class="absolute -bottom-1 -right-1 w-4 h-4 bg-primary border-2 border-surface-container-lowest rounded-full"></div>
+</div>
+<div>
+<h3 class="font-bold text-on-surface text-base">Lê Thị Thanh</h3>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-2">Admin</p>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-sm text-[10px] font-bold uppercase tracking-widest">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                Active
+                            </div>
+</div>
+</div>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-outline" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- User Card 2: Landlord -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.02)] group active:scale-[0.98] transition-all">
+<div class="flex items-start justify-between">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-14 h-14 rounded-xl object-cover" data-alt="portrait of a confident man in his 40s wearing a high-end sweater in a luxurious apartment interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXkuCouj4fKwvGnE-zauNj67xeRetvLKRRn7OVaW1GEzlDEUigZDSsxFHx_IJOVnKgytXWQ-bat6XTwTC94TBDF3J-EYvQW3ejDUVnN5TbEw37chaMUcCSbMTsYrnC8yLMgqqR9EZ3bcl2X9TvEEHEBl8mfqFwxuUA73xi55FDffzSY9-wSYerFySwyjx7vPv9-V9M3JqUnnlyBUdnIgE5EjM6jldbRILTS5gEbyVLBr2X4YV8cCntq78SqBQ5HQRuWQEHjs3scphW"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface text-base">Trần Văn Nam</h3>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-2">Landlord</p>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-sm text-[10px] font-bold uppercase tracking-widest">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                Active
+                            </div>
+</div>
+</div>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-outline" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- User Card 3: User (Locked) -->
+<div class="bg-surface-container-low/40 p-5 rounded-xl shadow-none group active:scale-[0.98] transition-all">
+<div class="flex items-start justify-between">
+<div class="flex gap-4 opacity-70">
+<div class="relative">
+<img class="w-14 h-14 rounded-xl object-cover grayscale" data-alt="young man with glasses looking into the camera with a neutral expression in an urban setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDICuL87dHO36FqwVVIe1T6ipBy2gbDVD01ASLa_xmSWvKfBS2u2El7rHVIh01fY6LCb99wh-izHlZqeeJIxrPpkoxhx-bnAcWzYBf3ChXNtIy4T6_DDjZ2D3oacxHsSby2zRg2E3vHlCKFbXEHImKWNRBTpgVrL4BpX-vIMpcd_NiavUpoYIOxs10npb8s3ocXfuuBQmSkFN_pJNNcI8tL56KUbSV1d7kMeKBRwWv3GGM9fyNxTDLX9e5UUkch8F2asx0ExfwLo-Rs"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface text-base">Phạm Minh Tuấn</h3>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-2">User</p>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary/10 text-tertiary rounded-sm text-[10px] font-bold uppercase tracking-widest">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                                Locked
+                            </div>
+</div>
+</div>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-outline" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- User Card 4: Landlord -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.02)] group active:scale-[0.98] transition-all">
+<div class="flex items-start justify-between">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-14 h-14 rounded-xl object-cover" data-alt="professional middle-aged woman with a warm smile in a high-end property lobby with soft golden lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9jTrapJZRv6dJOuqC8b7xhxxQrrsoPB7nTwszfU9SlL9s2zwjNiDrQRIOCPyAUkeR8cqjl-IL6sujzczxjedm5TkpOmSCUKWhpdte8Dh-W2ejuqsh8wo1Q07C67q3_NkF7_K3jLRQr-RiN12k9g0LzHQCyXJsA_6TViaUmixZldvvtWveBfiAeKYwr2NNw9nY6zGIwLcZbA3fJknQPGcU58Av_dSNP91uGIJFK_eBKGDrwgc_e1C1Y2T0_ubWWjHmTcU_ozT8_RPy"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface text-base">Nguyễn Minh Anh</h3>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-2">Landlord</p>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-sm text-[10px] font-bold uppercase tracking-widest">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                Active
+                            </div>
+</div>
+</div>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-outline" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- User Card 5: User -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.02)] group active:scale-[0.98] transition-all">
+<div class="flex items-start justify-between">
+<div class="flex gap-4">
+<div class="relative">
+<img class="w-14 h-14 rounded-xl object-cover" data-alt="close-up of a young woman's face with light makeup and soft lighting in a curated aesthetic space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnqZEScEhZeTNAt5427LI39TrThoPh_nLy2hBG0rIkTyTOqE2rQDMRpOat8oijCWgIqgKUq8WFKOXCXbDkoeea6xe6K-pIjP8Due4Gddc0FWloj1GJwTMfEJhBU2BuxO4s1RZLxCZ3WAjTWAZIBenLZ1JgkeCEZmietTw3qZL1zv_TRrX9whGa-xy-gxfZT2cbVRyRgMU8yVO5j9cro52x_Wl7tdzR3Dq4Tt9ECpKTKD8gfaFB5GEaa0yzEfM60gSVvVYWJqSaer5-"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface text-base">Hoàng Thảo Vy</h3>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-2">User</p>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-sm text-[10px] font-bold uppercase tracking-widest">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                Active
+                            </div>
+</div>
+</div>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-outline" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB for adding new users -->
+<button class="fixed bottom-28 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-transform z-40">
+<span class="material-symbols-outlined text-2xl" data-icon="person_add">person_add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[1.5rem] bg-[#0d8389]/80 backdrop-blur-xl dark:bg-[#0d8389]/90 shadow-[0_-4px_24px_rgba(0,104,109,0.1)]">
+<div class="flex justify-around items-center w-full px-4 pb-6 pt-3">
+<!-- Dashboard -->
+<a class="flex flex-col items-center justify-center text-white/70 px-5 py-2 hover:text-white transition-all Active: scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Dashboard</span>
+</a>
+<!-- Users (Active) -->
+<a class="flex flex-col items-center justify-center bg-white/20 text-white rounded-full px-5 py-2 transition-all Active: scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Users</span>
+</a>
+<!-- Queue -->
+<a class="flex flex-col items-center justify-center text-white/70 px-5 py-2 hover:text-white transition-all Active: scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="fact_check">fact_check</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Queue</span>
+</a>
+<!-- Reports -->
+<a class="flex flex-col items-center justify-center text-white/70 px-5 py-2 hover:text-white transition-all Active: scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="analytics">analytics</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Reports</span>
+</a>
+</div>
+</nav>
+</body></html>

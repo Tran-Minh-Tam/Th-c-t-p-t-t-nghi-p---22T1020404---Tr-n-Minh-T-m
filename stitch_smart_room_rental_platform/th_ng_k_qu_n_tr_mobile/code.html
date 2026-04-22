@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sanctuary Admin - Statistics</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-container": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "secondary-container": "#c3e6e8",
+                      "surface-container-low": "#f0f4f4",
+                      "surface-tint": "#00696e",
+                      "on-tertiary-fixed": "#321200",
+                      "tertiary-container": "#ab6436",
+                      "surface-variant": "#dfe3e3",
+                      "on-secondary": "#ffffff",
+                      "surface-bright": "#f6fafa",
+                      "on-error-container": "#93000a",
+                      "inverse-surface": "#2d3131",
+                      "surface": "#f6fafa",
+                      "background": "#f6fafa",
+                      "secondary-fixed": "#c6e9eb",
+                      "outline": "#6e797a",
+                      "on-secondary-container": "#47686a",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#d7dbdb",
+                      "primary-container": "#0d8389",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#77d5db",
+                      "primary": "#00686d",
+                      "secondary-fixed-dim": "#aacdcf",
+                      "secondary": "#436466",
+                      "tertiary-fixed-dim": "#ffb68b",
+                      "on-primary-fixed": "#002022",
+                      "inverse-on-surface": "#eef1f1",
+                      "on-secondary-fixed-variant": "#2b4c4e",
+                      "inverse-primary": "#77d5db",
+                      "on-tertiary-container": "#ffffff",
+                      "on-surface-variant": "#3e4949",
+                      "on-background": "#181c1d",
+                      "on-tertiary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "tertiary": "#8d4c20",
+                      "outline-variant": "#bdc9c9",
+                      "surface-container": "#ebefee",
+                      "surface-container-high": "#e5e9e9",
+                      "primary-fixed": "#94f2f8",
+                      "on-secondary-fixed": "#002022",
+                      "on-primary-fixed-variant": "#004f53",
+                      "on-surface": "#181c1d",
+                      "surface-container-highest": "#dfe3e3",
+                      "on-tertiary-fixed-variant": "#71360b",
+                      "tertiary-fixed": "#ffdbc8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "2xl": "1rem",
+                      "3xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Manrope"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-[#f6fafa]/80 dark:bg-[#181c1d]/80 backdrop-blur-xl fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="hover:bg-[#f0f4f4] dark:hover:bg-[#1f2425] transition-all active:scale-95 duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined text-[#0D8389]">menu</span>
+</button>
+<h1 class="text-2xl font-extrabold tracking-tighter text-[#0D8389] uppercase font-headline">Sanctuary</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Admin Avatar" class="w-full h-full object-cover" data-alt="Close up portrait of a professional male administrator in a light blue studio background with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsLQBPt583LBh5odpRxflNy6Po_Qvez7bJqolFOtWTvXqWn8RpXuFAeOZgm5BATD86Mj5UfpTEWyLRGCFX6LlXUYQWXFUFzVRN24QLUEKnDHXwI3fAmBH2YInoLQ0mLTKKKlihvLPlrlUFSJI0etg8wK6-E6Hww0z6HnGSWvSB5evwH7IaU7Q6GFQ1E0cfIfdKuZm8gDQPJWflEWukN1L3iYyyeUtSXkFwCqEKhbsJ9FbkLCvzMeTvMZrFQZhwfmLzOLuHxzlpbH0o"/>
+</div>
+</header>
+<main class="pt-20 px-6 max-w-md mx-auto">
+<!-- Dashboard Header -->
+<section class="mb-8">
+<span class="text-tertiary font-bold tracking-widest text-[10px] uppercase font-label block mb-1">Performance Overview</span>
+<h2 class="text-3xl font-extrabold font-headline tracking-tight text-on-surface">Analytics</h2>
+</section>
+<!-- KPI Cards Bento-ish Layout -->
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="col-span-1 bg-surface-container-lowest p-5 rounded-3xl flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<div class="bg-secondary-container/30 p-2 rounded-xl">
+<span class="material-symbols-outlined text-primary text-xl">group</span>
+</div>
+<span class="text-primary font-bold text-xs font-label">+12%</span>
+</div>
+<div>
+<p class="text-3xl font-extrabold font-headline text-on-surface">12.4k</p>
+<p class="text-[11px] font-medium text-on-surface-variant uppercase tracking-wider">Total Users</p>
+</div>
+</div>
+<div class="col-span-1 bg-primary p-5 rounded-3xl flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<div class="bg-primary-container/40 p-2 rounded-xl">
+<span class="material-symbols-outlined text-on-primary text-xl">bed</span>
+</div>
+<span class="text-primary-fixed font-bold text-xs font-label">+5.4%</span>
+</div>
+<div>
+<p class="text-3xl font-extrabold font-headline text-on-primary">842</p>
+<p class="text-[11px] font-medium text-on-primary/80 uppercase tracking-wider">New Rooms</p>
+</div>
+</div>
+<div class="col-span-2 bg-surface-container-low p-5 rounded-3xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="bg-tertiary-fixed p-3 rounded-2xl">
+<span class="material-symbols-outlined text-tertiary">payments</span>
+</div>
+<div>
+<p class="text-[11px] font-medium text-on-surface-variant uppercase tracking-widest">Revenue Forecast</p>
+<p class="text-xl font-bold font-headline text-on-surface">$248,390</p>
+</div>
+</div>
+<div class="text-right">
+<span class="bg-tertiary/10 text-tertiary px-2 py-1 rounded-lg text-[10px] font-bold">ON TARGET</span>
+</div>
+</div>
+</div>
+<!-- Monthly Growth Chart -->
+<section class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold font-headline text-on-surface">Growth Trend</h3>
+<button class="text-xs font-semibold text-primary uppercase tracking-tighter">Yearly View</button>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl">
+<div class="flex items-end gap-2 h-40 mb-4">
+<!-- Simple CSS bar chart as representative visual -->
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[40%] transition-all hover:bg-primary-container"></div>
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[60%] transition-all hover:bg-primary-container"></div>
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[45%] transition-all hover:bg-primary-container"></div>
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[85%] transition-all hover:bg-primary-container"></div>
+<div class="flex-1 bg-primary rounded-t-lg h-[70%]"></div>
+<div class="flex-1 bg-primary-container rounded-t-lg h-[95%]"></div>
+<div class="flex-1 bg-surface-container-high rounded-t-lg h-[55%] transition-all hover:bg-primary-container"></div>
+</div>
+<div class="flex justify-between text-[10px] font-medium text-outline uppercase tracking-widest px-1">
+<span>Mar</span>
+<span>Apr</span>
+<span>May</span>
+<span>Jun</span>
+<span>Jul</span>
+<span class="text-primary font-bold">Aug</span>
+<span>Sep</span>
+</div>
+</div>
+</section>
+<!-- High Demand Areas Heatmap/List -->
+<section class="mb-10">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold font-headline text-on-surface">Demand Hotspots</h3>
+<span class="material-symbols-outlined text-outline">map</span>
+</div>
+<!-- Map Placeholder -->
+<div class="w-full h-48 rounded-3xl overflow-hidden mb-6 bg-surface-variant relative">
+<img alt="Map view" class="w-full h-full object-cover opacity-80 mix-blend-multiply" data-alt="Stylized top-down city map with minimalist soft teal and grey aesthetic highlighting heat zones in warm orange" data-location="Stockholm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKxwzmjYTUMWejeRFGjfoseb1M6I3VcEADThfU3A760nmh2N5sd8rxvV0doGs3OyQXhiGFcjaNiYi-8cQechmvlzrSQ7O7sjGEKuEBTF6OGK5-47X_PpzDqzqsrX76ObUjtHcPBgCodA9UAc_f63dF5jvfExHV6V-ALYQYArwq8MHi1Hcs6OAzPNbxrnIEn4JOVocItNo4Rk92KJSc2aHQH6Nbjuv5sEGgYhk78obMbhtJfkE5u2GdjJ3SV91KWrRtpvSUrGJNNCbZ"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-20 h-20 bg-tertiary/20 rounded-full blur-xl animate-pulse"></div>
+<div class="absolute w-4 h-4 bg-tertiary rounded-full border-2 border-white shadow-lg"></div>
+</div>
+<div class="absolute bottom-4 left-4 bg-surface-container-lowest/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-on-surface shadow-sm">
+                    Stockholm Central
+                </div>
+</div>
+<!-- List Version -->
+<div class="space-y-3">
+<div class="bg-surface-container-lowest p-4 rounded-2xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Cozy modern apartment exterior in a trendy urban neighborhood at twilight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFS0d3O5WMkvGSHEwg3QIIDw66QfH77rul4KeAyMj3J55B4OLtTGwHm2uN8KCS2GZDbXYarB_7UXqK4lf1gmT1yzYBLRvlGvwR-GGbBdVaqnZuh66BMdjVNEIDuf6UUFXVNIQwJnhfQOZGxymQAxcWI_V78WTQi8PDZ4fTmt9IjrGq9Yw28p4RMEYk8FvcOAhSgaP-QqINW_YPSR0DgA3J9JDoMZyeqTJr_5pqAm2ChGWtiWaXP4MpJjEbFMjo29XyWPL4awMN1ZtY"/>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface font-headline">Södermalm</p>
+<p class="text-[10px] text-outline font-medium uppercase tracking-tighter">98% Occupancy</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-primary">High Growth</p>
+<p class="text-[10px] text-outline font-medium">+14% MoM</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-2xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Sleek glass high-rise buildings reflecting the afternoon sun in a busy city center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMrFlpuzDB6uaUrV3scxbylqVgHz4pFPyt2L8IgV2zFOqQtgx6wLqYqGAOT5XhHMtVSIDqYslTqT1BtG0ZuMq2OhKYS-qTFEwfQ7z54Mcj5-70BSeChpomF_8dtcu9nw7bBW5WyTFW8LplmuOaCXz0_6o7L43tHzfEEv7ag2Mj4plHrUKOD_V4ggdWi-AOuAaPKSK3TM94BOEKyuUEY8kVetmASKXs3LsarZhRJxhP3SntcYmAwajVFTnHQlQ2n5Bp2ER7HwNE8qUc"/>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface font-headline">Norrmalm</p>
+<p class="text-[10px] text-outline font-medium uppercase tracking-tighter">82% Occupancy</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-tertiary">Steady</p>
+<p class="text-[10px] text-outline font-medium">+2% MoM</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#ffffff] dark:bg-[#181c1d] rounded-t-3xl shadow-[0_-4px_24px_rgba(0,0,0,0.04)] z-50">
+<a class="flex flex-col items-center justify-center text-[#181c1d]/60 dark:text-[#f6fafa]/60 px-4 py-2 hover:text-[#0D8389] transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#181c1d]/60 dark:text-[#f6fafa]/60 px-4 py-2 hover:text-[#0D8389] transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1">add_circle</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest">Post</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#181c1d]/60 dark:text-[#f6fafa]/60 px-4 py-2 hover:text-[#0D8389] transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1">history</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#0D8389] bg-[#0D8389]/10 rounded-2xl px-4 py-2 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest">Admin</span>
+</a>
+</nav>
+</body></html>

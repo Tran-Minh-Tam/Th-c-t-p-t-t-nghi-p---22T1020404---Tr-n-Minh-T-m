@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#ab6436",
+                    "on-tertiary-fixed": "#321200",
+                    "tertiary-fixed": "#ffdbc8",
+                    "surface-container-lowest": "#ffffff",
+                    "on-background": "#181c1d",
+                    "surface-dim": "#d7dbdb",
+                    "surface-bright": "#f6fafa",
+                    "secondary-fixed": "#c6e9eb",
+                    "on-secondary-fixed-variant": "#2b4c4e",
+                    "inverse-surface": "#2d3131",
+                    "surface-container-highest": "#dfe3e3",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#3e4949",
+                    "on-error-container": "#93000a",
+                    "surface": "#f6fafa",
+                    "primary": "#00686d",
+                    "secondary-fixed-dim": "#aacdcf",
+                    "secondary-container": "#c3e6e8",
+                    "on-primary-fixed": "#002022",
+                    "surface-tint": "#00696e",
+                    "primary-container": "#0d8389",
+                    "outline-variant": "#bdc9c9",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#eef1f1",
+                    "surface-container-low": "#f0f4f4",
+                    "on-primary-container": "#ffffff",
+                    "primary-fixed-dim": "#77d5db",
+                    "primary-fixed": "#94f2f8",
+                    "on-tertiary-fixed-variant": "#71360b",
+                    "tertiary": "#8d4c20",
+                    "tertiary-fixed-dim": "#ffb68b",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#77d5db",
+                    "surface-container-high": "#e5e9e9",
+                    "on-secondary-container": "#47686a",
+                    "on-tertiary-container": "#ffffff",
+                    "secondary": "#436466",
+                    "on-primary-fixed-variant": "#004f53",
+                    "on-tertiary": "#ffffff",
+                    "background": "#f6fafa",
+                    "on-secondary-fixed": "#002022",
+                    "on-surface": "#181c1d",
+                    "surface-container": "#ebefee",
+                    "on-secondary": "#ffffff",
+                    "outline": "#6e797a",
+                    "surface-variant": "#dfe3e3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-40 bg-[#f6fafa] dark:bg-[#181c1d]">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#0D8389] active:scale-95 transition-transform">menu</button>
+<h1 class="font-['Manrope'] font-extrabold tracking-tighter text-lg uppercase text-[#0D8389]">Sanctuary</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional woman with a warm expression, soft natural lighting in a modern interior setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvTi9Wk8ge9iVidVR5zwIKAb_Kd3ehiU0rd9p5udnAIfSIGrKvsW0IdnLTlJ4KGJCueX_1QSggzbYMLfbeq350Q8Ugu8GSkFV3e34ajeyh3BXorJQNe7zhcOZLJi_eKZPX1KkpgR3nRbvydvvfvra8E3PjqUKOZ5Hvh4VwUavfDLYiGry_9fBFaQbXu95RJ5clWDyLDi1UAnrkrfRUs2s2EcBfTbVbAludBosPtJ7e7-Ho8KndJyuxBoZZYn5PL95-XMxnIgtKSxSz"/>
+</div>
+</div>
+<div class="bg-[#f0f4f4] dark:bg-[#1f2425] h-[1px] w-full"></div>
+</header>
+<main class="max-w-md mx-auto px-6 pt-8 space-y-10">
+<!-- Profile Header Section -->
+<section class="flex flex-col items-center text-center space-y-4">
+<div class="relative group">
+<div class="w-32 h-32 rounded-full overflow-hidden border-4 border-surface-container-lowest shadow-xl">
+<img alt="Elena Rodriguez" class="w-full h-full object-cover" data-alt="Professional headshot of a woman with long dark hair, wearing a neutral blazer, clean minimalist background, soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOUBNM4RfPFgVRSa6y1eHhLgJc31HbMKQ45sag9yeQnBWOzlC9KCioKVDiFmu9ySoySOJ8uH3Wi6ALO9Yhmj9k-0XULOBXcwbI09tbS36oSXDjfiRiCHs9D7WIHodHqmQkU0bkHXFjjnIpKkFC9qDo_qml5OLX0idKlzu2xJ8mKs6kLSmSpMZjYCninAKaY8NO-GdgeLJFEwxtg5byLu12E-aClRxUcPV5rZS9Htmqn7WTehnJh0lEdv7WLsk8deiqTtrLvlmZRSDD"/>
+</div>
+<div class="absolute bottom-1 right-1 bg-primary text-on-primary p-1.5 rounded-full border-4 border-surface-container-lowest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="space-y-1">
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface">Elena Rodriguez</h2>
+<span class="text-tertiary font-bold tracking-widest text-xs uppercase bg-tertiary-fixed px-3 py-1 rounded-full">Premier Member</span>
+</div>
+</section>
+<!-- Bento Grid: My Activity -->
+<section class="space-y-4">
+<h3 class="text-xs font-bold uppercase tracking-widest text-outline">My Activity</h3>
+<div class="grid grid-cols-2 gap-4">
+<!-- Saved Rooms -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10 flex flex-col justify-between aspect-square group cursor-pointer hover:bg-surface-container transition-colors">
+<div class="bg-secondary-container/30 w-10 h-10 rounded-lg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div>
+<p class="text-2xl font-extrabold text-on-surface">14</p>
+<p class="text-sm font-medium text-on-surface-variant">Saved Rooms</p>
+</div>
+</div>
+<!-- Viewing History -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/10 flex flex-col justify-between aspect-square group cursor-pointer hover:bg-surface-container transition-colors">
+<div class="bg-primary-container/10 w-10 h-10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">history</span>
+</div>
+<div>
+<p class="text-2xl font-extrabold text-on-surface">42</p>
+<p class="text-sm font-medium text-on-surface-variant">Viewed Items</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Settings List -->
+<section class="space-y-4">
+<h3 class="text-xs font-bold uppercase tracking-widest text-outline">Preferences</h3>
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<!-- Account Info -->
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">person</span>
+<span class="font-semibold text-on-surface">Account Info</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<!-- Notifications -->
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">notifications</span>
+<span class="font-semibold text-on-surface">Notifications</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<!-- Privacy -->
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">shield</span>
+<span class="font-semibold text-on-surface">Privacy &amp; Security</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<!-- Dark Mode Toggle -->
+<div class="flex items-center justify-between p-4 bg-surface-container-high/40">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline">dark_mode</span>
+<span class="font-semibold text-on-surface">Dark Mode</span>
+</div>
+<div class="w-12 h-6 bg-primary-container rounded-full relative flex items-center px-1 cursor-pointer">
+<div class="w-4 h-4 bg-white rounded-full translate-x-6"></div>
+</div>
+</div>
+<!-- Help -->
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">help_center</span>
+<span class="font-semibold text-on-surface">Help &amp; Support</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Log Out Button -->
+<section class="pb-8">
+<button class="w-full py-4 bg-error-container text-on-error-container font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-error/10 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">logout</span>
+                Log Out
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-white/80 dark:bg-[#181c1d]/90 backdrop-blur-xl shadow-[0_-4px_24px_rgba(0,104,109,0.04)] rounded-t-[2rem]">
+<!-- Explore -->
+<div class="flex flex-col items-center justify-center text-slate-400 hover:text-[#0D8389] px-4 py-2 transition-all">
+<span class="material-symbols-outlined">search</span>
+<span class="font-['Inter'] text-[10px] font-semibold tracking-wide uppercase">Explore</span>
+</div>
+<!-- Saved -->
+<div class="flex flex-col items-center justify-center text-slate-400 hover:text-[#0D8389] px-4 py-2 transition-all">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-['Inter'] text-[10px] font-semibold tracking-wide uppercase">Saved</span>
+</div>
+<!-- Inbox -->
+<div class="flex flex-col items-center justify-center text-slate-400 hover:text-[#0D8389] px-4 py-2 transition-all">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-['Inter'] text-[10px] font-semibold tracking-wide uppercase">Inbox</span>
+</div>
+<!-- Profile (Active) -->
+<div class="flex flex-col items-center justify-center text-[#0D8389] bg-[#0D8389]/10 rounded-full px-4 py-2 scale-110 duration-200 ease-out">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-['Inter'] text-[10px] font-semibold tracking-wide uppercase">Profile</span>
+</div>
+</nav>
+</body></html>

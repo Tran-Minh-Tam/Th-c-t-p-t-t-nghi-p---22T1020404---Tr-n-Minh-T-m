@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'WHT' 300, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f6fafa;
+        }
+        h1, h2, h3, .headline {
+            font-family: 'Manrope', sans-serif;
+        }
+        /* Custom scrollbar suppression for gallery */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#94f2f8",
+                        "primary-fixed-dim": "#77d5db",
+                        "on-secondary-fixed": "#002022",
+                        "surface-container-high": "#e5e9e9",
+                        "on-secondary-fixed-variant": "#2b4c4e",
+                        "on-tertiary-container": "#ffffff",
+                        "tertiary": "#8d4c20",
+                        "on-primary-container": "#ffffff",
+                        "surface": "#f6fafa",
+                        "tertiary-fixed-dim": "#ffb68b",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#321200",
+                        "primary": "#00686d",
+                        "inverse-on-surface": "#eef1f1",
+                        "on-primary-fixed-variant": "#004f53",
+                        "on-primary-fixed": "#002022",
+                        "outline-variant": "#bdc9c9",
+                        "tertiary-container": "#ab6436",
+                        "surface-tint": "#00696e",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#71360b",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#c3e6e8",
+                        "error": "#ba1a1a",
+                        "outline": "#6e797a",
+                        "surface-dim": "#d7dbdb",
+                        "on-error-container": "#93000a",
+                        "secondary": "#436466",
+                        "on-surface-variant": "#3e4949",
+                        "on-error": "#ffffff",
+                        "on-surface": "#181c1d",
+                        "inverse-surface": "#2d3131",
+                        "surface-bright": "#f6fafa",
+                        "surface-variant": "#dfe3e3",
+                        "surface-container-low": "#f0f4f4",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#aacdcf",
+                        "secondary-fixed": "#c6e9eb",
+                        "on-background": "#181c1d",
+                        "surface-container": "#ebefee",
+                        "inverse-primary": "#77d5db",
+                        "background": "#f6fafa",
+                        "primary-container": "#0d8389",
+                        "surface-container-highest": "#dfe3e3",
+                        "tertiary-fixed": "#ffdbc8",
+                        "on-secondary-container": "#47686a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "xxl": "1.5rem",
+                        "full": "9999px"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopAppBar from JSON Architecture -->
+<header class="sticky top-0 z-50 bg-[#f6fafa] dark:bg-slate-950 flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#00686d] dark:text-[#0d8389] hover:bg-[#f0f4f4] dark:hover:bg-slate-800 transition-colors p-2 rounded-full active:scale-95 duration-150">arrow_back</button>
+</div>
+<h1 class="font-['Manrope'] font-bold tracking-tight text-xl text-[#00686d] dark:text-[#0d8389]">The Sanctuary</h1>
+<div class="flex items-center gap-2">
+<button class="material-symbols-outlined text-[#00686d] dark:text-[#0d8389] hover:bg-[#f0f4f4] p-2 rounded-full active:scale-95 duration-150">share</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="portrait of a professional male property manager with a friendly expression and blurred office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-5SrXigXyP0xzo5a5003sMcOLcbk3h-MgZrT3_DN3l3jFSdInAPeWXLps6ZCDEeOuAB46x5GJREl7sy-jcIyDkfcs6oZRnHSrD8vnRI6Y4ROT_Xlt3xqE74J_znWlflBCq_AnaKUWepqKdat2xpEBO7sCQ9z6nukSfItYkcl_4kSFUB3rgsP_c_cyDCLBUxKB7f7Tx94LRMTru4EX2dq0pUVsL-8YOY9RxIjR8uLivhBldr2KbA677K58QM-bJo571xvSR7fvZka3"/>
+</div>
+</div>
+</header>
+<main class="max-w-5xl mx-auto pb-32">
+<!-- Hero Gallery Section: Bento-inspired Layout -->
+<section class="px-6 mt-4">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 h-[400px] md:h-[550px]">
+<div class="md:col-span-8 rounded-xxl overflow-hidden relative group">
+<img alt="Main Room View" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="luxurious modern studio apartment with large windows, natural light, and elegant minimalist furniture in soft teal and white tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1N4XoflP5FMVasOWUZxG2pOHsLSzpD1QE3ZLCbvUCVT2jQwmdEFzYnZSkLo0IlV7vyDFbVaGdhJLC0XeN2WjGckKuytztd1pg_2QP7VkAmKzJ7VovvwdITx6jsOezfJVFEwiiqXq4Djrss66n8Ofa5I8FMNAuDww_EWrZ-xgJz1mLbLsxtZE6GIIuL0QmLpiB93HpXcW_Jkv03u0w-Y2ssErQAjY9JdY57JHcKW5fxnxA9nvF9BOuFJTrNlC25TGd8moqA53AmcEd"/>
+<div class="absolute top-4 left-4 bg-primary/80 backdrop-blur-md text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
+                        Luxury Suite
+                    </div>
+</div>
+<div class="hidden md:grid md:col-span-4 grid-rows-2 gap-4">
+<div class="rounded-xxl overflow-hidden">
+<img alt="Kitchen View" class="w-full h-full object-cover" data-alt="contemporary kitchen area with sleek marble countertops and high-end stainless steel appliances in a bright open-concept room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKvSPw2-0j-MTMcXelJC_y9q4p_lbAY9a2HBDw0u_kayogFdu8L6lVqRv3L5FViq8PcTu-boI93Y0emG1dwXrpaKwFcH5WHkjl_jKmGgH7ILboJtiddyEt6_JcPZzarSxFyFVv8Ky0GRR4yFU6Ess4fyD0bckO1p5elt0V8Z3UD7laOapiHMcyhSqVFkX2d6hTFofx7BqXUTpqrwI5YfZyUa7p6RreBsG7k9NBUFCZYLvdBlZVt8l2ybzHkgdHHoUDFNyYsg3H0qER"/>
+</div>
+<div class="rounded-xxl overflow-hidden relative">
+<img alt="Bathroom View" class="w-full h-full object-cover" data-alt="elegant bathroom interior with white subway tiles, a large vanity mirror, and premium bronze fixtures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW_bilBRz7GFBKCqrzq7aAC0XGxHiPQsM2DrnICTsmPTjQ9NWFL9dq6RFzTHqJdpqlJqtamgJ_8hTm_fquaXQ_hJdG9rXdrPRF4fcSshPvUgAuJTBO87ZJrV_NVKaUzaWKEc-QhdWZzsTzWJOeEvGVVShY1qpFSm9u1xHB1g5khXzCCjTLqjE3jtsV66P_rJfxvCkshh2FVaohw1DDcitImdMk3WGDGDwTIVMtZTU3kanIy_0P_OC34n6d-Fvt3hix1srNITXZz4yy"/>
+<button class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm flex items-center justify-center text-white font-bold text-lg hover:bg-on-surface/50 transition-colors">
+                            +12 Photos
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Room Information Section -->
+<section class="px-6 mt-10">
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Verified Property</span>
+<div class="flex items-center text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-sm font-bold ml-1">4.9 (128 Reviews)</span>
+</div>
+</div>
+<h2 class="text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight mb-2">Emerald Serenity Penthouse</h2>
+<p class="flex items-center text-outline font-medium mb-6">
+<span class="material-symbols-outlined mr-1 text-primary">location_on</span>
+                        128 Vo Van Kiet, District 1, Ho Chi Minh City
+                    </p>
+<div class="flex gap-8 py-6 border-y border-outline-variant/20">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-outline tracking-widest mb-1">Area</span>
+<span class="text-xl font-bold text-on-surface">65 m²</span>
+</div>
+<div class="flex flex-col border-l border-outline-variant/20 pl-8">
+<span class="text-[10px] uppercase font-bold text-outline tracking-widest mb-1">Floor</span>
+<span class="text-xl font-bold text-on-surface">12th</span>
+</div>
+<div class="flex flex-col border-l border-outline-variant/20 pl-8">
+<span class="text-[10px] uppercase font-bold text-outline tracking-widest mb-1">Capacity</span>
+<span class="text-xl font-bold text-on-surface">2-3 People</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xxl md:w-80 shadow-sm border border-outline-variant/10">
+<p class="text-outline text-sm font-semibold mb-1">Monthly Rent</p>
+<div class="flex items-baseline gap-1 mb-6">
+<span class="text-3xl font-extrabold text-primary">12.500.000</span>
+<span class="text-lg font-bold text-primary-container">VND</span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-sm">
+<span class="text-outline">Management Fee</span>
+<span class="font-bold text-on-surface">Included</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-outline">Electricity</span>
+<span class="font-bold text-on-surface">4.000đ/kwh</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Amenities Section -->
+<section class="px-6 mt-12">
+<h3 class="text-xl font-extrabold mb-6 flex items-center gap-2">
+                Essential Amenities
+            </h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="flex items-center gap-3 p-4 bg-surface-container-lowest rounded-xl border border-outline-variant/5">
+<div class="w-10 h-10 bg-secondary-container text-on-secondary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">wifi</span>
+</div>
+<span class="font-semibold text-on-surface-variant">Free Wifi</span>
+</div>
+<div class="flex items-center gap-3 p-4 bg-surface-container-lowest rounded-xl border border-outline-variant/5">
+<div class="w-10 h-10 bg-secondary-container text-on-secondary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">ac_unit</span>
+</div>
+<span class="font-semibold text-on-surface-variant">Air Con</span>
+</div>
+<div class="flex items-center gap-3 p-4 bg-surface-container-lowest rounded-xl border border-outline-variant/5">
+<div class="w-10 h-10 bg-secondary-container text-on-secondary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">local_parking</span>
+</div>
+<span class="font-semibold text-on-surface-variant">Parking</span>
+</div>
+<div class="flex items-center gap-3 p-4 bg-surface-container-lowest rounded-xl border border-outline-variant/5">
+<div class="w-10 h-10 bg-secondary-container text-on-secondary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">cooking</span>
+</div>
+<span class="font-semibold text-on-surface-variant">Kitchen</span>
+</div>
+</div>
+</section>
+<!-- Description Section -->
+<section class="px-6 mt-16">
+<div class="bg-surface-container-low rounded-xxl p-8">
+<h3 class="text-xl font-extrabold mb-4">The Space</h3>
+<div class="prose prose-slate max-w-none text-on-surface-variant leading-relaxed">
+<p>Designed for the modern professional, the Emerald Serenity Penthouse offers an unparalleled living experience. Featuring floor-to-ceiling windows that capture the vibrant Ho Chi Minh City skyline, this studio is bathed in natural light throughout the day.</p>
+<p class="mt-4">The interior boasts premium hardwood flooring, a designer kitchenette with induction stovetops, and a curated selection of smart-home features. Residents also enjoy access to the building's infinity pool, 24/7 concierge, and a private co-working lounge.</p>
+</div>
+<button class="mt-6 text-primary font-bold flex items-center hover:underline">
+                    Read more details
+                    <span class="material-symbols-outlined ml-1 text-sm">keyboard_arrow_down</span>
+</button>
+</div>
+</section>
+<!-- Map Snippet -->
+<section class="px-6 mt-16">
+<h3 class="text-xl font-extrabold mb-6">Location</h3>
+<div class="relative w-full h-80 rounded-xxl overflow-hidden shadow-sm">
+<img alt="Map location" class="w-full h-full object-cover" data-alt="stylized map view of an urban district with soft pastel colors and clear street markings for navigation" data-location="Ho Chi Minh City" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKM-hC7gfLKtd9TeDg2wGMIBd0lCRjvdZT_mM4n5JjQaIaxvdz21JVXq7eWnPKf7eOZ-x7nVl2fjGeqduNrz4w1fBWsczPLeTJuxOL44BnnNmbO74bIyqLOsH3_yjd8Bff25T5SD784aabovfp0ZrsJel44vKYUXP3FJ_N_x4pJq9HhYDQbmD9lWN2pezUpsPS5vopJl97RxmxsXObU3AngnyuUxbW_E6jUBMXDoM0aJOS9QPfg5eeNEdIPCYifosvQetTTYoM6f5a"/>
+<div class="absolute inset-0 bg-black/5"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<div class="bg-primary text-white p-3 rounded-full shadow-lg animate-pulse">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 right-4 bg-white/80 backdrop-blur-xl p-4 rounded-xl flex items-center justify-between border border-white/40">
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary">directions_walk</span>
+</div>
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-wider">Nearby</p>
+<p class="text-sm font-extrabold text-on-surface">5 mins to Ben Thanh Market</p>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-full text-xs font-bold">Open Map</button>
+</div>
+</div>
+</section>
+<!-- Reviews Section -->
+<section class="px-6 mt-16">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xl font-extrabold">Reviews</h3>
+<div class="flex items-center gap-4">
+<div class="flex items-center">
+<span class="text-2xl font-black text-on-surface">4.9</span>
+<div class="flex items-center ml-2 text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Review Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-xxl border border-outline-variant/10 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img alt="Reviewer" class="w-full h-full object-cover" data-alt="portrait of a smiling woman with glasses and professional attire in a modern studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgOgjxCq0s51W-rzcN5HGMz93_Ly7pQaJ_Y_oud_E1JMB1Gx23lCOLVjjg9ZJ-4LrjZUnkQ7xUsLc8xG7KnWTmyYQTINT_8BeLWNtOHIN9Aj5py9C64cj7DJDkNAcbKXvQagIq9ixb7niHzfdobOlUfJ8fVwKsEy1PxxGqRolDQPbkwZ5MA6q0xg9IvTkwZc28EU70yv2TZYm7Wb2dQMr8kXE8Yr6oTVNOfiyg4aoZEkzWXv3lonVibsPZsUPblSMpIcfIgDNdmbLs"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">Minh Anh</p>
+<p class="text-xs text-outline font-medium">October 2023</p>
+</div>
+</div>
+<div class="flex text-tertiary text-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                        "The space is even more beautiful than the photos! The view at night is incredible. The host was very responsive and helpful throughout my stay. Highly recommend!"
+                    </p>
+</div>
+<!-- Review Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-xxl border border-outline-variant/10 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img alt="Reviewer" class="w-full h-full object-cover" data-alt="portrait of a young man with a casual urban style against a soft-focus architectural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbQ3xVlx7zC9h3XMHMbULJJgqLSTHTvGKIEtOuMS-gvX1Gae60WZJUSvGl2YqdQpBoUu4t9W6az26GWIHyNnKKHW_eQRoF8kYDHlkVppfyLoXcht6Ii9VN0y6er0DIOx64BP911xcV85yebJTlKyr1VON48UGyzFLTh2cRD4BKZ4TQJyXg4xOZG9nhQgwt5UWVZmb0-hkbZWd7HyObHnUQcOHWpRAjiIY0pPI_FHI3A6iW89CA_mRBCimyKHoQqjwM2wTSEubmEQvg"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">James Wilson</p>
+<p class="text-xs text-outline font-medium">September 2023</p>
+</div>
+</div>
+<div class="flex text-tertiary text-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                        "Great location and super clean. The internet speed was perfect for my remote work. Only downside was the parking wait, but overall a 10/10 experience."
+                    </p>
+</div>
+</div>
+<button class="w-full mt-8 py-4 border border-outline text-on-surface font-bold rounded-full hover:bg-surface-container-high transition-colors">
+                View all 128 reviews
+            </button>
+</section>
+</main>
+<!-- Sticky Bottom Actions -->
+<div class="fixed bottom-0 left-0 w-full z-50 px-6 pb-8 pt-4 bg-white/80 backdrop-blur-2xl border-t border-outline-variant/10">
+<div class="max-w-5xl mx-auto flex items-center gap-4">
+<button class="flex-none w-14 h-14 rounded-full border border-outline flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined">chat</span>
+</button>
+<button class="flex-1 h-14 bg-gradient-to-r from-primary to-primary-container text-white rounded-full font-bold text-lg shadow-lg shadow-primary/20 hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">event_available</span>
+                Đặt lịch xem phòng
+            </button>
+</div>
+</div>
+</body></html>
