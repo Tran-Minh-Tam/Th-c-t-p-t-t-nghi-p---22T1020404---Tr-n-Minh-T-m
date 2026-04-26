@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../core/theme/app_theme.dart';
 import '../room_detail/room_detail_screen.dart';
-import '../../data/services/api_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../data/models/room_model.dart';
 
 class MapScreen extends StatefulWidget {
@@ -30,7 +30,11 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<void> _fetchAndInitMarkers() async {
     try {
-      _rooms = await ApiService().getRooms();
+      final snap = await FirebaseFirestore.instance
+          .collection('rooms')
+          .where('status', isEqualTo: 'Đã duyệt')
+          .get();
+      _rooms = snap.docs.map((doc) => Room.fromFirestore(doc)).toList();
       if (mounted) {
         setState(() {
           _markers.clear();

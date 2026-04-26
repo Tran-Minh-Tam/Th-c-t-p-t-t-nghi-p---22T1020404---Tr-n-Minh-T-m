@@ -34,10 +34,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
       final user = userCredential.user;
       if (user != null) {
-        final doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-        final role = doc.data()?['role'] ?? 'user';
+        String role = 'user';
+        
+        try {
+          // Thử lấy role từ Firestore với timeout ngắn
+          final doc = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get()
+              .timeout(const Duration(seconds: 5));
+          
+          if (doc.exists) {
+            role = doc.data()?['role'] ?? 'user';
+          }
+        } catch (e) {
+          // Nếu Firestore lỗi (offline), vẫn cho vào app với role mặc định
+          debugPrint('Firestore error (offline fallback): $e');
+        }
 
         if (!mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Đăng nhập thành công!'),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
+          ),
+        );
+
         if (role == 'admin') {
           Navigator.pushReplacement(
             context,
@@ -58,9 +83,25 @@ class _LoginScreenState extends State<LoginScreen> {
         message = 'Mật khẩu không chính xác';
       } else if (e.code == 'invalid-email') {
         message = 'Email không hợp lệ';
+      } else if (e.code == 'network-request-failed') {
+        message = 'Lỗi kết nối mạng';
+      } else if (e.code == 'user-disabled') {
+        message = 'Tài khoản đã bị vô hiệu hóa';
+      } else if (e.code == 'too-many-requests') {
+        message = 'Quá nhiều yêu cầu. Vui lòng thử lại sau';
+      } else if (e.code == 'invalid-credential') {
+        message = 'Thông tin đăng nhập không hợp lệ (Email hoặc mật khẩu sai)';
+      } else {
+        message = 'Lỗi Auth: ${e.message ?? e.code}';
       }
+      debugPrint('Firebase Auth Error: ${e.code} - ${e.message}');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(message), backgroundColor: Colors.red),
+      );
+    } catch (e) {
+      debugPrint('Generic Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Lỗi không xác định: $e'), backgroundColor: Colors.red),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -72,18 +113,16 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Admin Secret Area'),
-        content: const Text('Bạn có muốn cấp quyền Admin cho tài khoản này không?'),
+        content: const Text('Bạn có muốn truy cập Bảng Điều Khiển Admin để tạo dữ liệu mẫu không?'),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context), child: const Text('Hủy')),
           TextButton(
-            onPressed: () async {
-              final user = FirebaseAuth.instance.currentUser;
-              if (user != null) {
-                await FirebaseFirestore.instance.collection('users').doc(user.uid).update({'role': 'admin'});
-                if (!mounted) return;
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đã cấp quyền Admin! Hãy đăng nhập lại.')));
-              }
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AdminDashboardScreen()),
+              );
             },
             child: const Text('Đồng ý'),
           ),

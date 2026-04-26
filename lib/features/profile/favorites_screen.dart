@@ -14,13 +14,14 @@ class FavoritesScreen extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
-        title: const Text('Phòng đã lưu', style: TextStyle(color: AppTheme.primaryContainer, fontWeight: FontWeight.bold)),
+        title: const Text('PHÒNG ĐÃ LƯU', style: TextStyle(color: AppTheme.primaryContainer, fontWeight: FontWeight.bold, fontSize: 16, letterSpacing: 1.2)),
         backgroundColor: Colors.white,
         elevation: 0,
+        centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.primaryContainer),
+          icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.primaryContainer, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -34,13 +35,18 @@ class FavoritesScreen extends StatelessWidget {
           final List<String> favoriteIds = List<String>.from(userData?['favorites'] ?? []);
 
           if (favoriteIds.isEmpty) {
-            return const Center(
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.favorite_border, size: 80, color: Color(0xFFE2E8F0)),
-                  SizedBox(height: 16),
-                  Text('Bạn chưa lưu phòng nào', style: TextStyle(color: Color(0xFF6E797A))),
+                  Icon(Icons.favorite_border, size: 80, color: Colors.grey.shade200),
+                  const SizedBox(height: 16),
+                  const Text('Bạn chưa lưu phòng nào', style: TextStyle(color: Colors.grey, fontSize: 16)),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Khám phá ngay', style: TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.bold)),
+                  ),
                 ],
               ),
             );
@@ -80,32 +86,59 @@ class FavoritesScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
-          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 24, offset: const Offset(0, 12))],
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 24, offset: const Offset(0, 12))],
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-              child: Image.network(room.images.isNotEmpty ? room.images[0] : 'https://placehold.co/400x200', height: 200, width: double.infinity, fit: BoxFit.cover),
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                  child: Image.network(
+                    room.images.isNotEmpty ? room.images[0] : 'https://placehold.co/400x250', 
+                    height: 220, 
+                    width: double.infinity, 
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  top: 16, right: 16,
+                  child: GestureDetector(
+                    onTap: () => _toggleFavorite(room.id),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                      child: const Icon(Icons.favorite, color: Colors.red, size: 20),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 16, left: 16,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(color: Colors.black.withOpacity(0.7), borderRadius: BorderRadius.circular(12)),
+                    child: Text(
+                      '${room.price} Tr/THÁNG',
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(room.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16), maxLines: 1, overflow: TextOverflow.ellipsis),
-                        const SizedBox(height: 4),
-                        Text(room.address, style: const TextStyle(color: Color(0xFF6E797A), fontSize: 12), maxLines: 1, overflow: TextOverflow.ellipsis),
-                      ],
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.favorite, color: Colors.red),
-                    onPressed: () => _toggleFavorite(room.id),
+                  Text(room.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      const Icon(Icons.location_on_outlined, color: Colors.grey, size: 14),
+                      const SizedBox(width: 4),
+                      Expanded(child: Text(room.address, style: const TextStyle(color: Colors.grey, fontSize: 13), maxLines: 1, overflow: TextOverflow.ellipsis)),
+                    ],
                   ),
                 ],
               ),

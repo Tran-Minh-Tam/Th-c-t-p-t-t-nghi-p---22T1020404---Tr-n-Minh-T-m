@@ -4,9 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:intl/intl.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
 
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
@@ -21,6 +26,22 @@ class NotificationScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.primaryContainer),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              if (user == null) return;
+              final snap = await FirebaseFirestore.instance
+                  .collection('notifications')
+                  .where('userId', isEqualTo: user.uid)
+                  .where('isRead', isEqualTo: false)
+                  .get();
+              for (final doc in snap.docs) {
+                await doc.reference.update({'isRead': true});
+              }
+            },
+            child: const Text('Đọc tất cả', style: TextStyle(color: AppTheme.primaryColor, fontSize: 14)),
+          ),
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -50,46 +71,54 @@ class NotificationScreen extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             itemCount: notifications.length,
             itemBuilder: (context, index) {
-              final data = notifications[index].data() as Map<String, dynamic>;
+              final doc = notifications[index];
+              final data = doc.data() as Map<String, dynamic>;
               final isRead = data['isRead'] ?? false;
 
-              return Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: isRead ? Colors.white : const Color(0xFFEFF6FF),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10)],
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: _getIconColor(data['type']).withValues(alpha: 0.1),
-                        shape: BoxShape.circle,
+              return GestureDetector(
+                onTap: () async {
+                  if (!isRead) {
+                    await doc.reference.update({'isRead': true});
+                  }
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: isRead ? Colors.white : const Color(0xFFEFF6FF),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10)],
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: _getIconColor(data['type']).withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(_getIcon(data['type']), color: _getIconColor(data['type']), size: 20),
                       ),
-                      child: Icon(_getIcon(data['type']), color: _getIconColor(data['type']), size: 20),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(data['title'] ?? 'Thông báo', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                              Text(_formatDate(data['createdAt']), style: const TextStyle(color: Colors.grey, fontSize: 10)),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Text(data['body'] ?? '', style: TextStyle(color: Colors.grey.shade700, fontSize: 13)),
-                        ],
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(data['title'] ?? 'Thông báo', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                                Text(_formatDate(data['createdAt']), style: const TextStyle(color: Colors.grey, fontSize: 10)),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(data['body'] ?? '', style: TextStyle(color: Colors.grey.shade700, fontSize: 13)),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

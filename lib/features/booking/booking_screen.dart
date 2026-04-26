@@ -80,6 +80,24 @@ class _BookingScreenState extends State<BookingScreen> {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
+      // Send notification to landlord
+      if (widget.room.landlordId.isNotEmpty) {
+        String userName = user.displayName ?? 'Một khách hàng';
+        try {
+           final userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+           userName = userDoc.data()?['fullName'] ?? userName;
+        } catch (_) {}
+        
+        await FirebaseFirestore.instance.collection('notifications').add({
+          'userId': widget.room.landlordId,
+          'title': 'Lịch hẹn xem phòng mới',
+          'body': '$userName vừa đặt lịch xem phòng "${widget.room.title}" vào lúc ${DateFormat('HH:mm - dd/MM/yyyy').format(bookingDateTime)}.',
+          'type': 'booking',
+          'isRead': false,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+      }
+
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Đặt lịch thành công! Vui lòng chờ chủ trọ xác nhận.'), backgroundColor: Colors.green),

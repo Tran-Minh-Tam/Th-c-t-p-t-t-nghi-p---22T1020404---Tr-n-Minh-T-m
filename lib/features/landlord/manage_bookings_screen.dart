@@ -145,6 +145,29 @@ class ManageBookingsScreen extends StatelessWidget {
   }
 
   Future<void> _updateStatus(String bookingId, String newStatus) async {
-    await FirebaseFirestore.instance.collection('bookings').doc(bookingId).update({'status': newStatus});
+    final db = FirebaseFirestore.instance;
+    await db.collection('bookings').doc(bookingId).update({'status': newStatus});
+
+    // Send notification to renter
+    final bookingDoc = await db.collection('bookings').doc(bookingId).get();
+    final bookingData = bookingDoc.data();
+    if (bookingData != null) {
+      final userId = bookingData['userId'] as String?;
+      final roomTitle = bookingData['roomTitle'] as String? ?? 'phòng';
+      if (userId != null && userId.isNotEmpty) {
+        await db.collection('notifications').add({
+          'userId': userId,
+          'title': newStatus == 'Đã xác nhận'
+              ? 'Lịch hẹn được xác nhận! 🎉'
+              : 'Lịch hẹn bị từ chối',
+          'body': newStatus == 'Đã xác nhận'
+              ? 'Chủ trọ đã xác nhận lịch hẹn xem phòng "$roomTitle" của bạn.'
+              : 'Chủ trọ đã từ chối lịch hẹn xem phòng "$roomTitle". Bạn có thể đặt lịch vào thời gian khác.',
+          'type': 'booking',
+          'isRead': false,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+      }
+    }
   }
 }

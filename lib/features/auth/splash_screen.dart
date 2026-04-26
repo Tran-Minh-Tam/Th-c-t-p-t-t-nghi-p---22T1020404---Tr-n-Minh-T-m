@@ -50,23 +50,26 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         return;
       }
 
-      // Kiểm tra Role của User trong Firestore với timeout 5 giây
-      final doc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get()
-          .timeout(const Duration(seconds: 5));
+      String role = 'user';
+      try {
+        // Kiểm tra Role của User trong Firestore với timeout 5 giây
+        final doc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get()
+            .timeout(const Duration(seconds: 5));
 
-      if (doc.exists) {
-        final role = doc.data()?['role'] ?? 'user';
-        if (role == 'admin') {
-          _navigateTo(const AdminDashboardScreen());
-        } else {
-          _navigateTo(const HomeScreen());
+        if (doc.exists) {
+          role = doc.data()?['role'] ?? 'user';
         }
+      } catch (e) {
+        debugPrint('Lỗi SplashScreen Firestore: $e');
+      }
+
+      if (role == 'admin') {
+        _navigateTo(const AdminDashboardScreen());
       } else {
-        // Nếu không có dữ liệu trong Firestore, chuyển về Login cho an toàn
-        _navigateTo(const LoginScreen());
+        _navigateTo(const HomeScreen());
       }
     } catch (e) {
       debugPrint('Lỗi SplashScreen: $e');

@@ -38,7 +38,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
         'price': double.parse(_priceController.text.replaceAll('.', '').replaceAll(',', '')),
         'area': double.parse(_areaController.text),
         'description': _descriptionController.text.trim(),
-        'type': _selectedType,
+        'category': _selectedType,
         'landlordId': user.uid,
         'createdAt': FieldValue.serverTimestamp(),
         'status': 'Chờ duyệt',
@@ -50,11 +50,27 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
         'amenities': ['Wifi', 'Điều hòa', 'Chỗ để xe', 'Tự do', 'An ninh'],
         'rating': 0.0,
         'reviewCount': 0,
-        'lat': 16.4637,
-        'lng': 107.5908,
+        'isFeatured': false,
+        'location': const GeoPoint(16.4637, 107.5908),
       };
 
       await FirebaseFirestore.instance.collection('rooms').add(roomData);
+
+      // Notify all admins about new pending room
+      final adminSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .where('role', isEqualTo: 'admin')
+          .get();
+      for (final adminDoc in adminSnap.docs) {
+        await FirebaseFirestore.instance.collection('notifications').add({
+          'userId': adminDoc.id,
+          'title': 'Tin đăng mới chờ duyệt',
+          'body': 'Chủ trọ vừa đăng tin "${_titleController.text.trim()}" cần được phê duyệt.',
+          'type': 'room',
+          'isRead': false,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+      }
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

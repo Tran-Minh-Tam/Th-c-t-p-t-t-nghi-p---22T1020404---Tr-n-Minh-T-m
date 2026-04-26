@@ -1,0 +1,89 @@
+Bảng chức năng — Ứng dụng tìm kiếm & quản lý phòng trọ
+Tên đề tài: Xây dựng ứng dụng tìm kiếm và quản lý phòng trọ bằng Flutter Framework
+Chú thích:   Giữ nguyên    Bổ sung / cải tiến    Tính năng nổi bật (ăn điểm)
+PHẦN 1: USER / CHỦ TRỌ — Flutter App  (14 chức năng)
+Phân hệ (Giao diện)
+Chức năng chi tiết & Mô tả
+Trạng thái
+Ghi chú
+Splash & Auth
+Màn hình chào, đăng ký / đăng nhập, quên mật khẩu, đăng nhập Google / Facebook (OAuth)
+Bổ sung
+Thêm OAuth — thực tế hơn
+Home & Explore
+Xem phòng nổi bật, tin mới nhất hôm nay, phòng đã xem gần đây
+Bổ sung
+Thay banner khuyến mãi phù hợp hơn
+Search & Filter
+Lọc theo giá, diện tích, tiện nghi (Wifi, AC, chỗ để xe), loại phòng (nguyên căn, chung cư mini, phòng ghép), gần trường học
+Bổ sung
+Thêm lọc theo loại phòng
+Room Detail
+Chi tiết phòng, slider ảnh, mô tả đầy đủ, nút báo cáo vi phạm (Report), đánh giá & review của người đã xem phòng
+Bổ sung
+Thêm Review/Rating + nút Report
+Google Maps
+Vị trí phòng trên bản đồ, chỉ đường trực tiếp từ vị trí hiện tại
+Giữ nguyên
+Tính năng nổi bật khi demo
+Favorites
+Lưu danh sách phòng yêu thích, đồng bộ lên cloud (Firebase)
+Bổ sung
+Ưu tiên sync cloud thay vì chỉ local
+Booking (đặt lịch)
+Chọn ngày/giờ đặt lịch, quản lý trạng thái (Chờ xác nhận → Đã xác nhận / Từ chối), xem lịch sử đặt
+Bổ sung
+Thêm luồng trạng thái — rất quan trọng
+Đánh giá & Review
+Đánh giá sao (1–5) và viết nhận xét sau khi xem phòng; hiển thị tổng hợp rating trên Room Detail
+Mới hoàn toàn
+Tính năng nổi bật — app thực tế đều có
+Realtime Chat
+Nhắn tin trực tiếp giữa người thuê và chủ trọ (Firebase Firestore)
+Giữ nguyên
+Tính năng nổi bật
+Notification
+Push notification: phòng mới, xác nhận/từ chối lịch hẹn, tin nhắn mới (FCM)
+Bổ sung
+Thêm trigger thông báo tin nhắn mới
+Profile
+Cập nhật thông tin cá nhân, đổi mật khẩu, Dark Mode toggle
+Giữ nguyên
+Dark Mode là điểm cộng UX
+Landlord — Đăng tin
+Đăng tin phòng mới (tiêu đề, mô tả, giá, ảnh, địa chỉ, tiện nghi); chờ Admin duyệt trước khi public
+Giữ nguyên
+Landlord — Quản lý phòng
+Xem/sửa/xóa tin đã đăng; cập nhật trạng thái phòng (Còn trống / Đã cho thuê / Tạm ẩn)
+Bổ sung
+Tránh hiện phòng đã cho thuê
+Landlord — Quản lý lịch hẹn
+Xem danh sách lịch đặt từ khách, xác nhận hoặc từ chối từng lịch hẹn
+Mới hoàn toàn
+Kết nối luồng Booking của người thuê
+PHẦN 2: ADMIN — Web Dashboard  (7 chức năng)
+Phân hệ (Giao diện)
+Chức năng chi tiết & Mô tả
+Trạng thái
+Auth
+Đăng nhập hệ thống quản trị (tài khoản Admin)
+Giữ nguyên
+Dashboard
+Tổng quan: số người dùng, phòng trọ, tin chờ duyệt, báo cáo vi phạm mới; biểu đồ hoạt động theo tháng
+Bổ sung
+User Management
+Danh sách người dùng, phân quyền (User / Chủ trọ / Admin), khóa / mở tài khoản
+Giữ nguyên
+Room Management
+Quản lý kho dữ liệu phòng trọ toàn hệ thống, xem / chỉnh sửa / xóa bất kỳ tin đăng nào
+Giữ nguyên
+Approval System
+Duyệt tin từ chủ trọ: xem chi tiết, chuyển trạng thái Chờ duyệt → Đã duyệt / Từ chối kèm lý do
+Bổ sung
+Report Management
+Xử lý báo cáo vi phạm: xem nội dung, xử lý (cảnh báo / gỡ tin / khóa tài khoản)
+Giữ nguyên
+Statistics
+Biểu đồ tăng trưởng người dùng & tin đăng theo tháng, thống kê khu vực nhu cầu cao, top chủ trọ hoạt động
+Bổ sung
+Tổng kết: 21 chức năng tổng cộng  |  10 chức năng bổ sung / cải tiến  |  4 tính năng nổi bật (Google Maps, Realtime Chat, Đánh giá & Review, Booking có trạng thái)

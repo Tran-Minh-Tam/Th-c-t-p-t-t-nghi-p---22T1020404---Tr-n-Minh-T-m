@@ -11,6 +11,10 @@ import '../landlord/manage_rooms_screen.dart';
 import '../landlord/manage_bookings_screen.dart';
 import '../booking/my_bookings_screen.dart';
 import 'favorites_screen.dart';
+import 'account_info_screen.dart';
+import 'notification_settings_screen.dart';
+import 'privacy_security_screen.dart';
+import 'help_support_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -43,11 +47,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
             _avatarUrl = doc.data()?['avatarUrl'] ?? '';
             _isLoading = false;
           });
+        } else {
+          setState(() {
+            _fullName = 'Người dùng';
+            _isLoading = false;
+          });
         }
       } catch (e) {
         debugPrint('Error fetching user data: $e');
-        setState(() => _isLoading = false);
+        setState(() {
+          _fullName = 'Người dùng';
+          _isLoading = false;
+        });
       }
+    } else {
+      setState(() {
+        _fullName = 'Khách';
+        _isLoading = false;
+      });
     }
   }
 
@@ -64,36 +81,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: const Color(0xFFF8FAFC),
       body: Stack(
         children: [
-          Column(
-            children: [
-              _buildTopAppBar(),
-              const Divider(height: 1, color: Color(0xFFF0F4F4)),
-              Expanded(
-                child: _isLoading 
-                  ? const Center(child: CircularProgressIndicator())
-                  : SingleChildScrollView(
-                      padding: const EdgeInsets.only(left: 24, right: 24, top: 32, bottom: 120),
-                      child: Column(
-                        children: [
-                          _buildProfileHeader(),
-                          const SizedBox(height: 40),
-                          if (_role == 'landlord') ...[
-                            _buildLandlordSection(),
-                            const SizedBox(height: 32),
-                          ],
-                          _buildMyActivity(),
-                          const SizedBox(height: 16),
-                          _buildPreferences(),
-                          const SizedBox(height: 32),
-                          _buildLogOutButton(),
-                        ],
-                      ),
+          SafeArea(
+            child: _isLoading 
+                ? const Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    padding: const EdgeInsets.only(bottom: 120),
+                    child: Column(
+                      children: [
+                        _buildTopAppBar(),
+                        _buildProfileHeader(),
+                        const SizedBox(height: 32),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildMyActivity(),
+                              const SizedBox(height: 24),
+                              _buildPreferences(),
+                              const SizedBox(height: 32),
+                              _buildLogOutButton(),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-              ),
-            ],
+                  ),
           ),
           _buildBottomNavigationBar(context),
         ],
@@ -102,17 +118,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildTopAppBar() {
-    return Container(
-      color: AppTheme.backgroundColor,
-      padding: const EdgeInsets.only(left: 24, right: 24, top: 48, bottom: 16),
+    return Padding(
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.menu, color: AppTheme.primaryContainer),
-              SizedBox(width: 16),
-              Text(
+              const Icon(Icons.menu, color: AppTheme.primaryContainer),
+              const SizedBox(width: 16),
+              const Text(
                 'SANCTUARY',
                 style: TextStyle(
                   fontFamily: 'Manrope',
@@ -124,18 +139,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ],
           ),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: AppTheme.primaryContainer, width: 2),
-                image: DecorationImage(
-                  image: NetworkImage(_avatarUrl.isNotEmpty ? _avatarUrl : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
-                  fit: BoxFit.cover,
-                ),
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: NetworkImage(_avatarUrl.isNotEmpty ? _avatarUrl : 'https://placehold.co/100'),
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -151,16 +162,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
           alignment: Alignment.center,
           children: [
             Container(
-              width: 128,
-              height: 128,
+              width: 120,
+              height: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 4),
                 boxShadow: [
-                  BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 20),
+                  BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 20),
                 ],
                 image: DecorationImage(
-                  image: NetworkImage(_avatarUrl.isNotEmpty ? _avatarUrl : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
+                  image: NetworkImage(_avatarUrl.isNotEmpty ? _avatarUrl : 'https://placehold.co/400'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -173,7 +184,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 decoration: BoxDecoration(
                   color: AppTheme.primaryColor,
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 4),
+                  border: Border.all(color: Colors.white, width: 3),
                 ),
                 child: const Icon(Icons.verified, color: Colors.white, size: 16),
               ),
@@ -182,109 +193,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         const SizedBox(height: 16),
         Text(
-          _fullName,
-          style: const TextStyle(fontFamily: 'Manrope', fontSize: 28, fontWeight: FontWeight.w800, letterSpacing: -0.5),
+          _fullName == 'Người dùng' ? 'Elena Rodriguez' : _fullName,
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           decoration: BoxDecoration(
-            color: _role == 'landlord' ? const Color(0xFFDBEAFE) : const Color(0xFFFFDBC8),
-            borderRadius: BorderRadius.circular(16),
+            color: const Color(0xFFFFE0D2),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
-            _role == 'landlord' ? 'CHỦ TRỌ' : 'THÀNH VIÊN VIP',
-            style: TextStyle(
-              color: _role == 'landlord' ? Colors.blue.shade900 : AppTheme.tertiaryColor,
+            _role == 'landlord' ? 'CHỦ TRỌ' : 'THÀNH VIÊN CAO CẤP',
+            style: const TextStyle(
+              color: Colors.deepOrange,
               fontSize: 10,
               fontWeight: FontWeight.bold,
-              letterSpacing: 1.5,
+              letterSpacing: 1.2,
             ),
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildLandlordSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'QUẢN LÝ CHO THUÊ',
-          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Color(0xFF6E797A)),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: _buildActionCard(
-                Icons.add_business_outlined, 
-                'Đăng tin mới', 
-                AppTheme.primaryColor.withValues(alpha: 0.1), 
-                AppTheme.primaryColor,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateRoomScreen()));
-                },
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _buildActionCard(
-                Icons.list_alt_rounded, 
-                'Tin đã đăng', 
-                Colors.orange.withValues(alpha: 0.1), 
-                Colors.orange,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageRoomsScreen()));
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        _buildActionCard(
-          Icons.event_note_rounded, 
-          'Quản lý lịch hẹn của khách', 
-          Colors.green.withValues(alpha: 0.1), 
-          Colors.green,
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageBookingsScreen()));
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildActionCard(IconData icon, String label, Color bgColor, Color iconColor, {VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFBDC9C9).withValues(alpha: 0.1)),
-          boxShadow: [
-            BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 4),
-          ],
-        ),
-        child: Column(
-          children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: bgColor,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: iconColor),
-            ),
-            const SizedBox(height: 12),
-            Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3E4949))),
-          ],
-        ),
-      ),
     );
   }
 
@@ -294,7 +223,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         const Text(
           'HOẠT ĐỘNG CỦA TÔI',
-          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Color(0xFF6E797A)),
+          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Colors.grey),
         ),
         const SizedBox(height: 16),
         Row(
@@ -303,25 +232,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: _buildActivityCard(
                 Icons.favorite, 
                 'Phòng đã lưu', 
-                'Xem', 
-                const Color(0xFFC3E6E8), 
-                AppTheme.secondaryColor,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoritesScreen()));
-                },
+                '14', 
+                const Color(0xFFE8F4F5), 
+                const Color(0xFF4A6B6C),
               ),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: _buildActivityCard(
                 Icons.history, 
-                'Lịch hẹn của tôi', 
-                'Xem', 
-                AppTheme.primaryColor.withValues(alpha: 0.1), 
-                AppTheme.primaryColor,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const MyBookingsScreen()));
-                },
+                'Tin đã xem', 
+                '42', 
+                const Color(0xFFE8F4F5), 
+                const Color(0xFF4A6B6C),
               ),
             ),
           ],
@@ -330,37 +253,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildActivityCard(IconData icon, String label, String value, Color iconBgColor, Color iconColor, {VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFBDC9C9).withValues(alpha: 0.1)),
-          boxShadow: [
-            BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 4),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: iconBgColor,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(icon, color: iconColor),
-            ),
-            const SizedBox(height: 24),
-            Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800)),
-            const SizedBox(height: 4),
-            Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF3E4949))),
-          ],
-        ),
+  Widget _buildActivityCard(IconData icon, String label, String value, Color iconBgColor, Color iconColor) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(color: iconBgColor, borderRadius: BorderRadius.circular(8)),
+            child: Icon(icon, color: iconColor, size: 20),
+          ),
+          const SizedBox(height: 16),
+          Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 4),
+          Text(label, style: const TextStyle(fontSize: 12, color: Colors.black87)),
+        ],
       ),
     );
   }
@@ -371,21 +286,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         const Text(
           'CÀI ĐẶT',
-          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Color(0xFF6E797A)),
+          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Colors.grey),
         ),
         const SizedBox(height: 16),
         Container(
           decoration: BoxDecoration(
-            color: const Color(0xFFF0F4F4),
+            color: const Color(0xFFF1F5F9),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
             children: [
-              _buildPreferenceItem(Icons.person, 'Thông tin tài khoản'),
-              _buildPreferenceItem(Icons.notifications, 'Thông báo'),
-              _buildPreferenceItem(Icons.shield, 'Quyền riêng tư & Bảo mật'),
+              _buildPreferenceItem(Icons.person, 'Thông tin tài khoản', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AccountInfoScreen()))),
+              _buildDivider(),
+              _buildPreferenceItem(Icons.notifications, 'Thông báo', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationSettingsScreen()))),
+              _buildDivider(),
+              _buildPreferenceItem(Icons.shield, 'Quyền riêng tư & Bảo mật', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PrivacySecurityScreen()))),
+              _buildDivider(),
               _buildDarkModeToggle(),
-              _buildPreferenceItem(Icons.help_center, 'Trợ giúp & Hỗ trợ'),
+              _buildDivider(),
+              _buildPreferenceItem(Icons.help_center, 'Trợ giúp & Hỗ trợ', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const HelpSupportScreen()))),
             ],
           ),
         ),
@@ -393,21 +312,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildPreferenceItem(IconData icon, String label) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Icon(icon, color: const Color(0xFF6E797A)),
-              const SizedBox(width: 16),
-              Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
-            ],
-          ),
-          const Icon(Icons.chevron_right, color: Color(0xFF6E797A)),
-        ],
+  Widget _buildDivider() {
+    return const Divider(height: 1, color: Colors.black12, indent: 48, endIndent: 16);
+  }
+
+  Widget _buildPreferenceItem(IconData icon, String label, {VoidCallback? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(icon, color: Colors.black54, size: 20),
+                const SizedBox(width: 12),
+                Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black87)),
+              ],
+            ),
+            const Icon(Icons.chevron_right, color: Colors.black54, size: 20),
+          ],
+        ),
       ),
     );
   }
@@ -415,17 +341,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildDarkModeToggle() {
     bool isDark = ThemeManager.themeMode.value == ThemeMode.dark;
 
-    return Container(
-      color: isDark ? Colors.black26 : const Color(0xFFE5E9E9).withValues(alpha: 0.4),
-      padding: const EdgeInsets.all(16),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.dark_mode, color: Color(0xFF6E797A)),
-              SizedBox(width: 16),
-              Text('Chế độ tối', style: TextStyle(fontWeight: FontWeight.w600)),
+              const Icon(Icons.dark_mode, color: Colors.black54, size: 20),
+              const SizedBox(width: 12),
+              const Text('Chế độ tối', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87)),
             ],
           ),
           Switch(
@@ -449,17 +374,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: const Color(0xFFFFDAD6),
-          borderRadius: BorderRadius.circular(16),
+          color: const Color(0xFFFFE4E1),
+          borderRadius: BorderRadius.circular(12),
         ),
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.logout, color: Color(0xFF93000A)),
+            Icon(Icons.logout, color: Color(0xFF8B0000), size: 20),
             SizedBox(width: 8),
             Text(
               'Đăng xuất',
-              style: TextStyle(color: Color(0xFF93000A), fontWeight: FontWeight.bold, fontSize: 16),
+              style: TextStyle(color: Color(0xFF8B0000), fontWeight: FontWeight.bold, fontSize: 16),
             ),
           ],
         ),
@@ -475,11 +400,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Container(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 24),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.9),
+          color: Colors.white.withOpacity(0.95),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
+              color: Colors.black.withOpacity(0.04),
               blurRadius: 24,
               offset: const Offset(0, -4),
             ),
@@ -488,14 +413,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildNavItem(Icons.search, 'Khám phá', false, onTap: () {
-              Navigator.pushReplacement(context, FadeSlideTransition(page: const HomeScreen()));
-            }),
-            _buildNavItem(Icons.favorite_border, 'Đã lưu', false),
-            _buildNavItem(Icons.chat_bubble_outline, 'Hộp thư', false, onTap: () {
-              Navigator.pushReplacement(context, FadeSlideTransition(page: const MessageListScreen()));
-            }),
-            _buildNavItem(Icons.person, 'Cá nhân', true),
+            _buildNavItem(Icons.search, 'Khám phá', false, onTap: () => Navigator.pushReplacement(context, FadeSlideTransition(page: const HomeScreen()))),
+            _buildNavItem(Icons.favorite_border, 'Đã lưu', false, onTap: () => Navigator.push(context, FadeSlideTransition(page: const FavoritesScreen()))),
+            _buildNavItem(Icons.chat_bubble_outline, 'Tin nhắn', false, onTap: () => Navigator.pushReplacement(context, FadeSlideTransition(page: const MessageListScreen()))),
+            if (_role == 'landlord')
+              _buildNavItem(Icons.dashboard_customize, 'Quản lý', false, onTap: () => Navigator.pushReplacement(context, FadeSlideTransition(page: const LandlordDashboardScreen()))),
+            _buildNavItem(Icons.person, 'Hồ sơ', true),
           ],
         ),
       ),
@@ -511,12 +434,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             decoration: BoxDecoration(
-              color: isActive ? AppTheme.primaryContainer.withValues(alpha: 0.1) : Colors.transparent,
+              color: isActive ? AppTheme.primaryColor.withOpacity(0.1) : Colors.transparent,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Icon(
               icon,
-              color: isActive ? AppTheme.primaryContainer : const Color(0xFF94A3B8),
+              color: isActive ? AppTheme.primaryColor : const Color(0xFF94A3B8),
               size: 24,
             ),
           ),
@@ -528,7 +451,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               fontSize: 10,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.5,
-              color: isActive ? AppTheme.primaryContainer : const Color(0xFF94A3B8),
+              color: isActive ? AppTheme.primaryColor : const Color(0xFF94A3B8),
             ),
           ),
         ],

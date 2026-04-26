@@ -54,6 +54,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         });
 
         if (!mounted) return;
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Đăng ký thành công! Chào mừng bạn.'),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -65,9 +74,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
         message = 'Email này đã được sử dụng';
       } else if (e.code == 'weak-password') {
         message = 'Mật khẩu quá yếu';
+      } else if (e.code == 'network-request-failed') {
+        message = 'Lỗi kết nối mạng';
+      } else if (e.code == 'invalid-email') {
+        message = 'Email không hợp lệ';
+      } else {
+        message = 'Lỗi Auth: ${e.message ?? e.code}';
       }
+      debugPrint('Firebase Auth Error: ${e.code} - ${e.message}');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(message), backgroundColor: Colors.red),
+      );
+    } catch (e) {
+      debugPrint('Generic Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Lỗi không xác định: $e'), backgroundColor: Colors.red),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
