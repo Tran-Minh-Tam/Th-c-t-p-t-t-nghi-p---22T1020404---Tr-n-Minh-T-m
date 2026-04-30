@@ -87,18 +87,18 @@ class AdminDashboardScreen extends StatelessWidget {
       final batch = db.batch();
       
       final mockImages = [
-        'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1502672260266-1c1e52b154ce?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1522771731478-44fb8ac36528?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1588864115161-073860bb4a64?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=800&q=80'
+        'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1000',
+        'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1000',
+        'https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=1000',
+        'https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=1000',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1000',
+        'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=1000',
+        'https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?q=80&w=1000',
+        'https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1000',
+        'https://images.unsplash.com/photo-1560448204-61dc36dc98c8?q=80&w=1000',
+        'https://images.unsplash.com/photo-1505691723518-36a5ac3be353?q=80&w=1000',
+        'https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1000',
+        'https://images.unsplash.com/photo-1522771731478-44fb8ac36528?q=80&w=1000'
       ];
 
       final categories = ['Phòng trọ', 'Căn hộ mini', 'Nhà nguyên căn', 'Studio', 'Ở ghép'];

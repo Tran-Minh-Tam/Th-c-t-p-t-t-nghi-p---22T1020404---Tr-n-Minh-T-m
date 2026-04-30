@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../core/theme/app_theme.dart';
+import '../../widgets/safe_network_image.dart';
+import 'package:intl/intl.dart';
 
 class AdminApprovalScreen extends StatelessWidget {
   const AdminApprovalScreen({super.key});
@@ -10,20 +12,25 @@ class AdminApprovalScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
-        title: const Text('Duyệt tin đăng',
-            style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.primaryContainer)),
+        title: const Text('Hệ thống Duyệt tin', style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.primaryContainer)),
         backgroundColor: Colors.white,
         elevation: 0,
+        centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.primaryContainer),
+          icon: const Icon(Icons.arrow_back_ios_new, color: AppTheme.primaryContainer),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.filter_list_rounded, color: AppTheme.primaryContainer),
+            onPressed: () {},
+          )
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('rooms')
             .where('status', isEqualTo: 'Chờ duyệt')
-            .orderBy('createdAt', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) return const Center(child: Text('Đã có lỗi xảy ra'));
@@ -31,7 +38,16 @@ class AdminApprovalScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final rooms = snapshot.data?.docs ?? [];
+          var rooms = snapshot.data?.docs ?? [];
+          if (rooms.isNotEmpty) {
+            rooms.sort((a, b) {
+              final aData = a.data() as Map<String, dynamic>;
+              final bData = b.data() as Map<String, dynamic>;
+              final aTime = (aData['createdAt'] as Timestamp?)?.millisecondsSinceEpoch ?? 0;
+              final bTime = (bData['createdAt'] as Timestamp?)?.millisecondsSinceEpoch ?? 0;
+              return bTime.compareTo(aTime);
+            });
+          }
           if (rooms.isEmpty) {
             return const Center(
               child: Column(
@@ -47,7 +63,7 @@ class AdminApprovalScreen extends StatelessWidget {
           }
 
           return ListView.builder(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(16),
             itemCount: rooms.length,
             itemBuilder: (context, index) {
               final doc = rooms[index];
@@ -60,126 +76,116 @@ class AdminApprovalScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildApprovalCard(
-      BuildContext context, String docId, Map<String, dynamic> data) {
+  Widget _buildApprovalCard(BuildContext context, String docId, Map<String, dynamic> data) {
+    List<dynamic>? imagesList = data['images'] is List ? data['images'] as List : null;
+    String firstImage = (imagesList != null && imagesList.isNotEmpty) ? imagesList[0].toString() : 'https://placehold.co/600';
+    
+    final price = double.tryParse(data['price']?.toString() ?? '0') ?? 0;
+    final formatter = NumberFormat('#,###', 'vi_VN');
+
+    String timeAgo = 'Vừa xong';
+    if (data['createdAt'] is Timestamp) {
+      final date = (data['createdAt'] as Timestamp).toDate();
+      final diff = DateTime.now().difference(date);
+      if (diff.inDays > 0) timeAgo = '${diff.inDays} ngày trước';
+      else if (diff.inHours > 0) timeAgo = '${diff.inHours} giờ trước';
+      else if (diff.inMinutes > 0) timeAgo = '${diff.inMinutes} phút trước';
+    }
+
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
-      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10)],
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10)],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  (data['images'] as List?)?.isNotEmpty == true
-                      ? data['images'][0]
-                      : 'https://placehold.co/100',
-                  width: 80,
-                  height: 80,
-                  fit: BoxFit.cover,
-                  errorBuilder: (c, e, s) =>
-                      Container(width: 80, height: 80, color: Colors.grey[200]),
-                ),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                child: SafeNetworkImage(imageUrl: firstImage, width: double.infinity, height: 160, fit: BoxFit.cover),
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      data['title'] ?? 'Không tiêu đề',
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    Row(children: [
-                      const Icon(Icons.location_on, size: 12, color: Colors.grey),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          data['address'] ?? 'Không địa chỉ',
-                          style: const TextStyle(color: Colors.grey, fontSize: 12),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ]),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${((data['price'] ?? 0) / 1000000).toStringAsFixed(1)} Tr/tháng',
-                      style: const TextStyle(
-                          color: AppTheme.primaryColor, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 4),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        data['category'] ?? 'Phòng trọ',
-                        style: const TextStyle(
-                            color: AppTheme.primaryColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
+              Positioned(
+                top: 12, left: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), borderRadius: BorderRadius.circular(8)),
+                  child: Text(data['category']?.toString() ?? 'Phòng trọ', style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
                 ),
               ),
             ],
           ),
-          if ((data['description'] ?? '').isNotEmpty) ...[
-            const SizedBox(height: 12),
-            Text(
-              data['description'] ?? '',
-              style: const TextStyle(color: Color(0xFF6E797A), fontSize: 13, height: 1.5),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(child: Text(data['title'] ?? 'Không tiêu đề', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16), maxLines: 1, overflow: TextOverflow.ellipsis)),
+                    Text('${formatter.format(price)} đ', style: const TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.bold, fontSize: 16)),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    const Icon(Icons.location_on, size: 14, color: Colors.grey),
+                    const SizedBox(width: 4),
+                    Expanded(child: Text(data['address'] ?? 'Không địa chỉ', style: const TextStyle(color: Colors.grey, fontSize: 12), maxLines: 1, overflow: TextOverflow.ellipsis)),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 14,
+                      backgroundImage: NetworkImage('https://api.dicebear.com/7.x/avataaars/png?seed=${data['landlordId'] ?? 'user'}&backgroundColor=b6e3f4'),
+                    ),
+                    const SizedBox(width: 8),
+                    const Text('Người dùng', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                    const Spacer(),
+                    const Icon(Icons.access_time, size: 12, color: Colors.grey),
+                    const SizedBox(width: 4),
+                    Text('Đăng $timeAgo', style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => _showRejectDialog(context, docId),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.red,
+                          side: const BorderSide(color: Colors.red),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        child: const Text('Từ chối', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () => _approveRoom(context, docId),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          elevation: 0,
+                        ),
+                        child: const Text('Phê duyệt', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () => _showRejectDialog(context, docId),
-                  icon: const Icon(Icons.close, size: 16),
-                  label: const Text('Từ chối'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.red,
-                    side: const BorderSide(color: Colors.red),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () => _approveRoom(context, docId),
-                  icon: const Icon(Icons.check, size: 16),
-                  label: const Text('Phê duyệt'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    elevation: 0,
-                  ),
-                ),
-              ),
-            ],
           ),
         ],
       ),
@@ -191,13 +197,12 @@ class AdminApprovalScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Lý do từ chối'),
+        title: const Text('Lý do từ chối', style: TextStyle(fontWeight: FontWeight.bold)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Vui lòng cho biết lý do từ chối tin đăng này:',
-                style: TextStyle(color: Colors.grey)),
+            const Text('Vui lòng cho biết lý do từ chối tin đăng này:', style: TextStyle(color: Colors.grey)),
             const SizedBox(height: 12),
             TextField(
               controller: reasonController,
@@ -210,18 +215,13 @@ class AdminApprovalScreen extends StatelessWidget {
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Hủy')),
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Hủy', style: TextStyle(color: Colors.grey))),
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(ctx);
-              await _updateStatus(docId, 'Từ chối',
-                  rejectReason: reasonController.text.trim());
+              await _updateStatus(docId, 'Từ chối', rejectReason: reasonController.text.trim());
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Đã từ chối tin đăng'),
-                      backgroundColor: Colors.orange),
-                );
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đã từ chối tin đăng'), backgroundColor: Colors.orange));
               }
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
@@ -235,9 +235,7 @@ class AdminApprovalScreen extends StatelessWidget {
   Future<void> _approveRoom(BuildContext context, String docId) async {
     await _updateStatus(docId, 'Đã duyệt');
 
-    // Send notification to landlord
-    final roomDoc =
-        await FirebaseFirestore.instance.collection('rooms').doc(docId).get();
+    final roomDoc = await FirebaseFirestore.instance.collection('rooms').doc(docId).get();
     final landlordId = roomDoc.data()?['landlordId'] as String?;
     final roomTitle = roomDoc.data()?['title'] as String? ?? 'phòng';
     if (landlordId != null && landlordId.isNotEmpty) {
@@ -251,9 +249,7 @@ class AdminApprovalScreen extends StatelessWidget {
       });
     }
     if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Đã phê duyệt tin đăng!'), backgroundColor: Colors.green),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đã phê duyệt tin đăng!'), backgroundColor: Colors.green));
     }
   }
 
@@ -262,15 +258,10 @@ class AdminApprovalScreen extends StatelessWidget {
     if (rejectReason != null && rejectReason.isNotEmpty) {
       updateData['rejectReason'] = rejectReason;
     }
-    await FirebaseFirestore.instance
-        .collection('rooms')
-        .doc(docId)
-        .update(updateData);
+    await FirebaseFirestore.instance.collection('rooms').doc(docId).update(updateData);
 
-    // Notify landlord if rejected
     if (status == 'Từ chối') {
-      final roomDoc =
-          await FirebaseFirestore.instance.collection('rooms').doc(docId).get();
+      final roomDoc = await FirebaseFirestore.instance.collection('rooms').doc(docId).get();
       final landlordId = roomDoc.data()?['landlordId'] as String?;
       final roomTitle = roomDoc.data()?['title'] as String? ?? 'phòng';
       if (landlordId != null && landlordId.isNotEmpty) {

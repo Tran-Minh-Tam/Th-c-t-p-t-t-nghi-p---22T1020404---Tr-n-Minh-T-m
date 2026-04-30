@@ -11,10 +11,14 @@ import '../landlord/manage_rooms_screen.dart';
 import '../landlord/manage_bookings_screen.dart';
 import '../booking/my_bookings_screen.dart';
 import 'favorites_screen.dart';
+import 'viewed_rooms_screen.dart';
 import 'account_info_screen.dart';
 import 'notification_settings_screen.dart';
 import 'privacy_security_screen.dart';
 import 'help_support_screen.dart';
+import '../landlord/landlord_dashboard_screen.dart';
+import '../../core/widgets/avatar_widget.dart';
+import '../home/main_navigation.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -27,7 +31,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _fullName = 'Đang tải...';
   String _role = 'user';
   String _avatarUrl = '';
+  String _avatarType = 'default';
   bool _isLoading = true;
+  int _favoriteCount = 0;
+  int _viewedCount = 0;
 
   @override
   void initState() {
@@ -41,10 +48,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       try {
         final doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
         if (doc.exists) {
+          final favorites = doc.data()?['favorites'] as List<dynamic>? ?? [];
+          final viewed = doc.data()?['viewedRooms'] as List<dynamic>? ?? [];
           setState(() {
             _fullName = doc.data()?['fullName'] ?? 'Người dùng';
             _role = doc.data()?['role'] ?? 'user';
             _avatarUrl = doc.data()?['avatarUrl'] ?? '';
+            _avatarType = doc.data()?['avatarType'] ?? 'default';
+            _favoriteCount = favorites.length;
+            _viewedCount = viewed.length;
             _isLoading = false;
           });
         } else {
@@ -82,37 +94,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
-      body: Stack(
-        children: [
-          SafeArea(
-            child: _isLoading 
-                ? const Center(child: CircularProgressIndicator())
-                : SingleChildScrollView(
-                    padding: const EdgeInsets.only(bottom: 120),
-                    child: Column(
-                      children: [
-                        _buildTopAppBar(),
-                        _buildProfileHeader(),
-                        const SizedBox(height: 32),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _buildMyActivity(),
-                              const SizedBox(height: 24),
-                              _buildPreferences(),
-                              const SizedBox(height: 32),
-                              _buildLogOutButton(),
-                            ],
-                          ),
-                        ),
-                      ],
+      body: SafeArea(
+        child: _isLoading 
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 40),
+                child: Column(
+                  children: [
+                    _buildTopAppBar(),
+                    _buildProfileHeader(),
+                    const SizedBox(height: 32),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildMyActivity(),
+                          const SizedBox(height: 24),
+                          _buildPreferences(),
+                          const SizedBox(height: 32),
+                          _buildLogOutButton(),
+                        ],
+                      ),
                     ),
-                  ),
-          ),
-          _buildBottomNavigationBar(context),
-        ],
+                  ],
+                ),
+              ),
       ),
     );
   }
@@ -125,30 +132,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Row(
             children: [
-              const Icon(Icons.menu, color: AppTheme.primaryContainer),
-              const SizedBox(width: 16),
-              const Text(
-                'SANCTUARY',
-                style: TextStyle(
-                  fontFamily: 'Manrope',
-                  fontSize: 18,
+              IconButton(
+                icon: const Icon(Icons.home_rounded, color: AppTheme.primaryColor),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context, 
+                    MaterialPageRoute(builder: (_) => MainNavigation(initialIndex: 0)),
+                    (route) => false
+                  );
+                },
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'TAM RENTED ROOM',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: AppTheme.primaryColor,
                   fontWeight: FontWeight.w800,
                   letterSpacing: -0.5,
-                  color: AppTheme.primaryContainer,
                 ),
               ),
             ],
           ),
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: NetworkImage(_avatarUrl.isNotEmpty ? _avatarUrl : 'https://placehold.co/100'),
-                fit: BoxFit.cover,
-              ),
-            ),
+          AvatarWidget(
+            imageUrl: _avatarUrl.isNotEmpty ? _avatarUrl : null,
+            avatarType: _avatarType == 'default' ? null : _avatarType,
+            radius: 16,
           ),
         ],
       ),
@@ -161,32 +169,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Stack(
           alignment: Alignment.center,
           children: [
-            Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 4),
-                boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 20),
-                ],
-                image: DecorationImage(
-                  image: NetworkImage(_avatarUrl.isNotEmpty ? _avatarUrl : 'https://placehold.co/400'),
-                  fit: BoxFit.cover,
+            GestureDetector(
+              onTap: _showAvatarPicker,
+              child: Container(
+                width: 120,
+                height: 120,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 4),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 20),
+                  ],
+                ),
+                child: AvatarWidget(
+                  imageUrl: _avatarUrl.isNotEmpty ? _avatarUrl : null,
+                  avatarType: _avatarType == 'default' ? null : _avatarType,
+                  radius: 56,
                 ),
               ),
             ),
             Positioned(
               bottom: 4,
               right: 4,
-              child: Container(
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color: AppTheme.primaryColor,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 3),
+              child: GestureDetector(
+                onTap: _showAvatarPicker,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryColor,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 3),
+                  ),
+                  child: const Icon(Icons.camera_alt, color: Colors.white, size: 16),
                 ),
-                child: const Icon(Icons.verified, color: Colors.white, size: 16),
               ),
             ),
           ],
@@ -229,22 +244,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Row(
           children: [
             Expanded(
-              child: _buildActivityCard(
-                Icons.favorite, 
-                'Phòng đã lưu', 
-                '14', 
-                const Color(0xFFE8F4F5), 
-                const Color(0xFF4A6B6C),
+              child: GestureDetector(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoritesScreen())),
+                child: _buildActivityCard(
+                  Icons.favorite,
+                  'Phòng đã lưu',
+                  _favoriteCount.toString(),
+                  const Color(0xFFE8F4F5),
+                  const Color(0xFF4A6B6C),
+                ),
               ),
             ),
             const SizedBox(width: 16),
             Expanded(
-              child: _buildActivityCard(
-                Icons.history, 
-                'Tin đã xem', 
-                '42', 
-                const Color(0xFFE8F4F5), 
-                const Color(0xFF4A6B6C),
+              child: GestureDetector(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewedRoomsScreen())),
+                child: _buildActivityCard(
+                  Icons.history,
+                  'Tin đã xem',
+                  _viewedCount.toString(),
+                  const Color(0xFFE8F4F5),
+                  const Color(0xFF4A6B6C),
+                ),
               ),
             ),
           ],
@@ -392,70 +413,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildBottomNavigationBar(BuildContext context) {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Container(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 24),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.95),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 24,
-              offset: const Offset(0, -4),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(Icons.search, 'Khám phá', false, onTap: () => Navigator.pushReplacement(context, FadeSlideTransition(page: const HomeScreen()))),
-            _buildNavItem(Icons.favorite_border, 'Đã lưu', false, onTap: () => Navigator.push(context, FadeSlideTransition(page: const FavoritesScreen()))),
-            _buildNavItem(Icons.chat_bubble_outline, 'Tin nhắn', false, onTap: () => Navigator.pushReplacement(context, FadeSlideTransition(page: const MessageListScreen()))),
-            if (_role == 'landlord')
-              _buildNavItem(Icons.dashboard_customize, 'Quản lý', false, onTap: () => Navigator.pushReplacement(context, FadeSlideTransition(page: const LandlordDashboardScreen()))),
-            _buildNavItem(Icons.person, 'Hồ sơ', true),
-          ],
-        ),
+  void _showAvatarPicker() {
+    showDialog(
+      context: context,
+      builder: (context) => AvatarPicker(
+        currentAvatarType: _avatarType,
+        onAvatarSelected: (String avatarType) async {
+          final user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            try {
+              await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+                'avatarType': avatarType,
+              });
+              setState(() {
+                _avatarType = avatarType;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Đã cập nhật ảnh đại diện')),
+              );
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Không thể cập nhật ảnh đại diện')),
+              );
+            }
+          }
+        },
       ),
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, bool isActive, {VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            decoration: BoxDecoration(
-              color: isActive ? AppTheme.primaryColor.withOpacity(0.1) : Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Icon(
-              icon,
-              color: isActive ? AppTheme.primaryColor : const Color(0xFF94A3B8),
-              size: 24,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label.toUpperCase(),
-            style: TextStyle(
-              fontFamily: 'Inter',
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.5,
-              color: isActive ? AppTheme.primaryColor : const Color(0xFF94A3B8),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

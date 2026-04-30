@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../core/theme/app_theme.dart';
-import '../home/home_screen.dart';
+import '../home/main_navigation.dart';
 import '../auth/login_screen.dart';
 import '../admin/admin_dashboard_screen.dart';
 
@@ -69,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       if (role == 'admin') {
         _navigateTo(const AdminDashboardScreen());
       } else {
-        _navigateTo(const HomeScreen());
+        _navigateTo(const MainNavigation());
       }
     } catch (e) {
       debugPrint('Lỗi SplashScreen: $e');
@@ -135,7 +135,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               child: const Column(
                 children: [
                   Text(
-                    'SANCTUARY',
+                    'TAM RENTED ROOM',
                     style: TextStyle(
                       fontFamily: 'Manrope',
                       fontSize: 32,

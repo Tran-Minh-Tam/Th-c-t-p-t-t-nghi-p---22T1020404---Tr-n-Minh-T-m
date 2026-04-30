@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import '../../core/theme/app_theme.dart';
+import 'create_room_screen.dart';
 
 class EditRoomScreen extends StatefulWidget {
   final String roomId;
@@ -28,7 +31,14 @@ class _EditRoomScreenState extends State<EditRoomScreen> {
     super.initState();
     _titleController = TextEditingController(text: widget.roomData['title'] ?? '');
     _addressController = TextEditingController(text: widget.roomData['address'] ?? '');
-    _priceController = TextEditingController(text: (widget.roomData['price'] ?? 0).toString());
+    
+    // Format initial price
+    String initialPrice = (widget.roomData['price'] ?? 0).toString();
+    if (initialPrice != '0' && initialPrice.isNotEmpty) {
+      initialPrice = NumberFormat('#,###', 'vi_VN').format((double.tryParse(initialPrice) ?? 0).toInt()).replaceAll(',', '.');
+    }
+    _priceController = TextEditingController(text: initialPrice);
+    
     _areaController = TextEditingController(text: (widget.roomData['area'] ?? 0).toString());
     _descriptionController = TextEditingController(text: widget.roomData['description'] ?? '');
     _selectedType = _roomTypes.contains(widget.roomData['category'] ?? widget.roomData['type'])
@@ -109,7 +119,7 @@ class _EditRoomScreenState extends State<EditRoomScreen> {
                     ),
                     const SizedBox(height: 20),
                     Row(children: [
-                      Expanded(child: _buildField(_priceController, 'Giá (VNĐ/tháng)', '3500000', keyboardType: TextInputType.number, validator: (v) => v!.isEmpty ? 'Bắt buộc' : null)),
+                      Expanded(child: _buildField(_priceController, 'Giá (VNĐ/tháng)', '3500000', keyboardType: TextInputType.number, inputFormatters: [CurrencyInputFormatter()], validator: (v) => v!.isEmpty ? 'Bắt buộc' : null)),
                       const SizedBox(width: 16),
                       Expanded(child: _buildField(_areaController, 'Diện tích (m²)', '25', keyboardType: TextInputType.number, validator: (v) => v!.isEmpty ? 'Bắt buộc' : null)),
                     ]),
@@ -134,7 +144,7 @@ class _EditRoomScreenState extends State<EditRoomScreen> {
     );
   }
 
-  Widget _buildField(TextEditingController controller, String label, String hint, {int maxLines = 1, TextInputType? keyboardType, String? Function(String?)? validator}) {
+  Widget _buildField(TextEditingController controller, String label, String hint, {int maxLines = 1, TextInputType? keyboardType, String? Function(String?)? validator, List<TextInputFormatter>? inputFormatters}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -143,6 +153,7 @@ class _EditRoomScreenState extends State<EditRoomScreen> {
         TextFormField(
           controller: controller,
           maxLines: maxLines, keyboardType: keyboardType, validator: validator,
+          inputFormatters: inputFormatters,
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: TextStyle(color: AppTheme.primaryContainer.withValues(alpha: 0.3)),

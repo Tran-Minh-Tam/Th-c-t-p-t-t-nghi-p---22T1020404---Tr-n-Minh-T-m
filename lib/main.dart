@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:ui';
 import 'core/theme/app_theme.dart';
 import 'features/auth/splash_screen.dart';
 
@@ -47,12 +48,20 @@ class MyApp extends StatelessWidget {
       valueListenable: ThemeManager.themeMode,
       builder: (context, mode, child) {
         return MaterialApp(
-          title: 'The Sanctuary',
+          title: 'TAM RENTED ROOM',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: mode,
           home: const SplashScreen(),
+          scrollBehavior: const MaterialScrollBehavior().copyWith(
+            dragDevices: {
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.touch,
+              PointerDeviceKind.stylus,
+              PointerDeviceKind.unknown,
+            },
+          ),
         );
       },
     );

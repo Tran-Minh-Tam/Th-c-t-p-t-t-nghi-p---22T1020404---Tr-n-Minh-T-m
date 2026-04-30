@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../core/theme/app_theme.dart';
 import '../../data/models/room_model.dart';
 import '../room_detail/room_detail_screen.dart';
@@ -7,10 +8,15 @@ import '../profile/profile_screen.dart';
 import '../chat/message_list_screen.dart';
 import '../profile/favorites_screen.dart';
 import '../landlord/landlord_dashboard_screen.dart';
+import '../map/map_screen.dart';
+import '../../widgets/safe_network_image.dart';
 import '../../core/utils/page_transition.dart';
+import '../home/main_navigation.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final String? initialCategory;
+  final bool openFilter;
+  const SearchScreen({super.key, this.initialCategory, this.openFilter = false});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -21,11 +27,40 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Room> _allRooms = [];
   List<Room> _filteredRooms = [];
   bool _isLoading = true;
+  String _userRole = 'user';
+  RangeValues _priceRange = const RangeValues(0, 10000000);
+  String _selectedCategory = 'Tất cả';
 
   @override
   void initState() {
     super.initState();
-    _fetchRooms();
+    _fetchRooms().then((_) {
+      if (widget.initialCategory != null) {
+        _applyInitialFilter(widget.initialCategory!);
+      }
+      if (widget.openFilter) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _showFilterDialog();
+        });
+      }
+    });
+    _fetchUserRole();
+  }
+
+  void _applyInitialFilter(String category) {
+    setState(() {
+      _filteredRooms = _allRooms.where((room) {
+        // Map category label to room data types
+        if (category == 'NHÀ RIÊNG') {
+          return room.category == 'Nhà nguyên căn' || room.category == 'Nhà riêng';
+        } else if (category == 'CĂN HỘ') {
+          return room.category == 'Căn hộ mini' || room.category == 'Studio' || room.category == 'Căn hộ';
+        } else if (category == 'Ở GHÉP') {
+          return room.category == 'Ở ghép';
+        }
+        return room.category == category;
+      }).toList();
+    });
   }
 
   Future<void> _fetchRooms() async {
@@ -51,11 +86,49 @@ class _SearchScreenState extends State<SearchScreen> {
     final query = _searchController.text.toLowerCase();
     setState(() {
       _filteredRooms = _allRooms.where((room) {
-        return query.isEmpty ||
+        final matchesQuery = query.isEmpty ||
             room.title.toLowerCase().contains(query) ||
             room.address.toLowerCase().contains(query);
+        
+        final matchesPrice = room.price >= _priceRange.start && room.price <= _priceRange.end;
+        
+        bool matchesCategory = true;
+        if (_selectedCategory != 'Tất cả') {
+          if (_selectedCategory == 'Nhà riêng') {
+            matchesCategory = room.category == 'Nhà nguyên căn' || room.category == 'Nhà riêng';
+          } else if (_selectedCategory == 'Căn hộ') {
+            matchesCategory = room.category == 'Căn hộ mini' || room.category == 'Studio' || room.category == 'Căn hộ';
+          } else {
+            matchesCategory = room.category == _selectedCategory;
+          }
+        }
+        
+        return matchesQuery && matchesPrice && matchesCategory;
       }).toList();
     });
+  }
+
+  Future<void> _fetchUserRole() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      try {
+        final doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+        if (mounted) {
+          setState(() {
+            _userRole = doc.data()?['role'] ?? 'user';
+          });
+        }
+      } catch (e) {
+        debugPrint('Error fetching user role: $e');
+      }
+    }
+  }
+
+  void _openMapView() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const MapScreen()),
+    );
   }
 
   @override
@@ -89,7 +162,7 @@ class _SearchScreenState extends State<SearchScreen> {
             bottom: 100, left: 0, right: 0,
             child: Center(
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () => _openMapView(),
                 icon: const Icon(Icons.map_outlined),
                 label: const Text('Map View'),
                 style: ElevatedButton.styleFrom(
@@ -102,7 +175,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ),
-          _buildBottomNavigationBar(context),
+          // _buildBottomNavigationBar(context),
         ],
       ),
     );
@@ -116,10 +189,19 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           Row(
             children: [
-              const Icon(Icons.menu, color: AppTheme.primaryContainer),
-              const SizedBox(width: 16),
+              IconButton(
+                icon: const Icon(Icons.home_rounded, color: AppTheme.primaryColor),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context, 
+                    MaterialPageRoute(builder: (_) => MainNavigation(initialIndex: 0)),
+                    (route) => false
+                  );
+                },
+              ),
+              const SizedBox(width: 8),
               const Text(
-                'The Sanctuary',
+                'TAM RENTED ROOM',
                 style: TextStyle(
                   fontFamily: 'Manrope',
                   fontSize: 18,
@@ -130,10 +212,17 @@ class _SearchScreenState extends State<SearchScreen> {
             ],
           ),
           GestureDetector(
-            onTap: () => Navigator.pushReplacement(context, FadeSlideTransition(page: const ProfileScreen())),
-            child: const CircleAvatar(
+            onTap: () {
+               Navigator.pushAndRemoveUntil(
+                 context, 
+                 MaterialPageRoute(builder: (_) => MainNavigation(initialIndex: 4)),
+                 (route) => false
+               );
+            },
+            child: CircleAvatar(
               radius: 18,
-              backgroundImage: NetworkImage('https://cdn-icons-png.flaticon.com/512/149/149071.png'),
+              backgroundImage: NetworkImage('https://api.dicebear.com/7.x/avataaars/png?seed=Felix&backgroundColor=b6e3f4'),
+              onBackgroundImageError: (_, __) => const Icon(Icons.person),
             ),
           ),
         ],
@@ -173,13 +262,16 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           const SizedBox(width: 12),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppTheme.primaryColor,
-              borderRadius: BorderRadius.circular(12),
+          GestureDetector(
+            onTap: _showFilterDialog,
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.tune, color: Colors.white, size: 20),
             ),
-            child: const Icon(Icons.tune, color: Colors.white, size: 20),
           ),
         ],
       ),
@@ -237,9 +329,11 @@ class _SearchScreenState extends State<SearchScreen> {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-                  child: Image.network(
-                    room.images.isNotEmpty ? room.images[0] : 'https://placehold.co/600',
-                    height: 200, width: double.infinity, fit: BoxFit.cover,
+                  child: SafeNetworkImage(
+                    imageUrl: room.images.isNotEmpty ? room.images[0] : 'https://placehold.co/400',
+                    fit: BoxFit.cover,
+                    height: 200,
+                    width: double.infinity,
                   ),
                 ),
                 Positioned(
@@ -329,6 +423,19 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
+    List<NavItemData> navItems = [
+      NavItemData(Icons.search, 'Explore', true),
+      NavItemData(Icons.favorite_border, 'Saved', false, () => Navigator.push(context, FadeSlideTransition(page: const FavoritesScreen()))),
+      NavItemData(Icons.chat_bubble_outline, 'Messages', false, () => Navigator.pushReplacement(context, FadeSlideTransition(page: const MessageListScreen()))),
+    ];
+
+    // Only show management option for landlords
+    if (_userRole == 'landlord') {
+      navItems.add(NavItemData(Icons.dashboard_customize, 'Manage', false, () => Navigator.pushReplacement(context, FadeSlideTransition(page: const LandlordDashboardScreen()))));
+    }
+
+    navItems.add(NavItemData(Icons.person_outline, 'Profile', false, () => Navigator.pushReplacement(context, FadeSlideTransition(page: const ProfileScreen()))));
+
     return Positioned(
       bottom: 0, left: 0, right: 0,
       child: Container(
@@ -340,17 +447,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(Icons.search, 'Explore', true),
-            _buildNavItem(Icons.favorite_border, 'Saved', false,
-                onTap: () => Navigator.push(context, FadeSlideTransition(page: const FavoritesScreen()))),
-            _buildNavItem(Icons.chat_bubble_outline, 'Messages', false,
-                onTap: () => Navigator.pushReplacement(context, FadeSlideTransition(page: const MessageListScreen()))),
-            _buildNavItem(Icons.dashboard_customize, 'Manage', false,
-                onTap: () => Navigator.pushReplacement(context, FadeSlideTransition(page: const LandlordDashboardScreen()))),
-            _buildNavItem(Icons.person_outline, 'Profile', false,
-                onTap: () => Navigator.pushReplacement(context, FadeSlideTransition(page: const ProfileScreen()))),
-          ],
+          children: navItems.map((item) => _buildNavItem(item.icon, item.label, item.isActive, onTap: item.onTap)).toList(),
         ),
       ),
     );
@@ -383,4 +480,109 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
   }
+  void _showFilterDialog() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setModalState) => Container(
+          height: MediaQuery.of(context).size.height * 0.7,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+          ),
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(width: 40, height: 4, decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: const BorderRadius.all(Radius.circular(2)))),
+              ),
+              const SizedBox(height: 24),
+              const Text('Bộ lọc tìm kiếm', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 24),
+              const Text('Khoảng giá', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('${(_priceRange.start / 1000000).toStringAsFixed(1)} Tr'),
+                  Text('${(_priceRange.end / 1000000).toStringAsFixed(1)} Tr'),
+                ],
+              ),
+              RangeSlider(
+                values: _priceRange, 
+                min: 0, 
+                max: 10000000, 
+                divisions: 20,
+                labels: RangeLabels(
+                  '${(_priceRange.start / 1000000).toStringAsFixed(1)} Tr',
+                  '${(_priceRange.end / 1000000).toStringAsFixed(1)} Tr',
+                ),
+                activeColor: AppTheme.primaryColor,
+                onChanged: (values) {
+                  setModalState(() => _priceRange = values);
+                  setState(() {});
+                }
+              ),
+              const SizedBox(height: 24),
+              const Text('Loại phòng', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                children: [
+                  'Tất cả', 'Nhà riêng', 'Căn hộ', 'Ở ghép'
+                ].map((cat) => ChoiceChip(
+                  label: Text(cat),
+                  selected: _selectedCategory == cat,
+                  selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                  onSelected: (selected) {
+                    if (selected) {
+                      setModalState(() => _selectedCategory = cat);
+                      setState(() {});
+                    }
+                  },
+                )).toList(),
+              ),
+              const Spacer(),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    _applyFilters();
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.primaryColor,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  ),
+                  child: const Text('Áp dụng bộ lọc', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFilterChip(String label, bool isSelected) {
+    return Chip(
+      label: Text(label),
+      backgroundColor: isSelected ? AppTheme.primaryColor.withOpacity(0.1) : Colors.transparent,
+      side: BorderSide(color: isSelected ? AppTheme.primaryColor : Colors.grey.shade300),
+      labelStyle: TextStyle(color: isSelected ? AppTheme.primaryColor : Colors.black87, fontSize: 12),
+    );
+  }
+}
+
+class NavItemData {
+  final IconData icon;
+  final String label;
+  final bool isActive;
+  final VoidCallback? onTap;
+
+  NavItemData(this.icon, this.label, this.isActive, [this.onTap]);
 }

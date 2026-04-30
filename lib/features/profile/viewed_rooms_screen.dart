@@ -6,9 +6,10 @@ import '../../data/models/room_model.dart';
 import '../room_detail/room_detail_screen.dart';
 import '../home/main_navigation.dart';
 import '../../core/utils/page_transition.dart';
+import '../../widgets/safe_network_image.dart';
 
-class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({super.key});
+class ViewedRoomsScreen extends StatelessWidget {
+  const ViewedRoomsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class FavoritesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
-        title: const Text('PHÒNG ĐÃ LƯU', style: TextStyle(color: AppTheme.primaryContainer, fontWeight: FontWeight.bold, fontSize: 16, letterSpacing: 1.2)),
+        title: const Text('TIN ĐÃ XEM', style: TextStyle(color: AppTheme.primaryContainer, fontWeight: FontWeight.bold, fontSize: 16, letterSpacing: 1.2)),
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
@@ -33,21 +34,21 @@ class FavoritesScreen extends StatelessWidget {
           if (userSnapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
 
           final userData = userSnapshot.data?.data() as Map<String, dynamic>?;
-          final List<String> favoriteIds = List<String>.from(userData?['favorites'] ?? []);
+          final List<String> viewedIds = List<String>.from(userData?['viewedRooms'] ?? []);
 
-          if (favoriteIds.isEmpty) {
+          if (viewedIds.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.favorite_border, size: 80, color: Colors.grey.shade200),
+                  Icon(Icons.history, size: 80, color: Colors.grey.shade200),
                   const SizedBox(height: 16),
-                  const Text('Bạn chưa lưu phòng nào', style: TextStyle(color: Colors.grey, fontSize: 16)),
+                  const Text('Bạn chưa xem tin nào', style: TextStyle(color: Colors.grey, fontSize: 16)),
                   const SizedBox(height: 8),
                   TextButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                       context, 
-                      MaterialPageRoute(builder: (context) => const MainNavigation(initialIndex: 0)),
+                      MaterialPageRoute(builder: (_) => const MainNavigation(initialIndex: 0)),
                       (route) => false
                     ),
                     child: const Text('Khám phá ngay', style: TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.bold)),
@@ -57,13 +58,19 @@ class FavoritesScreen extends StatelessWidget {
             );
           }
 
+          // Reverse to show most recent first
+          final reversedIds = viewedIds.reversed.toList();
+
           return StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('rooms').where(FieldPath.documentId, whereIn: favoriteIds).snapshots(),
+            stream: FirebaseFirestore.instance.collection('rooms').where(FieldPath.documentId, whereIn: reversedIds.take(10).toList()).snapshots(),
             builder: (context, roomSnapshot) {
               if (roomSnapshot.hasError) return const Center(child: Text('Đã có lỗi xảy ra'));
               if (roomSnapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
 
               final rooms = roomSnapshot.data?.docs.map((doc) => Room.fromFirestore(doc)).toList() ?? [];
+              
+              // Sort rooms to match the order of reversedIds
+              rooms.sort((a, b) => reversedIds.indexOf(a.id).compareTo(reversedIds.indexOf(b.id)));
 
               return ListView.builder(
                 padding: const EdgeInsets.all(24),
@@ -100,22 +107,11 @@ class FavoritesScreen extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-                  child: Image.network(
-                    room.images.isNotEmpty ? room.images[0] : 'https://placehold.co/400x250', 
-                    height: 220, 
+                  child: SafeNetworkImage(
+                    imageUrl: room.images.isNotEmpty ? room.images[0] : 'https://placehold.co/400x250', 
+                    height: 180, 
                     width: double.infinity, 
                     fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  top: 16, right: 16,
-                  child: GestureDetector(
-                    onTap: () => _toggleFavorite(room.id),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                      child: const Icon(Icons.favorite, color: Colors.red, size: 20),
-                    ),
                   ),
                 ),
                 Positioned(
@@ -124,7 +120,7 @@ class FavoritesScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(color: Colors.black.withOpacity(0.7), borderRadius: BorderRadius.circular(12)),
                     child: Text(
-                      '${(room.price / 1000000).toStringAsFixed(1)} Tr/tháng',
+                      '${(room.price/1000000).toStringAsFixed(1)}Tr/THÁNG',
                       style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
                     ),
                   ),
@@ -132,17 +128,17 @@ class FavoritesScreen extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(room.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text(room.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16), maxLines: 1, overflow: TextOverflow.ellipsis),
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      const Icon(Icons.location_on_outlined, color: Colors.grey, size: 14),
+                      const Icon(Icons.location_on_outlined, color: Colors.grey, size: 12),
                       const SizedBox(width: 4),
-                      Expanded(child: Text(room.address, style: const TextStyle(color: Colors.grey, fontSize: 13), maxLines: 1, overflow: TextOverflow.ellipsis)),
+                      Expanded(child: Text(room.address, style: const TextStyle(color: Colors.grey, fontSize: 12), maxLines: 1, overflow: TextOverflow.ellipsis)),
                     ],
                   ),
                 ],
@@ -152,22 +148,5 @@ class FavoritesScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> _toggleFavorite(String roomId) async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
-
-    final userRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
-    final userDoc = await userRef.get();
-    final List<String> favorites = List<String>.from(userDoc.data()?['favorites'] ?? []);
-
-    if (favorites.contains(roomId)) {
-      favorites.remove(roomId);
-    } else {
-      favorites.add(roomId);
-    }
-
-    await userRef.update({'favorites': favorites});
   }
 }

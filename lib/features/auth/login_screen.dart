@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../core/theme/app_theme.dart';
-import '../home/home_screen.dart';
+import '../home/main_navigation.dart';
 import 'register_screen.dart';
 import 'forgot_password_screen.dart';
 import '../admin/admin_dashboard_screen.dart';
@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
         } else {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
+            MaterialPageRoute(builder: (context) => const MainNavigation()),
           );
         }
       }

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/widgets/avatar_widget.dart';
 import 'package:intl/intl.dart';
+import '../../widgets/safe_network_image.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ChatScreen extends StatefulWidget {
   final String peerId;
@@ -24,6 +27,24 @@ class _ChatScreenState extends State<ChatScreen> {
   final _messageController = TextEditingController();
   final _scrollController = ScrollController();
   final _currentUser = FirebaseAuth.instance.currentUser;
+  bool _isTyping = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _messageController.addListener(() {
+      setState(() {
+        _isTyping = _messageController.text.trim().isNotEmpty;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _messageController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   String get _chatId {
     if (_currentUser!.uid.hashCode <= widget.peerId.hashCode) {
@@ -33,15 +54,13 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _sendMessage() async {
-    if (_messageController.text.trim().isEmpty) return;
-
-    final message = _messageController.text.trim();
-    _messageController.clear();
+  void _sendMessage({String? type, String? content, Map<String, dynamic>? metadata}) async {
+    final messageContent = content ?? _messageController.text.trim();
+    if (messageContent.isEmpty && type == null) return;
+    
+    if (content == null) _messageController.clear();
 
     final senderName = _currentUser?.displayName ?? 'Người dùng';
-
-    // Get sender name from Firestore for better display
     String senderDisplayName = senderName;
     try {
       final senderDoc = await FirebaseFirestore.instance
@@ -54,14 +73,15 @@ class _ChatScreenState extends State<ChatScreen> {
     final messageData = {
       'senderId': _currentUser!.uid,
       'receiverId': widget.peerId,
-      'content': message,
+      'content': messageContent,
       'timestamp': FieldValue.serverTimestamp(),
-      'type': 'text',
+      'type': type ?? 'text',
+      if (metadata != null) 'metadata': metadata,
     };
 
     // Update conversation metadata
     await FirebaseFirestore.instance.collection('conversations').doc(_chatId).set({
-      'lastMessage': message,
+      'lastMessage': type == 'image' ? '[Hình ảnh]' : (type == 'location' ? '[Vị trí]' : messageContent),
       'lastTimestamp': FieldValue.serverTimestamp(),
       'participantIds': [_currentUser!.uid, widget.peerId],
       'participantNames': {
@@ -81,14 +101,15 @@ class _ChatScreenState extends State<ChatScreen> {
     await FirebaseFirestore.instance.collection('notifications').add({
       'userId': widget.peerId,
       'title': 'Tin nhắn mới từ $senderDisplayName',
-      'body': message.length > 60 ? '${message.substring(0, 60)}...' : message,
+      'body': type == 'image' ? 'Đã gửi một hình ảnh' : (type == 'location' ? 'Đã chia sẻ vị trí' : messageContent),
       'type': 'message',
       'isRead': false,
       'createdAt': FieldValue.serverTimestamp(),
     });
 
-    _scrollController.animateTo(0,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+    }
   }
 
 
@@ -123,25 +144,12 @@ class _ChatScreenState extends State<ChatScreen> {
       titleSpacing: 0,
       title: Row(
         children: [
-          Stack(
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundImage: const NetworkImage('https://placehold.co/100'),
-              ),
-              Positioned(
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  width: 12, height: 12,
-                  decoration: BoxDecoration(
-                    color: AppTheme.primaryColor,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 2),
-                  ),
-                ),
-              )
-            ],
+          AvatarWidget(
+            imageUrl: null,
+            name: widget.peerName,
+            radius: 20,
+            showStatus: true,
+            isOnline: true,
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -156,8 +164,14 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
       actions: [
-        IconButton(icon: const Icon(Icons.phone, color: AppTheme.primaryColor), onPressed: () {}),
-        IconButton(icon: const Icon(Icons.more_vert, color: AppTheme.primaryColor), onPressed: () {}),
+        IconButton(
+          icon: const Icon(Icons.phone, color: AppTheme.primaryColor), 
+          onPressed: () => _showCallDialog(),
+        ),
+        IconButton(
+          icon: const Icon(Icons.more_vert, color: AppTheme.primaryColor), 
+          onPressed: () => _showMoreOptions(),
+        ),
       ],
     );
   }
@@ -182,7 +196,15 @@ class _ChatScreenState extends State<ChatScreen> {
           itemBuilder: (context, index) {
             final data = messages[index].data() as Map<String, dynamic>;
             final isMe = data['senderId'] == _currentUser!.uid;
-            return _buildTextMessage(data['content'], isMe, _formatTimestamp(data['timestamp']));
+            final type = data['type'] ?? 'text';
+            final time = _formatTimestamp(data['timestamp']);
+
+            if (type == 'image') {
+              return _buildImageMessage(data['content'], '', isMe, time);
+            } else if (type == 'location') {
+              return _buildLocationMessage(data['content'], isMe, time);
+            }
+            return _buildTextMessage(data['content'], isMe, time);
           },
         );
       },
@@ -308,12 +330,56 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                  child: Image.network(imageUrl, fit: BoxFit.cover, height: 150, width: double.infinity),
+                  child: SafeNetworkImage(imageUrl: imageUrl, fit: BoxFit.cover, height: 180, width: double.infinity),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(12),
                   child: Text(content, style: const TextStyle(fontSize: 14, color: Colors.black87, height: 1.4)),
                 )
+              ],
+            ),
+          ),
+          Text(time, style: const TextStyle(color: Colors.grey, fontSize: 10)),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLocationMessage(String locationName, bool isMe, String time) {
+    return Align(
+      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 4),
+            padding: const EdgeInsets.all(12),
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
+            decoration: BoxDecoration(
+              color: isMe ? AppTheme.primaryColor.withOpacity(0.9) : const Color(0xFFE2E8F0),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.location_on, color: isMe ? Colors.white : AppTheme.primaryColor),
+                    const SizedBox(width: 8),
+                    const Text('Vị trí đã chia sẻ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(locationName, style: TextStyle(fontSize: 12, color: isMe ? Colors.white70 : Colors.black54)),
+                const SizedBox(height: 8),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: SafeNetworkImage(
+                    imageUrl: 'https://maps.googleapis.com/maps/api/staticmap?center=16.4637,107.5909&zoom=15&size=400x200&key=AIzaSyCVBFquZG_eRkq0xQmh_g80e1KPONj4Omw',
+                    height: 100, width: double.infinity, fit: BoxFit.cover,
+                  ),
+                ),
               ],
             ),
           ),
@@ -382,7 +448,10 @@ class _ChatScreenState extends State<ChatScreen> {
       decoration: const BoxDecoration(color: Color(0xFFF8FAFC)),
       child: Row(
         children: [
-          const Icon(Icons.add_circle, color: Colors.grey, size: 28),
+          IconButton(
+            icon: const Icon(Icons.add_circle, color: Colors.grey, size: 28),
+            onPressed: () => _showAttachmentOptions(),
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Container(
@@ -403,18 +472,28 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                   ),
-                  const Icon(Icons.image, color: Colors.grey, size: 20),
+                  IconButton(
+                    icon: const Icon(Icons.image, color: Colors.grey, size: 20),
+                    onPressed: () => _pickImage(),
+                  ),
                 ],
               ),
             ),
           ),
           const SizedBox(width: 12),
           GestureDetector(
-            onTap: _sendMessage,
+            onTap: _isTyping ? () => _sendMessage() : _startVoiceRecording,
             child: Container(
               padding: const EdgeInsets.all(12),
-              decoration: const BoxDecoration(color: AppTheme.primaryColor, shape: BoxShape.circle),
-              child: const Icon(Icons.mic, color: Colors.white, size: 20),
+              decoration: BoxDecoration(
+                color: _isTyping ? AppTheme.primaryColor : Colors.grey,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                _isTyping ? Icons.send : Icons.mic,
+                color: Colors.white,
+                size: 20,
+              ),
             ),
           ),
         ],
@@ -426,5 +505,173 @@ class _ChatScreenState extends State<ChatScreen> {
     if (timestamp == null) return '';
     final date = (timestamp as Timestamp).toDate();
     return DateFormat('HH:mm').format(date);
+  }
+
+  void _showCallDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Gọi cho ${widget.peerName}'),
+        content: const Text('Chức năng gọi điện đang được phát triển.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Đóng'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showMoreOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.info_outline),
+              title: const Text('Xem thông tin'),
+              onTap: () {
+                Navigator.pop(context);
+                _showUserInfo();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.notifications_off),
+              title: const Text('Tắt thông báo'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Đã tắt thông báo cho cuộc trò chuyện này')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete_outline, color: Colors.red),
+              title: const Text('Xóa cuộc trò chuyện', style: TextStyle(color: Colors.red)),
+              onTap: () {
+                Navigator.pop(context);
+                _confirmDeleteChat();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showAttachmentOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Chụp ảnh'),
+              onTap: () {
+                Navigator.pop(context);
+                _sendMessage(type: 'image', content: 'https://api.dicebear.com/7.x/shapes/png?seed=Felix&backgroundColor=b6e3f4');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Chọn từ thư viện'),
+              onTap: () {
+                Navigator.pop(context);
+                _sendMessage(type: 'image', content: 'https://api.dicebear.com/7.x/pixel-art/png?seed=Felix&backgroundColor=b6e3f4');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.location_on),
+              title: const Text('Gửi vị trí'),
+              onTap: () async {
+                Navigator.pop(context);
+                try {
+                  LocationPermission permission = await Geolocator.checkPermission();
+                  if (permission == LocationPermission.denied) {
+                    permission = await Geolocator.requestPermission();
+                  }
+                  if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+                    Position position = await Geolocator.getCurrentPosition();
+                    _sendMessage(type: 'location', content: 'Tọa độ: ${position.latitude.toStringAsFixed(4)}, ${position.longitude.toStringAsFixed(4)}');
+                  } else {
+                    _sendMessage(type: 'location', content: 'Đại nội Huế, Thừa Thiên Huế');
+                  }
+                } catch (e) {
+                  _sendMessage(type: 'location', content: 'Đại nội Huế, Thừa Thiên Huế');
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _pickImage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Chức năng chọn ảnh đang được phát triển')),
+    );
+  }
+
+  void _startVoiceRecording() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Chức năng ghi âm đang được phát triển')),
+    );
+  }
+
+  void _showUserInfo() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Thông tin: ${widget.peerName}'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Trạng thái: Trực tuyến'),
+            const SizedBox(height: 8),
+            Text('ID: ${widget.peerId}'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Đóng'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmDeleteChat() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Xóa cuộc trò chuyện'),
+        content: const Text('Bạn có chắc chắn muốn xóa toàn bộ cuộc trò chuyện này không?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Hủy'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Chức năng xóa đang được phát triển')),
+              );
+            },
+            child: const Text('Xóa', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 }

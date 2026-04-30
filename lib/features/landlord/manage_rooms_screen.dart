@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:intl/intl.dart';
 import 'edit_room_screen.dart';
+import '../../widgets/safe_network_image.dart';
 
 class ManageRoomsScreen extends StatelessWidget {
   const ManageRoomsScreen({super.key});
@@ -63,10 +64,15 @@ class ManageRoomsScreen extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(16),
-                      child: Image.network(
-                        (room['images'] as List?)?.isNotEmpty == true ? room['images'][0] : 'https://placehold.co/100',
-                        width: 100, height: 100, fit: BoxFit.cover,
-                        errorBuilder: (c, e, s) => Container(width: 100, height: 100, color: Colors.grey[200], child: const Icon(Icons.home)),
+                      child: Builder(
+                        builder: (context) {
+                          List<dynamic>? imagesList = room['images'] is List ? room['images'] as List : null;
+                          String firstImage = (imagesList != null && imagesList.isNotEmpty) ? imagesList[0].toString() : 'https://placehold.co/100';
+                          return SafeNetworkImage(
+                            imageUrl: firstImage,
+                            width: 100, height: 100, fit: BoxFit.cover,
+                          );
+                        }
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -82,7 +88,7 @@ class ManageRoomsScreen extends StatelessWidget {
                           const SizedBox(height: 8),
                           Text(room['title'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16), maxLines: 1, overflow: TextOverflow.ellipsis),
                           const SizedBox(height: 4),
-                          Text(currencyFormat.format(room['price'] ?? 0), style: const TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.bold)),
+                          Text(currencyFormat.format(double.tryParse(room['price']?.toString() ?? '0') ?? 0), style: const TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),

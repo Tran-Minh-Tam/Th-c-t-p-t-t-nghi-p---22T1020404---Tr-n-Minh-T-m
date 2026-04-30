@@ -20,7 +20,7 @@ class AppTheme {
     brightness: Brightness.light,
     primaryColor: primaryColor,
     scaffoldBackgroundColor: backgroundColor,
-    fontFamily: 'Inter',
+    fontFamily: 'Manrope',
     colorScheme: ColorScheme.fromSeed(
       seedColor: primaryColor,
       brightness: Brightness.light,
@@ -29,8 +29,13 @@ class AppTheme {
       surface: backgroundColor,
     ),
     textTheme: const TextTheme(
-      displayLarge: TextStyle(color: primaryContainer, fontWeight: FontWeight.bold),
-      bodyLarge: TextStyle(color: primaryContainer),
+      displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.w800, color: primaryContainer, letterSpacing: -1),
+      displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: primaryContainer, letterSpacing: -0.5),
+      titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: primaryContainer),
+      titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: primaryContainer),
+      bodyLarge: TextStyle(fontSize: 16, color: primaryContainer, height: 1.5),
+      bodyMedium: TextStyle(fontSize: 14, color: primaryContainer, height: 1.5),
+      labelLarge: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.grey, letterSpacing: 1.2),
     ),
   );
 
@@ -39,7 +44,7 @@ class AppTheme {
     brightness: Brightness.dark,
     primaryColor: primaryColorDark,
     scaffoldBackgroundColor: backgroundColorDark,
-    fontFamily: 'Inter',
+    fontFamily: 'Manrope',
     colorScheme: ColorScheme.fromSeed(
       seedColor: primaryColorDark,
       brightness: Brightness.dark,
@@ -48,8 +53,13 @@ class AppTheme {
       surface: backgroundColorDark,
     ),
     textTheme: const TextTheme(
-      displayLarge: TextStyle(color: primaryContainerDark, fontWeight: FontWeight.bold),
-      bodyLarge: TextStyle(color: primaryContainerDark),
+      displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.w800, color: primaryContainerDark, letterSpacing: -1),
+      displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: primaryContainerDark, letterSpacing: -0.5),
+      titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: primaryContainerDark),
+      titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: primaryContainerDark),
+      bodyLarge: TextStyle(fontSize: 16, color: primaryContainerDark, height: 1.5),
+      bodyMedium: TextStyle(fontSize: 14, color: primaryContainerDark, height: 1.5),
+      labelLarge: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.grey, letterSpacing: 1.2),
     ),
   );
 }

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart' as ll;
+import 'package:google_maps_flutter/google_maps_flutter.dart' show LatLng;
+import 'dart:math' as math;
 import '../../core/theme/app_theme.dart';
 import '../room_detail/room_detail_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../data/models/room_model.dart';
+import '../../core/config/app_config.dart';
+import '../../widgets/safe_network_image.dart';
 
 class MapScreen extends StatefulWidget {
-  final LatLng? initialLocation;
+  final ll.LatLng? initialLocation;
   const MapScreen({super.key, this.initialLocation});
 
   @override
@@ -14,13 +19,13 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  GoogleMapController? _mapController;
-  final Set<Marker> _markers = {};
+  final MapController _mapController = MapController();
+  List<Marker> _markers = [];
   List<Room> _rooms = [];
   bool _isLoading = true;
 
   // Center coordinate (Default: Hue City)
-  static const LatLng _defaultCenter = LatLng(16.4637, 107.5909);
+  static final ll.LatLng _defaultCenter = ll.LatLng(16.4637, 107.5909);
 
   @override
   void initState() {
@@ -35,33 +40,62 @@ class _MapScreenState extends State<MapScreen> {
           .where('status', isEqualTo: 'Đã duyệt')
           .get();
       _rooms = snap.docs.map((doc) => Room.fromFirestore(doc)).toList();
+      
       if (mounted) {
-        setState(() {
-          _markers.clear();
-          for (int i = 0; i < _rooms.length; i++) {
-            final room = _rooms[i];
-            // If room doesn't have lat/lng, use mock coords spread around center
-            final lat = room.location?.latitude ?? (_defaultCenter.latitude + (i * 0.002) - 0.005);
-            final lng = room.location?.longitude ?? (_defaultCenter.longitude + (i * 0.002) - 0.005);
-            
-            _markers.add(
-              Marker(
-                markerId: MarkerId(room.id),
-                position: LatLng(lat, lng),
-                infoWindow: InfoWindow(
-                  title: room.title,
-                  snippet: '${(room.price / 1000000).toStringAsFixed(1)} Tr/tháng',
+          setState(() {
+            _markers = _rooms.asMap().entries.map((entry) {
+              final i = entry.key;
+              final room = entry.value;
+              
+              // Tạo độ lệch ngẫu nhiên nhưng cố định theo index để tránh bị nhảy vị trí liên tục
+              final random = math.Random(room.id.hashCode);
+              final latOffset = (random.nextDouble() - 0.5) * 0.03;
+              final lngOffset = (random.nextDouble() - 0.5) * 0.03;
+
+              final lat = (room.location?.latitude ?? _defaultCenter.latitude) + latOffset;
+              final lng = (room.location?.longitude ?? _defaultCenter.longitude) + lngOffset;
+              final pos = ll.LatLng(lat, lng);
+              
+              // Update the room's location locally so the bottom list onTap matches the scatter!
+              _rooms[i] = Room(
+                id: room.id, title: room.title, description: room.description,
+                price: room.price, address: room.address, area: room.area,
+                images: room.images, category: room.category, rating: room.rating,
+                landlordId: room.landlordId, status: room.status, isFeatured: room.isFeatured,
+                location: LatLng(lat, lng), // Use the scattered lat/lng (import google_maps_flutter LatLng)
+              );
+
+              return Marker(
+                point: pos,
+                width: 80,
+                height: 80,
+                child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => RoomDetailScreen(room: room)),
                     );
                   },
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryColor,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 4)],
+                        ),
+                        child: Text(
+                          '${(room.price / 1000000).toStringAsFixed(1)} Tr',
+                          style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const Icon(Icons.location_on, color: AppTheme.primaryColor, size: 30),
+                    ],
+                  ),
                 ),
-                icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
-              ),
-            );
-          }
+              );
+            }).toList();
           _isLoading = false;
         });
       }
@@ -75,57 +109,65 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          GoogleMap(
-            onMapCreated: (controller) => _mapController = controller,
-            initialCameraPosition: CameraPosition(
-              target: widget.initialLocation ?? _defaultCenter,
-              zoom: 14.0,
+          FlutterMap(
+            mapController: _mapController,
+            options: MapOptions(
+              initialCenter: widget.initialLocation ?? _defaultCenter,
+              initialZoom: 14.0,
             ),
-            markers: _markers,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: false,
-            zoomControlsEnabled: false,
-            style: Theme.of(context).brightness == Brightness.dark ? _darkMapStyle : null,
+            children: [
+              TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.example.app',
+              ),
+              MarkerLayer(markers: _markers),
+            ],
           ),
           
           if (_isLoading)
             const Center(child: CircularProgressIndicator()),
 
+          // Back Button
+          Positioned(
+            top: 50,
+            left: 20,
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ),
+
           // Custom Search Bar on Top
           Positioned(
-            top: 56,
-            left: 20,
+            top: 50,
+            left: 70,
             right: 20,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle, boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)]),
-                    child: const Icon(Icons.arrow_back, color: AppTheme.primaryColor),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Container(
-                    height: 50,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25),
-                      boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10)],
-                    ),
-                    child: const Row(
-                      children: [
-                        Icon(Icons.search, color: Colors.grey),
-                        SizedBox(width: 12),
-                        Text('Tìm kiếm khu vực...', style: TextStyle(color: Colors.grey)),
-                      ],
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10)],
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.search, color: Colors.grey),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Tìm kiếm khu vực...',
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(fontSize: 14),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
 
@@ -143,11 +185,9 @@ class _MapScreenState extends State<MapScreen> {
                 final room = _rooms[index];
                 return GestureDetector(
                   onTap: () {
-                    _mapController?.animateCamera(
-                      CameraUpdate.newLatLng(
-                        _markers.firstWhere((m) => m.markerId.value == room.id).position,
-                      ),
-                    );
+                    final lat = room.location?.latitude ?? _defaultCenter.latitude;
+                    final lng = room.location?.longitude ?? _defaultCenter.longitude;
+                    _mapController.move(ll.LatLng(lat, lng), 15.0);
                   },
                   child: Container(
                     width: 280,
@@ -162,8 +202,8 @@ class _MapScreenState extends State<MapScreen> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            room.images.isNotEmpty ? room.images[0] : 'https://placehold.co/100',
+                          child: SafeNetworkImage(
+                            imageUrl: room.images.isNotEmpty ? room.images[0] : 'https://placehold.co/100',
                             width: 80, height: 80, fit: BoxFit.cover,
                           ),
                         ),
@@ -197,13 +237,4 @@ class _MapScreenState extends State<MapScreen> {
       ),
     );
   }
-
-  // Optional: Dark mode style for Google Maps (Simplified)
-  static const String _darkMapStyle = '''
-  [
-    {"elementType": "geometry", "stylers": [{"color": "#242f3e"}]},
-    {"elementType": "labels.text.fill", "stylers": [{"color": "#746855"}]},
-    {"elementType": "labels.text.stroke", "stylers": [{"color": "#242f3e"}]}
-  ]
-  ''';
 }
